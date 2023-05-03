@@ -1,14 +1,8 @@
-version: "3.8"
-
+version: "3.9"
 services:
-  highscores:
-    build: ./Highscore-Server/
-    # restart: unless-stopped
-    ports:
-      - "5000:5000"
   caddy:
+    hostname: caddy
     image: caddy:latest
-    # restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -19,3 +13,8 @@ services:
     environment:
       - ACME_AGREE=true
       - TZ=Europe/London
+  highscores:
+    hostname: highscores
+    build: ./Highscore-Server/
+    ports:
+      - "5000:5000"

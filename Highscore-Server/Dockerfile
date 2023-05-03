@@ -1,8 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM python:3.10
-WORKDIR /app
-COPY requirements.txt requirements.txt
+FROM python:3.10-alpine
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt /data/requirements.txt
+WORKDIR /data
 RUN pip install -r requirements.txt
+RUN mkdir /highscore
+COPY /highscore /highscore
+WORKDIR /highscore
 EXPOSE 5000
-COPY server server
-CMD ["flask", "run", "--port=5000", "--host=localhost"]
+CMD ["gunicorn", "-b", "localhost:5000", "server:app"]

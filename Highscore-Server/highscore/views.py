@@ -3,8 +3,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired
 
-from server.models import Scores, Users
-from server.extensions import db, cache
+from models import Scores, Users
+from extensions import db, cache
 
 blueprint = Blueprint('views', __name__)
 

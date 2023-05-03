@@ -1,7 +1,7 @@
 """
 Database models for the server
 """
-from server.extensions import db
+from extensions import db
 
 
 class Scores(db.Model):
