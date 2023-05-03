@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  caddy:
+    image: caddy:latest
+    # restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "5000:5000"
+      - "6000:6000"
+    volumes:
+      - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddy/data:/data
+      - ./Caddy/config:/config
+    environment:
+      - ACME_AGREE=true
+      - TZ=Europe/London
