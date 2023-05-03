@@ -1,8 +1,13 @@
-# Expo Website
-:5000 {
+<!-- # Expo Website
+expo.example.com {
     reverse_proxy 127.0.0.1:5000
 }
 # Highscore Server
-:6000 {
+highscore.example.com {
     reverse_proxy 127.0.0.1:6000
+} -->
+# Highscore Server
+expo.leggy.dev:443 {
+    reverse_proxy localhost:5000
+    file_server
 }

@@ -1,14 +1,17 @@
 version: "3.8"
 
 services:
+  highscores:
+    build: ./Highscore-Server/
+    # restart: unless-stopped
+    ports:
+      - "5000:5000"
   caddy:
     image: caddy:latest
     # restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-      - "5000:5000"
-      - "6000:6000"
     volumes:
       - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./Caddy/data:/data
