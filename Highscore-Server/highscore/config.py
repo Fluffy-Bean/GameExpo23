@@ -4,7 +4,7 @@ import os
 def env(key):
     return os.getenv(key)
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('FLASK_KEY')
 BEARER_TOKEN = env('BEARER_TOKEN')
 
 user = env('DB_USER')

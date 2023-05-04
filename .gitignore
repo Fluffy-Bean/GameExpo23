@@ -166,3 +166,7 @@ Caddy/config/
 
 # Remove Highscore-Server generated files
 Highscore-Server/data/
+Highscore-Server/logs/
+
+# Remove Postgres generated files
+Postgres/data/

@@ -9,7 +9,8 @@ done
 echo "Database is ready! Creating tables..."
 flask --app server db init
 
-if [ -n flask --app server db check ]; then
+if [ -n $(flask --app server db check) ]
+then
     echo "Database changes detected! Migrating..."
     flask --app server db migrate
     flask --app server db upgrade
