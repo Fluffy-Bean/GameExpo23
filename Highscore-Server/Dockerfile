@@ -8,8 +8,7 @@ WORKDIR /data
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-RUN mkdir /highscore
-COPY /highscore /highscore
-WORKDIR /highscore
+RUN mkdir /storage
+COPY /highscore/ .
 
 CMD ["gunicorn", "--bind", "highscore:8080", "server:app"]

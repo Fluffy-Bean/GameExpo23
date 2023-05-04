@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   caddy:
     image: caddy:alpine
@@ -11,7 +12,8 @@ services:
       - ./Caddy/config:/config
     links:
       - highscore
+
   highscore:
     build: ./Highscore-Server
     volumes:
-      - ./Highscore-Server/data:/data
+      - ./Highscore-Server/data:/data/storage
