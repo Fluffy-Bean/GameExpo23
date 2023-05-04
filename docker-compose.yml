@@ -11,8 +11,21 @@ services:
       - ./Caddy/data:/data
       - ./Caddy/config:/config
     environment:
-      - ACME_AGREE=true
-      - DOMAIN=expo.leggy.dev
+      DOMAIN: expo.leggy.dev
+    links:
+      - highscore
+
+  db:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./Postgress/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: database
+      POSTGRES_PORT: 5432
     links:
       - highscore
 
@@ -20,6 +33,15 @@ services:
     build: ./Highscore-Server
     volumes:
       - ./Highscore-Server/data:/data/storage
+      - ./Highscore-Server/logs:/data/logs
+      # Pass in the code to the container so I don't
+      # have to rebuild it every time during development
+      - ./Highscore-Server/highscore:/data/highscore
     environment:
-      - FLASK_KEY=secret
-      - BEARER_TOKEN=1234
+      FLASK_KEY: secret
+      BEARER_TOKEN: 1234
+      DB_USER: root
+      DB_PASSWORD: secret
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: database
