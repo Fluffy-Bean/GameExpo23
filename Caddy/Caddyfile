@@ -1,3 +1,4 @@
-expo.leggy.dev
-reverse_proxy / highscores:5000
-#respond "Hello, World!"
+expo.leggy.dev {
+    reverse_proxy highscore:8080
+    encode gzip
+}

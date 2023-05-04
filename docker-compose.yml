@@ -1,20 +1,17 @@
 version: "3.9"
 services:
   caddy:
-    hostname: caddy
-    image: caddy:latest
+    image: caddy:alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
       - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./Caddy/data:/data
       - ./Caddy/config:/config
-    environment:
-      - ACME_AGREE=true
-      - TZ=Europe/London
-  highscores:
-    hostname: highscores
-    build: ./Highscore-Server/
-    ports:
-      - "5000:5000"
+    links:
+      - highscore
+  highscore:
+    build: ./Highscore-Server
+    volumes:
+      - ./Highscore-Server/data:/data

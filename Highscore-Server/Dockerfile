@@ -1,11 +1,15 @@
 # syntax=docker/dockerfile:1
 FROM python:3.10-alpine
+
+EXPOSE 8080
 RUN apk add --no-cache gcc musl-dev linux-headers
-COPY requirements.txt /data/requirements.txt
 WORKDIR /data
+
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+
 RUN mkdir /highscore
 COPY /highscore /highscore
 WORKDIR /highscore
-EXPOSE 5000
-CMD ["gunicorn", "-b", "localhost:5000", "server:app"]
+
+CMD ["gunicorn", "--bind", "highscore:8080", "server:app"]

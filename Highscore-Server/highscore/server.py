@@ -3,6 +3,7 @@ from flask_migrate import init as migrate_init
 from extensions import db, migrate, cache
 from views import blueprint
 
+
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
