@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+{% if show_sub %}
+    <nav>
+        <ul>
+            <li><a href="Level1">Level 1</a></li>
+            <li><a href="Level2">Level 2</a></li>
+            <li><a href="Level3">Level 3</a></li>
+        </ul>
+    </nav>          
+{% endif %}
+
+<table>
+    <tr>
+        <th>Score</th>
+        <th>Difficulty</th>
+        <th>Achievements</th>
+        <th>Player</th>
+    </tr>
+    {% for score in top_scores %}
+        <tr>
+            <td>{{ score.score }}</td>
+            <td>{{ score.difficulty }}</td>
+            <td>{{ score.achievements }}</td>
+            <td>{{ score.user.steam_name }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

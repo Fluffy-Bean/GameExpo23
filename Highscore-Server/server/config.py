@@ -10,10 +10,9 @@ BEARER_TOKEN = env('BEARER_TOKEN')
 user = env('DB_USER')
 password = env('DB_PASSWORD')
 host = env('DB_HOST')
-port = env('DB_PORT')
 database = env('DB_NAME')
 
-SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
+SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{database}"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_POOL_RECYCLE = 621
 
