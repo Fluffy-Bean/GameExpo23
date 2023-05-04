@@ -1,4 +1,3 @@
-expo.leggy.dev {
-    reverse_proxy highscore:8080
-    encode gzip
-}
+{$DOMAIN}
+reverse_proxy highscore:8080
+encode gzip

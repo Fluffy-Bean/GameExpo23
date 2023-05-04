@@ -5,6 +5,8 @@ from wtforms.validators import DataRequired
 
 from models import Scores, Users
 from extensions import db, cache
+from config import BEARER_TOKEN
+
 
 blueprint = Blueprint('views', __name__)
 
@@ -63,7 +65,7 @@ def post():
 
     if not form:
         return "Invalid form", 400
-    if request.headers.get('Authentication') != 'Bearer 1234':
+    if request.headers.get('Authentication') != 'Bearer ' + BEARER_TOKEN:
         return "Invalid authentication", 401
 
     if not isinstance(form.score.data, int):
@@ -91,5 +93,3 @@ def post():
     db.session.add(score)
     db.session.commit()
     return jsonify({'message': 'Success!'})
-
-

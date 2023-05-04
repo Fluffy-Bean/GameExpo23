@@ -4,4 +4,4 @@ from flask_caching import Cache
 
 db = SQLAlchemy()
 migrate = Migrate()
-cache = Cache()
+cache = Cache(config={'CACHE_TYPE': 'simple'})

@@ -10,6 +10,9 @@ services:
       - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./Caddy/data:/data
       - ./Caddy/config:/config
+    environment:
+      - ACME_AGREE=true
+      - DOMAIN=expo.leggy.dev
     links:
       - highscore
 
@@ -17,3 +20,6 @@ services:
     build: ./Highscore-Server
     volumes:
       - ./Highscore-Server/data:/data/storage
+    environment:
+      - FLASK_KEY=secret
+      - BEARER_TOKEN=1234
