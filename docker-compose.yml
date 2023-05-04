@@ -3,6 +3,7 @@ version: "3.9"
 services:
   caddy:
     image: caddy:alpine
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -17,6 +18,7 @@ services:
 
   db:
     image: postgres:alpine
+    restart: always
     ports:
       - 5432:5432
     volumes:
@@ -31,6 +33,7 @@ services:
 
   highscore:
     build: ./Highscore-Server
+    restart: always
     volumes:
       - ./Highscore-Server/data:/data/storage
       - ./Highscore-Server/logs:/data/logs
