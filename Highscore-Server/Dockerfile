@@ -2,8 +2,7 @@
 FROM python:3.10-alpine
 
 EXPOSE 8080
-# RUN apk add --no-cache gcc musl-dev linux-headers
-RUN apk add --no-cache postgresql-client
+RUN apk add --no-cache postgresql-client build-base
 WORKDIR /data
 
 COPY requirements.txt requirements.txt

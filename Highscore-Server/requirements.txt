@@ -1,7 +1,11 @@
+Gunicorn
 Flask
 Flask-SQLAlchemy
 psycopg2-binary
 Flask-Migrate
 Flask-Caching
 Flask-wtf
-Gunicorn
+Flask-Assets
+libsass
+jsmin
+cssmin

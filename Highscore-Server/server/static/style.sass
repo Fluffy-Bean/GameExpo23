@@ -1,0 +1,111 @@
+$black: var(--black)
+$white: var(--white)
+$primary: var(--primary)
+$secondary: var(--secondary)
+$gold: var(--gold)
+$silver: var(--silver)
+$bronze: var(--bronze)
+
+@import url('https://fonts.cdnfonts.com/css/cmu-serif')
+
+\:root
+	--black: 21, 21, 21
+	--white: 232, 227, 227
+	--primary: 213, 214, 130
+	--secondary: 185, 77, 77
+	--gold: 255, 222, 70
+	--silver: 229, 220, 206
+	--bronze: 193, 145, 69
+
+*
+	box-sizing: border-box
+	font-family: 'CMU Serif', serif
+
+html
+	margin: 0
+	padding: 0
+
+body
+	margin: 0
+	padding: 0
+	display: flex
+	flex-direction: row
+	background-color: RGB($black)
+	color: RGB($white)
+
+.background
+	width: 100%
+	height: 100vh
+	height: 100dvh
+
+	object-fit: cover
+	position: absolute
+	z-index: 1
+
+.app
+	margin: 0 auto
+	padding: 2rem
+	width: 800px
+	min-height: 100vh
+	background-color: RGBA($black, 0.9)
+	backdrop-filter: blur(0.5rem)
+	position: relative
+	z-index: 2
+
+	> table
+		width: 100%
+
+.title
+	width: 100%
+	height: auto
+	text-align: center
+
+.subtitle
+	margin-bottom: 1rem
+	padding: 0
+
+	text-align: center
+	font-weight: bolder
+	font-size: 1.2em
+
+	color: RGB($secondary)
+
+	> span
+		padding: 0 0.1rem
+
+		color: transparent
+		background: RGB($secondary)
+
+nav
+	margin: 0
+	padding: 0
+
+	height: 3rem
+
+	display: flex
+	flex-direction: row
+	justify-content: center
+
+	> hr
+		margin: auto 0.25rem
+
+		height: 1.75rem
+		width: 3px
+
+		background-color: RGB($primary)
+		border: none
+
+	> a
+		margin: auto 0.25rem
+		padding: 0.5rem 1rem
+
+		text-decoration: none
+
+		background-color: transparent
+		color: RGB($primary)
+		border-radius: 2px
+
+		transition: background-color 0.2s ease-in-out
+	
+	> a:hover
+		background-color: RGBA($primary, 0.3)
