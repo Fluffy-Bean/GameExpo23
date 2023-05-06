@@ -5,46 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Front Rooms Highscores</title>
-    <style>
-        @import url('https://fonts.cdnfonts.com/css/cmu-serif');
-
-        * {
-            font-family: 'CMU Serif', serif;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            
-            min-height: 100vh;
-            display: flex;
-
-            background-color: #000;
-            color: #fff;
-        }
-
-        .app {
-            margin: auto;
-            padding: 1rem;
-            text-align: center;
-
-            min-width: 621px;
-
-            border: 3px solid yellow;
-        }
-    </style>
+    {% assets "styles" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">
+    {% endassets %}
 </head>
 <body>
+    <img src="{{ url_for("static", filename="bg.png") }}" alt="The Front Rooms pause menu" class="background">
     <div class="app">
-        <h1>Front Rooms Highscores</h1>
-        <p>Created by Bradley, Mia, Bartek & Michał</p>
+        <img src="{{ url_for("static", filename="title.png") }}" alt="The Front Rooms logo" class="title">
+        <!-- <p class="subtitle">Project <span>Redacted</span></p> -->
 
         <nav>
-            <ul>
-                <li><a href="Easy">Easy</a></li>
-                <li><a href="Normal">Normal</a></li>
-                <li><a href="Hard">Hard</a></li>
-            </ul>
+            <a href="Level1">Level 1</a>
+            <a href="Level2">Level 2</a>
+            <a href="Level3">Level 3</a>
+            
+            <hr>
+
+            <a href="Normal">Normal</a>
+            <a href="Hard">Hard</a>
         </nav>
     
         {% block content %}{% endblock %}

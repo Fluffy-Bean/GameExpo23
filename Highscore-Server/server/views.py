@@ -23,7 +23,7 @@ class ScoreForm(FlaskForm):
 @cache.cached(timeout=60)
 def index():
     top_scores = Scores.query.order_by(Scores.score.desc()).limit(10).all()
-    return render_template('scores.html', top_scores=top_scores, show_sub=True)
+    return render_template('scores.html', top_scores=top_scores)
 
 
 @blueprint.route('/post', methods=['POST'])
