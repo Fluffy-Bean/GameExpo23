@@ -170,3 +170,6 @@ Highscore-Server/logs/
 
 # Remove Postgres generated files
 Postgres/data/
+
+# Remove Redis generated files
+.uuid
