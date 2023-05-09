@@ -7,5 +7,5 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 migrate = Migrate()
 assets = Environment()
-cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache = Cache(config={"CACHE_TYPE": "simple"})
 login_manager = LoginManager()

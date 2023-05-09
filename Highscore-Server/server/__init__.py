@@ -1,16 +1,20 @@
 from random import randint
+
 from flask import Flask, render_template, abort
 from flask_assets import Bundle
 from werkzeug.exceptions import HTTPException
+
+from server.config import MIGRATION_DIR, INSTANCE_DIR
 from server.extensions import db, migrate, cache, assets, login_manager
 from server.models import Users
 from server import views, auth, api
 
-app = Flask(__name__)
-app.config.from_pyfile('config.py')
+
+app = Flask(__name__, instance_path=INSTANCE_DIR)
+app.config.from_pyfile("config.py")
 
 db.init_app(app)
-migrate.init_app(app, db)
+migrate.init_app(app, db, directory=MIGRATION_DIR)
 
 with app.app_context():
     db.create_all()
@@ -23,7 +27,12 @@ assets.init_app(app)
 scripts = Bundle("js/*.js", filters="jsmin", output="gen/scripts.js", depends="js/*.js")
 assets.register("scripts", scripts)
 
-styles = Bundle("sass/style.sass", filters="libsass, cssmin", output="gen/styles.css", depends="sass/*.sass")
+styles = Bundle(
+    "sass/style.sass",
+    filters="libsass, cssmin",
+    output="gen/styles.css",
+    depends="sass/*.sass",
+)
 assets.register("styles", styles)
 
 cache.init_app(app)
@@ -42,9 +51,8 @@ def error_page(err):
     if not isinstance(err, HTTPException):
         abort(500)
     return (
-        render_template("error.html",
-                        error=err.code,
-                        msg=err.description,
-                        image=str(randint(1, 3))),
+        render_template(
+            "error.html", error=err.code, msg=err.description, image=str(randint(1, 3))
+        ),
         err.code,
     )

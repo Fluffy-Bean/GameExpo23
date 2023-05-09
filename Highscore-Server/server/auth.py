@@ -9,18 +9,18 @@ from server.extensions import db
 from server.models import Users, Tokens
 
 
-blueprint = Blueprint('auth', __name__)
+blueprint = Blueprint("auth", __name__)
 
 
-@blueprint.route('/auth', methods=['GET'])
+@blueprint.route("/auth", methods=["GET"])
 def auth():
-    return render_template('auth.html')
+    return render_template("auth.html")
 
 
-@blueprint.route('/account', methods=['GET'])
+@blueprint.route("/account", methods=["GET"])
 @login_required
 def account():
-    action = request.args.get('action', None)
+    action = request.args.get("action", None)
 
     if action == "logout":
         logout_user()
@@ -32,10 +32,10 @@ def account():
         flash("Insert password change function", "error")
 
     token_list = Tokens.query.filter_by(holder=current_user.id).all()
-    return render_template('account.html', token_list=token_list)
+    return render_template("account.html", token_list=token_list)
 
 
-@blueprint.route('/register', methods=['POST'])
+@blueprint.route("/register", methods=["POST"])
 def register():
     # Get the form data
     username = request.form["username"].strip()
@@ -46,7 +46,9 @@ def register():
 
     # Validate the form
     if not username or not username_regex.match(username):
-        error.append("Username is empty or invalid! Must be alphanumeric, and can contain ._-")
+        error.append(
+            "Username is empty or invalid! Must be alphanumeric, and can contain ._-"
+        )
     if not password:
         error.append("Password is empty!")
     elif len(password) < 8:
@@ -63,7 +65,7 @@ def register():
     register_user = Users(
         alt_id=str(uuid.uuid4()),
         username=username,
-        password=generate_password_hash(password, method="scrypt")
+        password=generate_password_hash(password, method="scrypt"),
     )
     db.session.add(register_user)
     db.session.commit()
@@ -72,7 +74,7 @@ def register():
     return redirect(url_for("auth.auth"))
 
 
-@blueprint.route('/login', methods=['POST'])
+@blueprint.route("/login", methods=["POST"])
 def login():
     # Get the form data
     username = request.form["username"].strip()
