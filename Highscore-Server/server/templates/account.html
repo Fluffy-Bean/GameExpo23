@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block nav %}
+<nav>
+    <a href="{{ url_for('auth.account', action='logout') }}" class="button">Your Profile</a>
+    <!-- This is a spacer -->
+    <span></span>
+    <a href="{{ url_for('auth.account', action='logout') }}" class="button secondary">Logout</a>
+</nav>
+{% endblock %}
+{% block content %}
+    <div class="block">
+        <h2>Tokens</h2>
+        <p>These are your API tokens. Used to link the uploaded scores with your account.</p>
+        <table>
+            {% for token in token_list %}
+                <tr id="token-{{ token.id }}">
+                    <td><button onclick="deleteToken({{ token.id }})" class="button secondary"><i class="ph ph-trash"></i></button></td>
+                    <td><button onclick="viewToken({{ token.id }})" class="button primary"><i class="ph ph-eye"></i></button></td>
+                    <td class="hidden">{{ token.token }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <button onclick="addToken()" class="button primary">Create New Token</button>
+    </div>
+
+    <div class="block secondary">
+        <h2>Danger Zone</h2>
+        <p>These actions are irreversible. Be careful!</p>
+        <a href="{{ url_for('auth.account', action='delete') }}" class="button secondary">Delete Account</a>
+        <a href="{{ url_for('auth.account', action='password') }}" class="button secondary">Reset Password</a>
+    </div>
+{% endblock %}

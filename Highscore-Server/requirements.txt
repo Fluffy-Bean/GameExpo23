@@ -4,8 +4,8 @@ Flask-SQLAlchemy
 psycopg2-binary
 Flask-Migrate
 Flask-Caching
-Flask-wtf
 Flask-Assets
+Flask-Login
 libsass
 jsmin
 cssmin

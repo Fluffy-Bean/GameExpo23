@@ -1,20 +1,42 @@
 {% extends "base.html" %}
-{% block content %}
+{% block nav %}
+<nav>
+    <a href="{{ url_for('views.index', diff=0) }}" class="button">Level 1</a>
+    <a href="{{ url_for('views.index', diff=1) }}" class="button">Level 2</a>
+    <a href="{{ url_for('views.index', diff=2) }}" class="button">Level 3</a>
+    <a href="{{ url_for('views.index', diff=3) }}" class="button">Normal</a>
+    <a href="{{ url_for('views.index', diff=4) }}" class="button">Hard</a>
 
-<table>
-    <tr>
-        <th>Score</th>
-        <th>Difficulty</th>
-        <th>Achievements</th>
-        <th>Player</th>
-    </tr>
-    {% for score in top_scores %}
-        <tr>
-            <td>{{ score.score }}</td>
-            <td>{{ score.difficulty }}</td>
-            <td>{{ score.achievements }}</td>
-            <td>{{ score.user.steam_name }}</td>
-        </tr>
-    {% endfor %}
-</table>
+    <!-- This is a spacer -->
+    <span></span>
+</nav>
+{% endblock %}
+{% block content %}
+    {% if scores %}
+        <table>
+            <tr>
+                <th>Position</th>
+                <th>Player</th>
+                <th>Difficulty</th>
+                <th>Score</th>
+            </tr>
+            {% for score in top_scores %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    {% if score.anonymous %}
+                        <td>{{ score.username }}</td>
+                    {% else %}
+                        <td>{{ score.scorer.username }}</td>
+                    {% endif %}
+                    <td>{{ score.difficulty }}</td>
+                    <td>{{ score.score }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="center-text">
+            <h2>No scores yet</h2>
+            <p>Set some!</p>
+        </div>
+    {% endif %}
 {% endblock %}

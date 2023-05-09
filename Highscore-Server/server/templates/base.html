@@ -5,28 +5,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Front Rooms Highscores</title>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    {% assets "scripts" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
     {% assets "styles" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">
     {% endassets %}
 </head>
 <body>
-    <img src="{{ url_for("static", filename="bg.png") }}" alt="The Front Rooms pause menu" class="background">
+    <img src="{{ url_for('static', filename='bg.png') }}" alt="The Front Rooms pause menu" class="background">
     <div class="app">
-        <img src="{{ url_for("static", filename="title.png") }}" alt="The Front Rooms logo" class="title">
-        <!-- <p class="subtitle">Project <span>Redacted</span></p> -->
+        <!-- Get flashed lol -->
+        <div class="flash">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}" onclick="this.remove()">
+                        <span><i class="ph-bold ph-x"></i></span>
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </div>
 
-        <nav>
-            <a href="Level1">Level 1</a>
-            <a href="Level2">Level 2</a>
-            <a href="Level3">Level 3</a>
-            
-            <hr>
+        <header>
+            <img src="{{ url_for('static', filename='title.png') }}" alt="The Front Rooms logo" class="title" height="60px">
+            <nav>
+                <a href="{{ url_for('views.index') }}" class="button">Scores</a>
+                <a href="{{ url_for('views.about') }}" class="button"><i class="ph ph-info"></i></a>
+                <a href="#" class="button"><i class="ph ph-download-simple"></i></a>
 
-            <a href="Normal">Normal</a>
-            <a href="Hard">Hard</a>
-        </nav>
-    
-        {% block content %}{% endblock %}
+                <!-- This is a spacer -->
+                <span></span>
+
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.account') }}" class="button primary">{{ current_user.username }}</a>
+                {% else %}
+                    <a href="{{ url_for('auth.auth') }}" class="button primary"><i class="ph ph-identification-card"></i></a>
+                {% endif %}
+            </nav>
+
+            <!-- Secondary nav bar for page specific content -->
+            {% block nav %}{% endblock %}
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>By Project Redacted | <a href="https://github.com/Fluffy-Bean/GameExpo23">Server Source</a></p>
+        </footer>
     </div>
 </body>
 </html>
