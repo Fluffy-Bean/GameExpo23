@@ -1,0 +1,109 @@
+$primary: var(--primary)
+$secondary: var(--secondary)
+$primary-button: var(--primary-button)
+$secondary-button: var(--secondary-button)
+$accent: var(--accent)
+
+$radius: var(--radius)
+
+$main-font: var(--main-font)
+$monospace-font: var(--monospace-font)
+
+\:root
+    --primary: #332f2f
+    --secondary: #d7cec9
+    --primary-button: #C0AB83
+    --secondary-button: #DDD1C1
+    --accent: #c2a588
+
+    --radius: 1rem
+
+    --main-font: 'Rubik', sans-serif
+    --monospace-font: 'JetBrains Mono', monospace
+
+    --nav: #{ darken(#332f2f, 5%) }
+
+@import "animations"
+@import "nav"
+@import "header"
+@import "sections"
+
+*
+    box-sizing: border-box
+
+html
+    font-family: $main-font
+    background-color: $secondary
+    color: $primary
+
+body
+    margin: 0
+    padding: 0
+    min-height: 100vh
+    display: grid
+    grid-template-rows: 1fr auto
+
+.background
+    background-color: $primary
+    position: absolute
+    inset: 0
+    overflow: hidden
+    z-index: 1
+
+    > img
+        position: absolute
+        inset: -5%
+        width: 110%
+        height: 110%
+        object-fit: cover
+        filter: blur(0.25rem)
+        opacity: 0.3
+
+    &::after
+        content: ''
+        position: absolute
+        inset: 0
+        background-image: linear-gradient(to top, $secondary, transparent)
+        z-index: +1
+
+main
+    padding-top: 3rem
+    position: relative
+    z-index: 2
+
+footer
+    margin: auto 0 0
+    padding: 0.5rem
+
+    position: relative
+
+    display: flex
+    justify-content: center
+    align-items: center
+
+    background-color: $primary
+    color: $secondary
+
+    z-index: 2
+
+    > p
+        margin: 0
+
+        font-size: 0.8rem
+        font-family: $monospace-font
+        text-align: center
+
+        color: $secondary
+
+        > a
+            margin: 0
+
+            font-size: inherit
+            font-family: inherit
+
+            color: $accent
+            text-decoration: none
+            cursor: pointer
+
+            &:hover
+                text-decoration: underline

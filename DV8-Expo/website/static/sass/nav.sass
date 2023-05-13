@@ -1,0 +1,55 @@
+nav
+    padding: 0 0.5rem
+    width: 100%
+    height: 3rem
+
+    display: flex
+    flex-direction: row
+    align-items: center
+
+    position: fixed
+    top: 0
+    left: 0
+
+    background: transparent
+    color: $primary
+
+    z-index: 100
+    transition: color 0.2s ease-in-out
+
+    &::before
+        content: ""
+        position: absolute
+        top: -100%
+        left: 0
+        width: 100%
+        height: 100%
+        background: var(--nav)
+        transition: top 0.2s ease-in-out
+        z-index: -1
+
+    > span
+        width: 100%
+
+    > a
+        margin: 0 0.75rem
+
+        font-size: 1.1rem
+        font-weight: bold
+        font-family: $main-font
+        text-decoration: none
+
+        color: inherit
+        transition: color 0.2s ease-in-out, font-weight 0.2s
+
+        &:hover
+            color: $accent
+
+    &.scrolled
+        color: $secondary
+
+        > a
+            font-weight: normal
+
+        &::before
+            top: 0

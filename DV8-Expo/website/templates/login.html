@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block background %}{{ url_for('static', filename='images/3.jpg') }}{% endblock %}
+{% block content %}
+    <section class="center">
+        <div class="login">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>Do not share your UUID</p>
+                {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('login') }}" method="post">
+                <input type="text" name="uuid" placeholder="AAAAA-BBBBB-CCCC-12345" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

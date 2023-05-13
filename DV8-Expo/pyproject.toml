@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "dv8-expo"
+version = "0.1.0"
+description = "Website to display all the awesome creations everyone made"
+authors = ["Fluffy-Bean <michal-gdula@protonmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "dv8_expo"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Flask = "^2.3.2"
+Flask-Caching = "^2.0.2"
+Flask-Assets = "^2.0"
+flask-sqlalchemy = "^3.0.3"
+flask-wtf = "^1.1.1"
+
+[tool.poetry.group.dev.dependencies]
+libsass-bin = "^0.22.0.post1"
+jsmin = "^3.0.1"
+cssmin = "^0.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
