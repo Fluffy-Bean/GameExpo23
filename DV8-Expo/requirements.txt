@@ -1,9 +1,9 @@
 Gunicorn
-psycopg2-binary
 Flask
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Login
+Flask-WTF
 Flask-Assets
 Flask-Caching
 libsass-bin

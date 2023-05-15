@@ -1,3 +1,9 @@
-{$DOMAIN}
-reverse_proxy highscore:8080
-encode gzip
+{$DOMAIN_HIGHSCORE} {
+    reverse_proxy highscore:8000
+    encode gzip
+}
+
+{$DOMAIN_EXPO} {
+    reverse_proxy expo:5000
+    encode gzip
+}

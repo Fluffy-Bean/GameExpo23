@@ -26,4 +26,4 @@ fi
 
 # Start server!!!!
 echo "Starting server..."
-gunicorn --bind highscore:8080 server:app
+gunicorn --bind highscore:8000 server:app

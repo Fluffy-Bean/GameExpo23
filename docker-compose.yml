@@ -12,9 +12,11 @@ services:
       - ./Caddy/data:/data
       - ./Caddy/config:/config
     environment:
-      DOMAIN: expo.leggy.dev
+      DOMAIN_HIGHSCORE: tfr.leggy.dev
+      DOMAIN_EXPO: expo.leggy.dev      
     links:
       - highscore
+      - expo
 
   db:
     image: postgres:alpine
@@ -41,3 +43,12 @@ services:
       DB_PASSWORD: secret
       DB_HOST: db
       DB_NAME: database
+
+  expo:
+    build: ./DV8-Expo
+    restart: unless-stopped
+    volumes:
+      - ./DV8-Expo/data:/data/storage
+      - ./DV8-Expo/logs:/data/logs
+    environment:
+      FLASK_KEY: secret
