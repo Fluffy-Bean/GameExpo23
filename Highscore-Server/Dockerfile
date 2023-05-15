@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:22.04
+FROM alpine:latest
 
 EXPOSE 8080
-RUN apt update && apt install -y python3 python3-pip postgresql-client
+# RUN apt update && apt install -y python3 python3-pip postgresql-client
+RUN apk update && apk add python3 py3-pip postgresql-client
 WORKDIR /data
 
 COPY requirements.txt requirements.txt
