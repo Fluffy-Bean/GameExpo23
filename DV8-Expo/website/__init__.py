@@ -10,11 +10,15 @@ from website.config import INSTANCE_DIR, MIGRATION_DIR
 
 
 class LoginForm(FlaskForm):
-    uuid = StringField('uuid', validators=[DataRequired()], render_kw={"placeholder": "12345678-ABCD-ABCD-ABCD-123456789EFG"})
+    uuid = StringField(
+        "uuid",
+        validators=[DataRequired()],
+        render_kw={"placeholder": "12345678-ABCD-ABCD-ABCD-123456789EFG"},
+    )
 
 
 app = Flask(__name__, instance_path=INSTANCE_DIR)
-app.config.from_pyfile('config.py')
+app.config.from_pyfile("config.py")
 
 db.init_app(app)
 migrate.init_app(app, db, directory=MIGRATION_DIR)
@@ -22,10 +26,15 @@ with app.app_context():
     db.create_all()
 
 assets.init_app(app)
-styles = Bundle('sass/styles.sass', filters='libsass, cssmin', output='gen/packed.css', depends='sass/*.sass')
-assets.register('styles', styles)
-scripts = Bundle('js/*.js', filters='jsmin', output='gen/packed.js')
-assets.register('scripts', scripts)
+styles = Bundle(
+    "sass/styles.sass",
+    filters="libsass, cssmin",
+    output="gen/packed.css",
+    depends="sass/*.sass",
+)
+assets.register("styles", styles)
+scripts = Bundle("js/*.js", filters="jsmin", output="gen/packed.js")
+assets.register("scripts", scripts)
 
 
 @login_manager.user_loader
@@ -33,12 +42,12 @@ def load_user(user_id):
     return Users.get(user_id)
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
 
@@ -49,4 +58,4 @@ def login():
         else:
             flash("Inncorrect login")
 
-    return render_template('login.html', form=form)
+    return render_template("login.html", form=form)

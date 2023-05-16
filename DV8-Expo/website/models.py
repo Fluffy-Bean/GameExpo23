@@ -19,20 +19,20 @@ class Games(db.Model):
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String, nullable=False)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
 
 
 class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String, nullable=False)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
 
 
 class Authors(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    role = db.Column(db.String, nullable=False, default='Developer')
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    role = db.Column(db.String, nullable=False, default="Developer")
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
 
 
 class Users(db.Model, UserMixin):
