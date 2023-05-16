@@ -2,6 +2,7 @@
 Database models for the server
 """
 from website.extensions import db
+from flask_login import UserMixin
 
 
 class Games(db.Model):
@@ -34,6 +35,6 @@ class Authors(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String, nullable=False)

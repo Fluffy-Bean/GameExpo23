@@ -5,8 +5,8 @@ services:
     image: caddy:alpine
     restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
+      # - "80:80"
+      - "443:443"
     volumes:
       - ./Caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./Caddy/data:/data
@@ -21,6 +21,8 @@ services:
   db:
     image: postgres:alpine
     restart: unless-stopped
+    # ports:
+    #   - "5432:5432"
     volumes:
       - ./Postgres/data:/var/lib/postgresql/data
     environment:
