@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block background %}
+    {% if game.background %}
+        {{ url_for('static', filename='backgrounds/' + game.background) }}
+    {% else %}
+        {{ url_for('static', filename='backgrounds/default.jpg') }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <header style="height: 40vh">
+        <h1>{{ game.name }}</h1>
+    </header>
+
+    <section class="fill">
+        <h2>Games</h2>
+        <p>Here are some games AAAA</p>
+    </section>
+{% endblock %}

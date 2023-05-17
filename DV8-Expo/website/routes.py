@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, redirect, flash
-from flask_login import login_user, logout_user, login_required
+from flask import Blueprint, render_template, redirect, flash, abort
+from flask_login import login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
-from website.models import Users
+from website.models import Users, Games
+from website.extensions import db
 
 
 blueprint = Blueprint("website", __name__)
@@ -19,7 +20,25 @@ class LoginForm(FlaskForm):
 
 @blueprint.route("/")
 def index():
-    return render_template("index.html")
+    games = (Games.query
+                  .filter_by(approved=True)
+                  .filter_by(visible=True)
+                  .all())
+    return render_template("index.html", games=games)
+
+
+@blueprint.route("/g/<int:game_id>")
+def g(game_id):
+    game = (Games.query
+                 .filter_by(id=game_id)
+                 .filter_by(approved=True)
+                 .filter_by(visible=True)
+                 .first())
+
+    if not game:
+        abort(404)
+
+    return render_template("game.html", game=game)
 
 
 @blueprint.route("/login", methods=["GET", "POST"])
@@ -34,6 +53,7 @@ def login():
             flash("Incorrect login")
 
     return render_template("login.html", form=form)
+
 
 @blueprint.route("/logout")
 @login_required

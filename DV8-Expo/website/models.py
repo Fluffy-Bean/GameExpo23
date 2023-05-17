@@ -5,17 +5,6 @@ from website.extensions import db
 from flask_login import UserMixin
 
 
-class Games(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    ageRating = db.Column(db.String, nullable=False)
-    description = db.Column(db.String, nullable=False)
-    thumbnail = db.Column(db.String, nullable=False)
-    background = db.Column(db.String, nullable=False)
-    downloadLink = db.Column(db.String, nullable=False)
-    approved = db.Column(db.Boolean, nullable=False, default=False)
-
-
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String, nullable=False)
@@ -38,6 +27,23 @@ class Authors(db.Model):
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String, nullable=False)
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
 
     def get_id(self):
         return int(self.id)
+
+
+class Games(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    approved = db.Column(db.Boolean, nullable=False, default=False)
+    visible = db.Column(db.Boolean, nullable=False, default=False)
+
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    thumbnail = db.Column(db.String, nullable=False)
+    background = db.Column(db.String, nullable=False)
+    downloadLink = db.Column(db.String)
+    ageRating = db.Column(db.String, nullable=False)
+
+    tags = db.relationship("Tags", backref="game", lazy=True)
+    owner_id = db.relationship("Users", backref="game", lazy=True)

@@ -159,5 +159,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 
 # remove development files
+/instance
+/migrations
 /storage
 /logs
+/website/static/.webpack-cache
+/website/static/gen
+

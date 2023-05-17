@@ -7,6 +7,8 @@
     <title>Game Event 23</title>
 
     <!-- Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
 
@@ -14,20 +16,18 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <!-- Stylesheets -->
-    {% assets "scripts" %}
-        <script src="{{ ASSET_URL }}" defer></script>
-    {% endassets %}
+    {% assets "scripts" %}<script src="{{ ASSET_URL }}" defer></script>{% endassets %}
 
     <!-- Scripts -->
-    {% assets "styles" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" defer>
-    {% endassets %}
+    {% assets "styles" %}<link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" defer>{% endassets %}
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('website.index') }}">Home</a>
+        <h1>DV8 Game Expo <span>2023</span></h1>
         <span><!-- This is a separator --></span>
-        <a href="{{ url_for('website.index') }}">About</a>
+        <a href="{{ url_for('website.index') }}#">Home</a>
+        <a href="{{ url_for('website.index') }}#About">About</a>
+        <a href="{{ url_for('website.index') }}#Games">Games</a>
         {% if current_user.is_authenticated %}<a href="{{ url_for('website.logout') }}">Logout</a>{% endif %}
     </nav>
 

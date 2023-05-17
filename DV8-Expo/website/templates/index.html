@@ -7,30 +7,34 @@
         <i class="ph-bold ph-caret-double-down"></i>
     </header>
 
-    <section>
+    <section id="About">
         <h2>About</h2>
         <p>Tap to add text</p>
     </section>
 
-    <section>
+    <section id="Games">
         <h2>Games</h2>
         <p>Here are some games AAAA</p>
 
         <div class="games">
-            {% for game in range(10) %}
+            {% for game in games %}
                 <div class="game-box">
-                    <img src="{{ url_for('static', filename='images/3.jpg') }}" alt="game image">
-                    <h2>game name</h2>
-                    <p>mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow mow</p>
+                    {% if game.thumbnail %}
+                        <img src="{{ url_for('static', filename='thumbnails/' + game.thumbnail) }}" alt="game image">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='thumbnails/default.jpg') }}" alt="game image">
+                    {% endif %}
+
+                    <h2>{{ game.name }}</h2>
+                    <p>{{ game.description|truncate(100) }}</p>
 
                     <div class="options">
-                        <a href="#" style="width: 100%">View</a>
-                        <a href="#" style="width: 2.5rem"><i class="ph ph-download"></i></a>
+                        <a href="{{ url_for('website.g', game_id=game.id) }}" style="width: 100%">View</a>
+                        {% if game.downloadLink %}<a href="{{ game.downloadLink }}" style="background-color: var(--secondary-button); width: 2.5rem"><i class="ph ph-download"></i></a>{% endif %}
                         <a href="#" style="background-color: var(--secondary-button); width: 2.5rem"><i class="ph ph-warning"></i></a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </section>
-
 {% endblock %}
