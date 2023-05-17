@@ -25,12 +25,10 @@
 </head>
 <body>
     <nav>
-        <a href="/">Home</a>
-
+        <a href="{{ url_for('website.index') }}">Home</a>
         <span><!-- This is a separator --></span>
-
-        <a href="/">About</a>
-        <a href="/login">Login</a>
+        <a href="{{ url_for('website.index') }}">About</a>
+        {% if current_user.is_authenticated %}<a href="{{ url_for('website.logout') }}">Logout</a>{% endif %}
     </nav>
 
     <span class="background">

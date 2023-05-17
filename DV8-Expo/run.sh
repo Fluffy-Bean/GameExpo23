@@ -8,7 +8,7 @@ then
 fi
 
 # Check if there are any changes to the database
-if ! $(flask --app website db check | grep -q "No changes in schema detected.");
+if ! $(flask --app website db check) | grep -q "No changes in schema detected.";
 then
     echo "Database changes detected! Migrating..."
     flask --app website db migrate

@@ -6,7 +6,8 @@ def env(key):
     return os.getenv(key)
 
 
-SECRET_KEY = env("FLASK_KEY")
+# SECRET_KEY = env("FLASK_KEY")
+SECRET_KEY = "dev"
 
 SQLALCHEMY_DATABASE_URI = "sqlite:///site.db"
 

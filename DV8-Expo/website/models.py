@@ -38,3 +38,6 @@ class Authors(db.Model):
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String, nullable=False)
+
+    def get_id(self):
+        return int(self.id)

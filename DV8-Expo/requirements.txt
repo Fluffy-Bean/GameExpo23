@@ -3,6 +3,7 @@ Flask
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Login
+WTForms
 Flask-WTF
 Flask-Assets
 Flask-Caching
