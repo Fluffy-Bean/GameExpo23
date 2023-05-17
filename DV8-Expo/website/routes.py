@@ -20,20 +20,18 @@ class LoginForm(FlaskForm):
 
 @blueprint.route("/")
 def index():
-    games = (Games.query
-                  .filter_by(approved=True)
-                  .filter_by(visible=True)
-                  .all())
+    games = Games.query.filter_by(approved=True).filter_by(visible=True).all()
     return render_template("index.html", games=games)
 
 
 @blueprint.route("/g/<int:game_id>")
 def g(game_id):
-    game = (Games.query
-                 .filter_by(id=game_id)
-                 .filter_by(approved=True)
-                 .filter_by(visible=True)
-                 .first())
+    game = (
+        Games.query.filter_by(id=game_id)
+        .filter_by(approved=True)
+        .filter_by(visible=True)
+        .first()
+    )
 
     if not game:
         abort(404)
