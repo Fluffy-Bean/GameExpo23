@@ -16,9 +16,9 @@ nav
     font-size: 1.1rem
     white-space: nowrap
 
-    background: transparent
-    color: $primary
+    color: RGB($secondary)
 
+    overflow: hidden
     z-index: 100
     transition: color 0.1s ease-in-out
 
@@ -27,39 +27,70 @@ nav
         position: absolute
         inset: 0
         background: var(--nav)
-        transform: translateY(-100%)
+        transform: translateY(-3rem)
         transition: transform 0.2s ease-in-out
         z-index: -1
 
     > span
         width: 100%
 
-    > a
-        margin: 0 0.75rem
-        padding: 0.1rem 0.5rem
-        text-decoration: none
-        color: inherit
-        transition: color 0.1s ease-in-out
+    > ul
+        margin: 0
+        padding: 0
+        height: 3rem
+        list-style: none
 
-        &:hover
-            color: $accent
+        display: flex
+        flex-direction: row
+        align-items: center
 
-    > h1
-        font-size: inherit
-        text-decoration: none
-        color: $secondary
+        > li > a
+            margin: 0 0.75rem
+            padding: 0.1rem 0.5rem
+            text-decoration: none
+            color: inherit
+            transition: color 0.1s ease-in-out
+
+            &:hover
+                color: RGB($accent)
+
+    > .title
+        height: 3rem
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: center
         opacity: 0
         transition: opacity 0.1s ease-in-out
 
-        > span
-            font-family: $monospace-font
-            color: $accent
+        > p
+            margin: auto
+            font-size: inherit
+            color: RGB($secondary)
+
+            > span
+                font-family: $monospace-font
+                color: RGB($accent)
 
     &.scrolled
-        color: $secondary
-
-        > h1
+        > .title
             opacity: 1
 
         &::before
             transform: translateY(0)
+
+@media (max-width: 600px)
+    nav
+        height: 6rem
+        top: -3rem
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+        transition: top 0.2s ease-in-out
+
+        > .title > p
+            font-size: 1.3rem
+
+        &.scrolled
+            top: 0

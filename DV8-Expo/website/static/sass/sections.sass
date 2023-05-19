@@ -22,8 +22,8 @@ section
         align-items: center
 
     &.fill
-        background-color: $secondary
-        color: $primary
+        background-color: RGB($secondary)
+        color: RGB($primary)
         border-radius: $radius
 
 div.games
@@ -42,16 +42,16 @@ div.games
 div.login
     padding: 0.5rem
 
-    background-color: $primary
-    color: $secondary
+    background-color: RGB($primary)
+    color: RGB($secondary)
     border-radius: $radius
 
     > p
         margin: 0 0 0.5rem
         padding: 0.5rem
 
-        background-color: $accent
-        color: $primary
+        background-color: RGB($accent)
+        color: RGB($primary)
         border-radius: calc(calc(#{$radius} - 0.5rem) / 2)
 
         &:first-child
@@ -70,8 +70,8 @@ div.login
             font-size: 1rem
             font-family: $monospace-font
 
-            background-color: $secondary
-            color: $primary
+            background-color: RGB($secondary)
+            color: RGB($primary)
             border-radius: calc(calc(#{$radius} - 0.5rem) / 2) 0 0 calc(#{$radius} - 0.5rem)
             border: none
 
@@ -85,8 +85,8 @@ div.login
 
             font-size: 1rem
 
-            background-color: $primary-button
-            color: $primary
+            background-color: RGB($primary-button)
+            color: RGB($primary)
             border-radius: 0 calc(calc(#{$radius} - 0.5rem) / 2) calc(#{$radius} - 0.5rem) 0
             border: none
 
@@ -94,7 +94,7 @@ div.login
 
             &:hover, &:focus-visible
                 outline: none
-                background-color: $secondary-button
+                background-color: RGB($secondary-button)
 
 .game-box
     margin: 0 auto
@@ -108,10 +108,10 @@ div.login
 
     font-family: $main-font
 
-    background-color: $primary
-    color: $secondary
+    background-color: RGB($primary)
+    color: RGB($secondary)
     border-radius: $radius
-    box-shadow: 0 0.2rem 1rem 0 $primary
+    box-shadow: 0 0.2rem 1rem 0 RGB($primary)
 
     overflow: hidden
     transition: box-shadow 0.1s ease-in-out, transform 0.1s ease-in-out
@@ -153,8 +153,8 @@ div.login
             font-size: 1rem
             text-decoration: none
 
-            background-color: $primary-button
-            color: $primary
+            background-color: RGB($primary-button)
+            color: RGB($primary)
             border-radius: calc(calc(#{$radius} - 0.5rem) / 2)
 
             transition: transform 0.1s ease-in-out, border-radius 0.1s ease-in-out

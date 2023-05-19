@@ -23,12 +23,14 @@
 </head>
 <body>
     <nav>
-        <h1>DV8 Game Expo <span>2023</span></h1>
+        <div class="title"><p>DV8 Game Expo <span>2023</span></p></div>
         <span><!-- This is a separator --></span>
-        <a href="{{ url_for('website.index') }}#">Home</a>
-        <a href="{{ url_for('website.index') }}#About">About</a>
-        <a href="{{ url_for('website.index') }}#Games">Games</a>
-        {% if current_user.is_authenticated %}<a href="{{ url_for('website.logout') }}">Logout</a>{% endif %}
+        <ul>
+            <li><a href="{{ url_for('website.index') }}#">Home</a></li>
+            <li><a href="{{ url_for('website.index') }}#What_is_this?">About</a></li>
+            <li><a href="{{ url_for('website.index') }}#Student_Games">Games</a></li>
+            {% if current_user.is_authenticated %}<li><a href="{{ url_for('website.logout') }}">Logout</a></li>{% endif %}
+        </ul>
     </nav>
 
     <span class="background">

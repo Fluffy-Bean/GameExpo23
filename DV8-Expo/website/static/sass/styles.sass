@@ -16,11 +16,11 @@ $monospace-font: var(--monospace-font)
 
 
 \:root
-    --primary: #332f2f
-    --secondary: #d7cec9
-    --primary-button: #C0AB83
-    --secondary-button: #DDD1C1
-    --accent: #c2a588
+    --primary: 51, 47, 47
+    --secondary: 214, 204, 199
+    --primary-button: 191, 170, 130
+    --secondary-button: 222, 209, 193
+    --accent: 194, 165, 136
 
     --radius: 1rem
 
@@ -39,8 +39,8 @@ $monospace-font: var(--monospace-font)
 
 html
     font-family: $main-font
-    background-color: $secondary
-    color: $primary
+    background-color: RGB($secondary)
+    color: RGB($primary)
 
 body
     margin: 0
@@ -50,7 +50,7 @@ body
     grid-template-rows: 1fr auto
 
 .background
-    background-color: $primary
+    background-color: RGB($primary)
     position: absolute
     inset: 0
     overflow: hidden
@@ -63,13 +63,13 @@ body
         height: 110%
         object-fit: cover
         filter: blur(0.25rem)
-        opacity: 0.3
+        opacity: 0.2
 
     &::after
         content: ''
         position: absolute
         inset: 0
-        background-image: linear-gradient(to top, $secondary, transparent)
+        background-image: linear-gradient(to top, RGB($secondary) 3%, transparent)
         z-index: +1
 
 main
@@ -87,8 +87,8 @@ footer
     justify-content: center
     align-items: center
 
-    background-color: $primary
-    color: $secondary
+    background-color: RGB($primary)
+    color: RGB($secondary)
 
     z-index: 2
 
@@ -99,7 +99,7 @@ footer
         font-family: $monospace-font
         text-align: center
 
-        color: $secondary
+        color: RGB($secondary)
 
         > a
             margin: 0
@@ -107,7 +107,7 @@ footer
             font-size: inherit
             font-family: inherit
 
-            color: $accent
+            color: RGB($accent)
             text-decoration: none
             cursor: pointer
 

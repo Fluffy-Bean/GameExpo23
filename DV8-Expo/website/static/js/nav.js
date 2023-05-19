@@ -1,12 +1,23 @@
 const defaultTitle = "DV8 Game Expo <span>2023</span>";
-const spacing = 48; // The amount of pixels to offset the section by
+let navSpacing = (3 * 16); // The amount of pixels to offset the section by
 let prevElement = null;
 
 window.onscroll = () => {
     scrollFunction();
     checkSection();
 };
-window.onload = () => { scrollFunction() };
+window.onload = () => {
+    scrollFunction()
+};
+window.onresize = () => {
+    if (window.innerWidth > 600) {
+        navSpacing = (3 * 16);
+    } else {
+        navSpacing = (6 * 16);
+    }
+
+    checkSection();
+}
 
 function scrollFunction() {
     let nav = document.querySelector("nav");
@@ -23,11 +34,11 @@ function scrollFunction() {
 
 function checkSection() {
     // Get the nav and sections
-    let navTitle = document.querySelector("nav > h1");
+    let navTitle = document.querySelector(".title > p");
     let sections = document.querySelectorAll("section");
 
     // If we're at the top of the page, set the title to the default
-    if ((window.pageYOffset + spacing) < sections[0].offsetTop) {
+    if ((window.pageYOffset + navSpacing) < sections[0].offsetTop) {
         // If we're already on the default title, don't do anything as it'll break the animation
         if (prevElement === null) return;
 
@@ -49,11 +60,11 @@ function checkSection() {
         // If the section is on the screen is:
         // 1. The top of the section is above the top of the screen
         // 2. The bottom of the section is below the bottom of the screen
-        if ((window.pageYOffset + spacing) >= top && window.pageYOffset < (bottom - spacing)) {
+        if ((window.pageYOffset + navSpacing) >= top && window.pageYOffset < (bottom - navSpacing)) {
             // If we're already on the section, don't do anything as it'll break the animation
             if (prevElement === section) return;
 
-            navTitle.innerHTML = section.id;
+            navTitle.innerHTML = section.id.split("_").join(" ");
             navTitle.style.animation = "title-change 0.2s ease-in-out";
             prevElement = section;
 
@@ -62,3 +73,17 @@ function checkSection() {
         }
     });
 }
+
+
+document.querySelectorAll("nav > ul > li > a").forEach((element) => {
+    element.onclick = () => {
+        let anchor = location.hash.split("#")[1].toString();
+        let element = document.getElementById(anchor);
+
+        if (element === null) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            window.scrollTo({top: (element.offsetTop + navSpacing), behavior: "smooth"});
+        }
+    }
+});

@@ -7,13 +7,13 @@
         <i class="ph-bold ph-caret-double-down"></i>
     </header>
 
-    <section id="About">
-        <h2>About</h2>
-        <p>Tap to add text</p>
+    <section id="What_is_this?">
+        <h2>What is this?</h2>
+        <p>The DV8 Game Expo, is a showcase of the works and efforts of students from the past year. This includes Level 3 year 1 and year 2.</p>
     </section>
 
-    <section id="Games">
-        <h2>Games</h2>
+    <section id="Student_Games">
+        <h2>Student Games</h2>
         <p>Here are some games AAAA</p>
 
         <div class="games">
@@ -30,8 +30,8 @@
 
                     <div class="options">
                         <a href="{{ url_for('website.g', game_id=game.id) }}" style="width: 100%">View</a>
-                        {% if game.downloadLink %}<a href="{{ game.downloadLink }}" style="background-color: var(--secondary-button); width: 2.5rem"><i class="ph ph-download"></i></a>{% endif %}
-                        <a href="#" style="background-color: var(--secondary-button); width: 2.5rem"><i class="ph ph-warning"></i></a>
+                        {% if game.downloadLink %}<a href="{{ game.downloadLink }}" style="background-color: rgb(var(--secondary-button)); width: 2.5rem"><i class="ph ph-download"></i></a>{% endif %}
+                        <a href="#" style="background-color: rgb(var(--secondary-button)); width: 2.5rem"><i class="ph ph-warning"></i></a>
                     </div>
                 </div>
             {% endfor %}
