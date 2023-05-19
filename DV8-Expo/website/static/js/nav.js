@@ -7,16 +7,21 @@ window.onscroll = () => {
     checkSection();
 };
 window.onload = () => {
-    scrollFunction()
+    resizeNav();
+    scrollFunction();
+    checkSection();
 };
 window.onresize = () => {
+    resizeNav();
+    checkSection();
+}
+
+function resizeNav() {
     if (window.innerWidth > 600) {
         navSpacing = (3 * 16);
     } else {
         navSpacing = (6 * 16);
     }
-
-    checkSection();
 }
 
 function scrollFunction() {
