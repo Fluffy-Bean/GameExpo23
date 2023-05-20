@@ -9,10 +9,26 @@
 {% block content %}
     <header style="height: 40vh">
         <h1>{{ game.name }}</h1>
+        <p>{{ game.developer }}</p>
+        <p>{% for person in game.autors %}{{ person }}{% if not loop.last %},{% endif %}{% endfor %}</p>
     </header>
 
-    <section class="fill">
-        <h2>Games</h2>
-        <p>Here are some games AAAA</p>
+    <section class="fill" id="Description">
+        <h2>Description</h2>
+        <p>{{ game.description }}</p>
+    </section>
+
+    <section id="Tags">
+        <ul>
+            {% for tag in game.tags %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="Images">
+        {% for image in game.images %}
+            <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ image.alt }}">
+        {% endfor %}
     </section>
 {% endblock %}
