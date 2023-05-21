@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block background %}{{ url_for('static', filename='images/3.jpg') }}{% endblock %}
+{% block background %}{{ url_for('static', filename='images/default.jpg') }}{% endblock %}
 {% block content %}
     <header>
         <p>Welcome to the</p>
-        <h1>DV8 Game Expo <span>2023</span>!</h1>
+        <h1>DV8 Game Expo <span data-text="2023">2023</span>!</h1>
         <i class="ph-bold ph-caret-double-down"></i>
     </header>
 
@@ -18,22 +18,28 @@
 
         <div class="games">
             {% for game in games %}
-                <div class="game-box">
-                    {% if game.thumbnail %}
-                        <img src="{{ url_for('static', filename='thumbnails/' + game.thumbnail) }}" alt="game image">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='thumbnails/default.jpg') }}" alt="game image">
+                <a class="game-box" href="{{ url_for('website.g', game_id=game.id) }}">
+                    {% if game.background %}
+                        <img src="{{ url_for('static', filename='images/backgrounds/' + game.background) }}" alt="{{ game.name }}" class="background">
                     {% endif %}
+                    <div>
+                        {% if game.logo %}
+                            <img src="{{ url_for('static', filename='images/logos/' + game.logo) }}" alt="{{ game.name }}" class="logo">
+                        {% else %}
+                            <h2>{{ game.name }}</h2>
+                        {% endif %}
+                        <p>{{ game.studio }}</p>
+                        <!-- <p>{{ game.description|truncate(100) }}</p> -->
 
-                    <h2>{{ game.name }}</h2>
-                    <p>{{ game.description|truncate(100) }}</p>
+                        <span><!-- Seperator --></span>
 
-                    <div class="options">
-                        <a href="{{ url_for('website.g', game_id=game.id) }}" style="width: 100%">View</a>
-                        {% if game.downloadLink %}<a href="{{ game.downloadLink }}" style="background-color: rgb(var(--secondary-button)); width: 2.5rem"><i class="ph ph-download"></i></a>{% endif %}
-                        <a href="#" style="background-color: rgb(var(--secondary-button)); width: 2.5rem"><i class="ph ph-warning"></i></a>
+                        <ul>
+                            {% for tag in game.tags %}
+                                <li>{{ tag.tag }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </section>

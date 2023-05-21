@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 {% block background %}
     {% if game.background %}
-        {{ url_for('static', filename='backgrounds/' + game.background) }}
+        {{ url_for('static', filename='images/backgrounds/' + game.background) }}
     {% else %}
-        {{ url_for('static', filename='backgrounds/default.jpg') }}
+        {{ url_for('static', filename='images/default.jpg') }}
     {% endif %}
 {% endblock %}
 {% block content %}
-    <header style="height: 40vh">
-        <h1>{{ game.name }}</h1>
-        <p>{{ game.developer }}</p>
-        <p>{% for person in game.autors %}{{ person }}{% if not loop.last %},{% endif %}{% endfor %}</p>
+    <header>
+        {% if game.logo %}
+            <img src="{{ url_for('static', filename='images/logos/' + game.logo) }}" alt="{{ game.name }} Logo">
+        {% else %}
+            <h1>{{ game.name }}</h1>
+        {% endif %}
+        <p>By {{ game.studio }}</p>
+        <p>
+            {% for person in game.authors %}
+                {{ person.name }}
+                {% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </p>
     </header>
 
-    <section class="fill" id="Description">
+    <section id="Description">
         <h2>Description</h2>
         <p>{{ game.description }}</p>
     </section>
@@ -28,7 +37,7 @@
 
     <section id="Images">
         {% for image in game.images %}
-            <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ image.alt }}">
+            <img src="{{ url_for('static', filename='images/user/' + image) }}" alt="{{ image.alt }}">
         {% endfor %}
     </section>
 {% endblock %}

@@ -1,26 +1,12 @@
 const defaultTitle = "DV8 Game Expo <span>2023</span>";
-let navSpacing = (3 * 16); // The amount of pixels to offset the section by
+let navSpacing = (5 * 16); // The amount of pixels to offset the section by
 let prevElement = null;
-
-window.onscroll = () => {
-    scrollFunction();
-    checkSection();
-};
-window.onload = () => {
-    resizeNav();
-    scrollFunction();
-    checkSection();
-};
-window.onresize = () => {
-    resizeNav();
-    checkSection();
-}
 
 function resizeNav() {
     if (window.innerWidth > 600) {
-        navSpacing = (3 * 16);
+        navSpacing = (5 * 16);
     } else {
-        navSpacing = (6 * 16);
+        navSpacing = (8 * 16);
     }
 }
 
@@ -43,7 +29,7 @@ function checkSection() {
     let sections = document.querySelectorAll("section");
 
     // If we're at the top of the page, set the title to the default
-    if ((window.pageYOffset + navSpacing) < sections[0].offsetTop) {
+    if ((window.pageYOffset + navSpacing) < sections[0].offsetTop || window.pageYOffset === 0) {
         // If we're already on the default title, don't do anything as it'll break the animation
         if (prevElement === null) return;
 
@@ -53,6 +39,8 @@ function checkSection() {
 
         // Remove the animation after it's done, so we can animate again
         setTimeout(() => { navTitle.style.animation = ""; }, 200);
+
+        return;
     }
 
     // While at this point we may not need to check for the sections

@@ -14,20 +14,25 @@ $monospace-font: var(--monospace-font)
 //    animation-duration: 0s !important
 //    transition: none !important
 
+//--dv8-orange: #F36023
+//--dv8-yellow: #FFE11C
+//--dv8-cyan: #00AAB0
+//--dv8-magenta: #D51E90
+//--dv8-lime: #C0D939
 
 \:root
-    --primary: 51, 47, 47
-    --secondary: 214, 204, 199
-    --primary-button: 191, 170, 130
-    --secondary-button: 222, 209, 193
+    --primary: 43, 43, 43
+    --secondary: 240, 240, 245
+    --primary-button: 242, 96, 34
+    --secondary-button: 191, 85, 40
     --accent: 194, 165, 136
 
-    --radius: 1rem
+    --radius: 0.3rem
 
     --main-font: 'Rubik', sans-serif
     --monospace-font: 'JetBrains Mono', monospace
 
-    --nav: #{ darken(#332f2f, 5%) }
+    --nav: 35, 35, 35
 
 @import "animations"
 @import "nav"
@@ -50,7 +55,7 @@ body
     grid-template-rows: 1fr auto
 
 .background
-    background-color: RGB($primary)
+    background-color: RGB($secondary)
     position: absolute
     inset: 0
     overflow: hidden
@@ -63,7 +68,7 @@ body
         height: 110%
         object-fit: cover
         filter: blur(0.25rem)
-        opacity: 0.2
+        opacity: 0.6
 
     &::after
         content: ''
@@ -73,9 +78,13 @@ body
         z-index: +1
 
 main
-    padding-top: 3rem
+    padding: 3rem 2rem 2rem
     position: relative
     z-index: 2
+
+@media (max-width: 600px)
+    main
+        padding: 3rem 1rem 1rem
 
 footer
     margin: auto 0 0
@@ -87,7 +96,7 @@ footer
     justify-content: center
     align-items: center
 
-    background-color: RGB($primary)
+    background-color: RGB(var(--nav))
     color: RGB($secondary)
 
     z-index: 2
