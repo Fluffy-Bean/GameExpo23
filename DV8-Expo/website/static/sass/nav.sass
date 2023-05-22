@@ -18,6 +18,7 @@ nav
     white-space: nowrap
 
     color: RGB($primary)
+    border-bottom: 1px solid RGB($primary)
 
     overflow: hidden
     z-index: 100
@@ -31,10 +32,8 @@ nav
         transform: translateY(-3rem)
         transition: transform 0.2s ease-in-out
         z-index: -1
-
     > span
         width: 100%
-
     > ul
         margin: 0
         padding: 0
@@ -44,7 +43,6 @@ nav
         display: flex
         flex-direction: row
         align-items: center
-
         > li > a
             margin: 0 0.75rem
             padding: 0.1rem 0.5rem
@@ -61,33 +59,23 @@ nav
         flex-direction: row
         align-items: center
         justify-content: center
-        //opacity: 0
-        //transition: opacity 0.1s ease-in-out
-
         > p
             margin: auto
             font-size: inherit
             color: inherit
             transition: color 0.1s ease-in-out
-
             > span
                 font-family: $monospace-font
                 color: RGB($accent)
 
     &.scrolled
-        //.title
-        //    opacity: 1
-        //    transition: opacity 0.1s ease-in-out 0.1s
-
         color: RGB($secondary)
-
         &::before
             transform: translateY(0)
 
 @media (max-width: 600px)
     nav
         padding-right: 1rem
-
         height: 6rem
         top: -3rem
         display: flex
@@ -97,7 +85,6 @@ nav
 
         > .title
             opacity: 1
-
             > p
                 font-size: 1.3rem
 

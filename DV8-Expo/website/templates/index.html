@@ -21,6 +21,8 @@
                 <a class="game-box" href="{{ url_for('website.g', game_id=game.id) }}">
                     {% if game.background %}
                         <img src="{{ url_for('static', filename='images/backgrounds/' + game.background) }}" alt="{{ game.name }}" class="background">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/default.jpg') }}" alt="{{ game.name }}" class="background">
                     {% endif %}
                     <div>
                         {% if game.logo %}

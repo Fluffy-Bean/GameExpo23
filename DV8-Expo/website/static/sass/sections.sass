@@ -18,6 +18,8 @@ section
 @media (max-width: 600px)
     section
         scroll-margin-top: 7rem
+        text-align: center
+        justify-content: center
 
 .login
     padding: 0.5rem
@@ -77,6 +79,7 @@ section
                 background-color: RGB($secondary-button)
 
 .games
+    margin-top: 1rem
     display: flex
     flex-direction: row
     flex-wrap: wrap
@@ -87,9 +90,6 @@ section
     padding: 1rem
 
     width: 16rem
-    // Height is set by JS to keep an aspect ratio
-    // Though there is a CSS solution, its too new
-    // For me to be comfortable using it
     height: 0
 
     position: relative
@@ -100,6 +100,7 @@ section
     font-family: $main-font
     font-size: 1rem
     text-decoration: none
+    text-align: center
 
     background-color: RGB($primary)
     color: RGB($secondary)
@@ -135,6 +136,8 @@ section
         flex-direction: column
         gap: 0.5rem
 
+        font-weight: bold
+
         z-index: +3
 
         .logo
@@ -142,14 +145,13 @@ section
             width: auto
             height: auto
             max-width: 100%
-            max-height: 50%
+            max-height: 40%
             display: block
-            border-radius: calc(#{$radius} - 0.5rem)
+            border-radius: calc(#{$radius} / 2)
 
         > h2
             margin: 0
             font-size: 2rem
-            font-weight: bold
             color: RGB($accent)
 
         > p
@@ -173,6 +175,7 @@ section
                 padding: 0.25rem 0.5rem
 
                 font-size: 0.9rem
+                font-weight: normal
 
                 background-color: RGBA($accent, 0.5)
                 color: RGB($secondary)
