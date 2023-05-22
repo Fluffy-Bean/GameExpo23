@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect, flash, abort
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
-from website.models import Users, Games, Images, Authors, Tags
+from website.models import Users, Games
 
 
 blueprint = Blueprint("website", __name__)
@@ -35,12 +35,14 @@ def g(game_id):
     if not game:
         abort(404)
 
-    # TODO: Add images, authors, and tags to the game page
-    # images = Images.query.filter_by(game_id=game_id).all()
-    # authors = Authors.query.filter_id(game_id=game_id).all()
-    # tags = Tags.query.filter_by(game_id=game_id).all()
-
     return render_template("game.html", game=game)
+
+
+@blueprint.route("/editor")
+@login_required
+def editor():
+    game = Users.query.filter_by(id=current_user.id).first().game
+    return render_template("editor.html", game=game)
 
 
 @blueprint.route("/login", methods=["GET", "POST"])
