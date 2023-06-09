@@ -17,9 +17,6 @@ class Scores(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    anonymous = db.Column(db.Boolean, nullable=False, default=False)
-    username = db.Column(db.String(32), nullable=True)
-
     score = db.Column(db.Float, nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
     scored_at = db.Column(
@@ -28,7 +25,7 @@ class Scores(db.Model):
         server_default=db.func.now(),
     )
 
-    scorer = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    scorer = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 
 class Users(db.Model, UserMixin):

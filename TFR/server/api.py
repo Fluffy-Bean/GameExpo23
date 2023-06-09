@@ -5,7 +5,6 @@ from flask_login import login_required, current_user
 
 from server.models import Tokens, Scores
 from server.extensions import db
-from server.config import BEARER_TOKEN
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -40,20 +39,30 @@ def tokens():
         return jsonify({"success": "Token added!"}), 200
 
 
-@blueprint.route("/post", methods=["POST"])
+@blueprint.route("/post", methods=["GET", "POST"])
 def post():
+    if request.method == "GET":
+        return """
+        <form method="POST">
+            <input name="score">
+            <input name="difficulty">
+            <input name="token">
+            <button type="submit">Sub</button>
+        </form>
+        """
+
     form = request.form
 
     if not form:
         return "Invalid form", 400
-    if not request.headers.get("Authentication"):
+    if not form["token"]:
         return "Invalid authentication", 401
 
-    if not isinstance(form["score"], int):
-        return "Score must be an integer", 400
+    # if not isinstance(form["score"], int):
+    #     return "Score must be an integer", 400
     if int(form["score"]) < 0:
         return "Score must be greater than 0", 400
-    if form["difficulty"] not in [0, 1, 2, 3, 4]:
+    if int(form["difficulty"]) not in [0, 1, 2, 3, 4]:
         # 0 = Easy, Level 1
         # 1 = Easy, Level 2
         # 2 = Easy, Level 3
@@ -61,38 +70,17 @@ def post():
         # 4 = Hard
         return "Invalid difficulty", 400
 
-    if token_data := Tokens.query.filter_by(
-        token=request.headers.get("Authentication")
-    ).first():
-        # User is authenticated
-        # This is a registered user
-
+    if token := Tokens.query.filter_by(token=form["token"]).first():
+        # Yupeee, authenticated
         score = Scores(
-            score=form["score"],
-            difficulty=form["difficulty"],
-            achievements=form["achievements"],
-            user_id=token_data.holder,
-        )
-        db.session.add(score)
-        db.session.commit()
-
-        return "Success!", 200
-    elif request.headers.get("Authentication") == BEARER_TOKEN:
-        # User is not authenticated, but has the correct token
-        # This is an anonymous user
-
-        if not form["playerName"] or len(form["playerId"]) != 4:
-            return "Invalid player name", 400
-
-        score = Scores(
-            anonymous=True,
-            username=form["playerName"],
-            score=form["score"],
-            difficulty=form["difficulty"],
+            score=int(form["score"]),
+            difficulty=int(form["difficulty"]),
+            scorer=token.holder,
         )
         db.session.add(score)
         db.session.commit()
 
         return "Success!", 200
 
+    # L no authentication :3
     return "Authentication failed", 401

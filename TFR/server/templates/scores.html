@@ -20,14 +20,10 @@
                 <th>Difficulty</th>
                 <th>Score</th>
             </tr>
-            {% for score in top_scores %}
+            {% for score in scores %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    {% if score.anonymous %}
-                        <td>{{ score.username }}</td>
-                    {% else %}
-                        <td>{{ score.scorer.username }}</td>
-                    {% endif %}
+                    <td>{{ score.scorer.username }}</td>
                     <td>{{ score.difficulty }}</td>
                     <td>{{ score.score }}</td>
                 </tr>

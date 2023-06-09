@@ -10,13 +10,13 @@ blueprint = Blueprint("views", __name__)
 def index():
     difficulty = request.args.get("diff", 0)
 
-    top_scores = (
-        Scores.query.order_by(Scores.score.desc())
-        .filter_by(difficulty=difficulty)
+    scores = (
+        Scores.query.filter_by(difficulty=difficulty)
+        .order_by(Scores.score.desc())
         .limit(10)
         .all()
     )
-    return render_template("scores.html", top_scores=top_scores)
+    return render_template("scores.html", scores=scores)
 
 
 @blueprint.route("/about")
