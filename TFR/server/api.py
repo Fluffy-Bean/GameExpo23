@@ -3,9 +3,9 @@ import shortuuid
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
-from server.models import Tokens, Scores
+from server.models import Tokens, Scores, Users
 from server.extensions import db
-from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS
+from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS, MAX_SEARCH_RESULTS
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -83,3 +83,15 @@ def post():
     db.session.commit()
 
     return "Success!", 200
+
+
+@blueprint.route("/users", methods=["GET"])
+def users():
+    search = request.args.get("search")
+
+    if not search:
+        return "No search query provided!", 400
+
+    search_results = Users.query.filter(Users.username.contains(search)).limit(MAX_SEARCH_RESULTS).all()
+
+    return jsonify([result.username for result in search_results]), 200

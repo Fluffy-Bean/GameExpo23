@@ -1,5 +1,5 @@
 .button
-	margin: auto 0.15rem
+	margin: auto 0
 	padding: 0.5rem 0.7rem
 
 	display: flex
@@ -40,7 +40,7 @@
 		display: block
 
 .search
-	margin: auto 0.15rem
+	margin: auto 0
 	width: 100%
 
 	position: relative
@@ -75,8 +75,13 @@
 		border-left: 1px solid RGBA($white, 0.1)
 		border-radius: 0 2px 2px 0
 
-		transition: background-color 0.1s ease-in-out
+		&:hover
+			background-color: RGBA($white, 0.1)
+			border-left: 1px solid transparent
 
 		&:focus-visible, &:focus
 			background-color: RGBA($white, 0.1)
+
 			outline: 0 solid transparent
+			border-left: 1px solid transparent
+			border-radius: 0 2px 0 0

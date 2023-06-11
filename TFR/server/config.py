@@ -1,5 +1,17 @@
 import os
 
+
+GAME_VERSION = "alpha"
+GAME_VERSIONS = ["alpha"]
+GAME_DIFFICULTIES = [0, 1, 2, 3, 4]
+
+USER_MAX_TOKENS = 3
+
+MAX_TOP_SCORES = 15
+MAX_SEARCH_RESULTS = 5
+
+"""
+# Postgres
 SECRET_KEY = os.getenv("FLASK_KEY")
 
 user = os.getenv("DB_USER")
@@ -13,9 +25,8 @@ SQLALCHEMY_POOL_RECYCLE = 621
 
 MIGRATION_DIR = "/data/storage/migrations"
 INSTANCE_DIR = "/data/storage/instance"
+"""
 
-GAME_VERSION = "alpha"
-GAME_VERSIONS = ["alpha"]
-GAME_DIFFICULTIES = [0, 1, 2, 3, 4]
-
-USER_MAX_TOKENS = 3
+# SQLite
+SECRET_KEY = "dev"
+SQLALCHEMY_DATABASE_URI = "sqlite:///tfr.db"

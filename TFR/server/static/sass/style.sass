@@ -7,7 +7,7 @@ $silver: var(--silver)
 $bronze: var(--bronze)
 
 \:root
-	--black: 21, 21, 21
+	--black: 31, 27, 21
 	--white: 232, 227, 227
 	--primary: 210, 206, 97
 	--secondary: 185, 77, 77
@@ -17,6 +17,7 @@ $bronze: var(--bronze)
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap')
 @import "button"
+@import "hint"
 
 *
 	box-sizing: border-box
@@ -60,12 +61,65 @@ body
 	backdrop-filter: blur(5px)
 	z-index: 2
 
+.table
+	width: 100%
+	height: auto
+	background-color: rgba($black, 0.7)
+	border-radius: 2px
+	overflow: hidden
+
 	> table
 		width: 100%
+		border-collapse: collapse
+
+		> tbody
+			> tr
+				height: 2.75rem
+				vertical-align: middle
+
+				> th
+					padding: 0.5rem
+					background-image: linear-gradient(to bottom, RGBA($white, 0.05), transparent)
+					text-align: left
+					font-weight: bolder
+
+				> td
+					padding: 0.5rem
+					text-align: left
+
+					&.player
+						color: RGB($secondary)
+						text-shadow: 0 0 5px RGBA($secondary, 0.7)
+
+					i
+						padding: 0.25rem
+						color: RGB($black)
+						border-radius: 2px
+
+						&.first
+							background-color: RGBA($gold, 0.6)
+
+						&.second
+							background-color: RGBA($silver, 0.6)
+
+						&.third
+							background-color: RGBA($bronze, 0.6)
+
+				&:nth-child(odd) > td
+					background-color: RGBA($white, 0.01)
 
 header
-	padding: 1rem
+	padding: 1rem 1rem 0
+	display: flex
+	flex-direction: column
+	gap: 0.4rem
 	background-image: linear-gradient(to bottom, RGB(var(--black)), transparent)
+
+	> hr
+		margin: 0
+		width: 100%
+		border: none
+		border-bottom: 1px solid RGBA($white, 0.1)
 
 .title
 	margin-bottom: 1rem
@@ -75,19 +129,13 @@ header
         height: auto
         max-width: 100%
 
-nav
-	margin-top: 0.3rem
+nav, nav > form
 	padding: 0
-
+	width: 100%
 	display: flex
 	flex-direction: row
 	justify-content: center
-
-	> form
-		width: 100%
-		display: flex
-		flex-direction: row
-		justify-content: center
+	gap: 0.4rem
 
 	.spacer
 		width: 100%

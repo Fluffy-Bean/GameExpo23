@@ -161,3 +161,4 @@ cython_debug/
 # remove development files
 /storage
 /logs
+/server/static/gen/
