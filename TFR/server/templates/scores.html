@@ -32,11 +32,11 @@
         <div class="table">
             <table>
                 <tr>
-                    <th>Position</th>
-                    <th>Player</th>
-                    <th>Time</th>
-                    <th>Scored at</th>
-                    <th>Version</th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Time Set</th>
+                    <th>Submitted</th>
+                    <!-- <th>Game</th> -->
                 </tr>
                 {% for score in scores %}
                     <tr>
@@ -57,8 +57,8 @@
                         {% endif %}
 
                         <td>{{ score.score }}</td>
-                        <td>{{ score.scored_at }}</td>
-                        <td>{{ score.version }}</td>
+                        <td>{{ score.scored_at.strftime('%Y-%m-%d') }}</td>
+                        <!-- <td>{{ score.version }}</td> -->
                     </tr>
                 {% endfor %}
             </table>

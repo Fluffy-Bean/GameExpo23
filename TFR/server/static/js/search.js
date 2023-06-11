@@ -56,6 +56,7 @@ function getSearch() {
                 event.preventDefault();
                 search = document.querySelector('.search > input');
                 search.value = user.toString();
+                search.blur();
             }
             hint.appendChild(el);
         });
