@@ -7,42 +7,39 @@
     <title>Front Rooms Highscores</title>
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    {% assets "scripts" %}
-        <script src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-
-    {% assets "styles" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">
-    {% endassets %}
+    {% assets "scripts" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+    {% assets "styles" %}<link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">{% endassets %}
 </head>
 <body>
-    <img src="{{ url_for('static', filename='bg.png') }}" alt="The Front Rooms pause menu" class="background">
+    <picture class="background">
+        <source srcset="{{ url_for('static', filename='background.webp') }}">
+        <img src="{{ url_for('static', filename='background.png') }}" alt="The Front Rooms Level select render">
+    </picture>
     <div class="app">
         <!-- Get flashed lol -->
         <div class="flash">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <p class="{{ category }}" onclick="this.remove()">
-                        <span><i class="ph-bold ph-x"></i></span>
-                        {{ message }}
-                    </p>
+                    <p class="{{ category }}" onclick="this.remove()"><span><i class="ph-bold ph-x"></i></span>{{ message }}</p>
                 {% endfor %}
             {% endif %}
         {% endwith %}
         </div>
 
         <header>
-            <img src="{{ url_for('static', filename='title.png') }}" alt="The Front Rooms logo" class="title" height="82px">
+            <picture class="title">
+                <source srcset="{{ url_for('static', filename='title.webp') }}">
+                <img src="{{ url_for('static', filename='title.png') }}" alt="The Front Rooms logo">
+            </picture>
             <nav>
                 <a href="{{ url_for('views.index') }}" class="button">Scores</a>
-                <a href="{{ url_for('views.about') }}" class="button"><i class="ph ph-info"></i></a>
+                <a href="{{ url_for('views.about') }}" class="button">About</a>
+                <a href="{{ url_for('views.about') }}" class="button">Updates</a>
+
+                <span class="spacer"></span>
+
                 <a href="#" class="button"><i class="ph ph-download-simple"></i></a>
-
-                <!-- This is a spacer -->
-                <span></span>
-
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('auth.account') }}" class="button primary">{{ current_user.username }}</a>
                 {% else %}

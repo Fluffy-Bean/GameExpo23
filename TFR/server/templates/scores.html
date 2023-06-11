@@ -1,14 +1,29 @@
 {% extends "base.html" %}
 {% block nav %}
 <nav>
-    <a href="{{ url_for('views.index', diff=0) }}" class="button">Level 1</a>
-    <a href="{{ url_for('views.index', diff=1) }}" class="button">Level 2</a>
-    <a href="{{ url_for('views.index', diff=2) }}" class="button">Level 3</a>
-    <a href="{{ url_for('views.index', diff=3) }}" class="button">Normal</a>
-    <a href="{{ url_for('views.index', diff=4) }}" class="button">Hard</a>
+    <form method="GET" action="{{ url_for('views.index') }}">
+        <select name="diff" class="button">
+            <option value="0" {% if diff==0 %}selected{% endif %}>Level 1</option>
+            <option value="1" {% if diff==1 %}selected{% endif %}>Level 2</option>
+            <option value="2" {% if diff==2 %}selected{% endif %}>Level 3</option>
+            <option value="3" {% if diff==3 %}selected{% endif %}>Normal</option>
+            <option value="4" {% if diff==4 %}selected{% endif %}>Hard</option>
+        </select>
 
-    <!-- This is a spacer -->
-    <span></span>
+        <select name="ver" class="button">
+            <option value="alpha" {% if ver=="alpha" %}selected{% endif %}>Alpha</option>
+            <option value="beta" {% if ver=="beta" %}selected{% endif %}>Beta</option>
+            <option value="1.0" {% if ver=="1.0" %}selected{% endif %}>1.0</option>
+            <option value="1.1" {% if ver=="1.1" %}selected{% endif %}>1.1</option>
+        </select>
+
+        <span class="search">
+            <label for="user">Username</label>
+            <input type="text" name="user" {% if user %}value="{{ user }}"{% endif %}/>
+        </span>
+
+        <button class="button"><i class="ph ph-binoculars"></i></button>
+    </form>
 </nav>
 {% endblock %}
 {% block content %}
@@ -23,7 +38,7 @@
             {% for score in scores %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ score.scorer.username }}</td>
+                    <td>{{ score.user_id. }}</td>
                     <td>{{ score.difficulty }}</td>
                     <td>{{ score.score }}</td>
                 </tr>
@@ -31,8 +46,8 @@
         </table>
     {% else %}
         <div class="center-text">
-            <h2>No scores yet</h2>
-            <p>Set some!</p>
+            <h2>No scores</h2>
+            <p>Set go some!</p>
         </div>
     {% endif %}
 {% endblock %}

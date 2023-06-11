@@ -1,10 +1,11 @@
-import uuid
+import shortuuid
 
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
 from server.models import Tokens, Scores
 from server.extensions import db
+from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -21,7 +22,7 @@ def tokens():
         token = Tokens.query.filter_by(id=token_id).first()
         if not token:
             return jsonify({"error": "Token not found!"}), 404
-        if token.holder != current_user.id:
+        if token.user_id != current_user.id:
             return jsonify({"error": "You do not own this token!"}), 403
 
         db.session.delete(token)
@@ -29,58 +30,56 @@ def tokens():
 
         return jsonify({"success": "Token deleted!"}), 200
     elif request.method == "POST":
-        if len(Tokens.query.filter_by(holder=current_user.id).all()) >= 5:
-            return jsonify({"error": "You already have 5 tokens!"}), 403
+        if len(Tokens.query.filter_by(user_id=current_user.id).all()) >= USER_MAX_TOKENS:
+            return jsonify({"error": f"You already have {USER_MAX_TOKENS} tokens!"}), 403
 
-        token = Tokens(token=str(uuid.uuid4()), holder=current_user.id)
+        new_string = str(shortuuid.ShortUUID().random(length=20))
+        token = Tokens(token=new_string, user_id=current_user.id)
         db.session.add(token)
         db.session.commit()
 
         return jsonify({"success": "Token added!"}), 200
 
 
-@blueprint.route("/post", methods=["GET", "POST"])
+@blueprint.route("/post", methods=["POST"])
 def post():
-    if request.method == "GET":
-        return """
-        <form method="POST">
-            <input name="score">
-            <input name="difficulty">
-            <input name="token">
-            <button type="submit">Sub</button>
-        </form>
-        """
-
     form = request.form
+    errors = []
 
     if not form:
-        return "Invalid form", 400
+        errors += "No form data provided!"
     if not form["token"]:
-        return "Invalid authentication", 401
+        errors += "No token provided!"
+    if not form["version"]:
+        errors += "No version provided!"
 
-    # if not isinstance(form["score"], int):
-    #     return "Score must be an integer", 400
-    if int(form["score"]) < 0:
-        return "Score must be greater than 0", 400
-    if int(form["difficulty"]) not in [0, 1, 2, 3, 4]:
-        # 0 = Easy, Level 1
-        # 1 = Easy, Level 2
-        # 2 = Easy, Level 3
-        # 3 = Normal
-        # 4 = Hard
-        return "Invalid difficulty", 400
+    if errors:
+        return jsonify(errors), 400
 
-    if token := Tokens.query.filter_by(token=form["token"]).first():
-        # Yupeee, authenticated
-        score = Scores(
-            score=int(form["score"]),
-            difficulty=int(form["difficulty"]),
-            scorer=token.holder,
-        )
-        db.session.add(score)
-        db.session.commit()
+    try:
+        int(form["score"])
+        int(form["difficulty"])
+    except TypeError:
+        errors += "Invalid score and difficulty must be valid numbers!"
 
-        return "Success!", 200
+    if int(form["difficulty"]) not in GAME_DIFFICULTIES:
+        errors += "Invalid difficulty!"
 
-    # L no authentication :3
-    return "Authentication failed", 401
+    token_data = Tokens.query.filter_by(token=form["token"]).first()
+    if not token_data:
+        errors += "Authentication failed!"
+
+    if errors:
+        return jsonify(errors), 400
+
+    score = Scores(
+        score=int(form["score"]),
+        difficulty=int(form["difficulty"]),
+        version=form["version"],
+        user_id=token_data.user_id,
+    )
+
+    db.session.add(score)
+    db.session.commit()
+
+    return "Success!", 200
