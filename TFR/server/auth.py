@@ -31,7 +31,7 @@ def account():
     if action == "password":
         flash("Insert password change function", "error")
 
-    token_list = Tokens.query.filter_by(holder=current_user.id).all()
+    token_list = Tokens.query.filter_by(user_id=current_user.id).all()
     return render_template("account.html", token_list=token_list)
 
 

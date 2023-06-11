@@ -1,9 +1,9 @@
-{$DOMAIN_HIGHSCORE} {
-    reverse_proxy highscore:8000
+{$THE_FRONT_ROOMS_DOMAIN} {
+    reverse_proxy tfr:8000
     encode gzip
 }
 
-{$DOMAIN_EXPO} {
+{$GAME_EXPO_DOMAIN} {
     reverse_proxy expo:5000
     encode gzip
 }

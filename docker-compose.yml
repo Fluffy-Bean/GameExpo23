@@ -12,45 +12,44 @@ services:
       - ./Caddy/data:/data
       - ./Caddy/config:/config
     environment:
-      DOMAIN_HIGHSCORE: tfr.leggy.dev
-      DOMAIN_EXPO: expo.leggy.dev      
+      THE_FRONT_ROOMS_DOMAIN: ${THE_FRONT_ROOMS_DOMAIN}
+      GAME_EXPO_DOMAIN: ${GAME_EXPO_DOMAIN}
     links:
-      - highscore
+      - tfr
       - expo
 
   db:
     image: postgres:alpine
     restart: unless-stopped
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     volumes:
       - ./Postgres/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: pguser
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     links:
-      - highscore
+      - tfr
 
-  highscore:
-    build: ./Highscore-Server
+  tfr:
+    build: TFR
     restart: unless-stopped
     volumes:
-      - ./Highscore-Server/storage:/data/storage
-      - ./Highscore-Server/logs:/data/logs
+      - ./TFR/storage:/data/storage
+      - ./TFR/logs:/data/logs
     environment:
-      FLASK_KEY: secret
-      BEARER_TOKEN: 1234
-      DB_USER: pguser
-      DB_PASSWORD: secret
+      FLASK_KEY: ${THE_FRONT_ROOMS_SECRETE_KEY}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_HOST: db
-      DB_NAME: database
+      DB_NAME: ${POSTGRES_DB}
 
   expo:
-    build: ./DV8-Expo
+    build: GameExpo
     restart: unless-stopped
     volumes:
-      - ./DV8-Expo/storage:/data/storage
-      - ./DV8-Expo/logs:/data/logs
+      - ./GameExpo/storage:/data/storage
+      - ./GameExpo/logs:/data/logs
     environment:
-      FLASK_KEY: secret
+      FLASK_KEY: ${GAME_EXPO_SECRETE_KEY}

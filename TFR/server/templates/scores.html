@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block nav %}
+    <hr>
+    <nav>
+        <form method="GET" action="{{ url_for('views.index') }}">
+            <select name="diff" class="button">
+                <option value="0" {% if diff==0 %}selected{% endif %}>Level 1</option>
+                <option value="1" {% if diff==1 %}selected{% endif %}>Level 2</option>
+                <option value="2" {% if diff==2 %}selected{% endif %}>Level 3</option>
+                <option value="3" {% if diff==3 %}selected{% endif %}>Normal</option>
+                <option value="4" {% if diff==4 %}selected{% endif %}>Hard</option>
+            </select>
+
+            <select name="ver" class="button">
+                <option value="alpha" {% if ver=="alpha" %}selected{% endif %}>Alpha</option>
+                <option value="beta" {% if ver=="beta" %}selected{% endif %}>Beta</option>
+                <option value="1.0" {% if ver=="1.0" %}selected{% endif %}>1.0</option>
+                <option value="1.1" {% if ver=="1.1" %}selected{% endif %}>1.1</option>
+            </select>
+
+            <span class="search">
+                <label for="user">Username</label>
+                <input type="text" name="user" {% if user %}value="{{ user }}"{% endif %} autocomplete="off"/>
+            </span>
+
+            <button class="button"><i class="ph ph-magnifying-glass"></i></button>
+        </form>
+    </nav>
+{% endblock %}
+{% block content %}
+    {% if scores %}
+        <div class="table">
+            <table>
+                <tr>
+                    <th>Position</th>
+                    <th>Player</th>
+                    <th>Time</th>
+                    <th>Scored at</th>
+                    <th>Version</th>
+                </tr>
+                {% for score in scores %}
+                    <tr>
+                        {% if loop.index == 1 %}
+                            <td><i class="first ph-fill ph-crown"></i></td>
+                        {% elif loop.index == 2 %}
+                            <td><i class="second ph-duotone ph-crown"></i></td>
+                        {% elif loop.index == 3 %}
+                            <td><i class="third ph ph-crown"></i></td>
+                        {% else %}
+                            <td>{{ loop.index }}</td>
+                        {% endif %}
+
+                        {% if score.users.id == current_user.id %}
+                            <td class="player">{{ score.users.username }}</td>
+                        {% else %}
+                            <td>{{ score.users.username }}</td>
+                        {% endif %}
+
+                        <td>{{ score.score }}</td>
+                        <td>{{ score.scored_at }}</td>
+                        <td>{{ score.version }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <div class="center-text">
+            <h2>No scores</h2>
+            <p>Go set some!</p>
+        </div>
+    {% endif %}
+{% endblock %}

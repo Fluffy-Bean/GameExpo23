@@ -1,0 +1,51 @@
+.search-hint
+	position: absolute
+
+	display: none
+	flex-direction: column
+
+	text-decoration: none
+	white-space: nowrap
+	font-size: 0.9em
+
+	background-color: RGBA($white, 0.1)
+	backdrop-filter: blur(10px)
+
+	border-top: 1px solid RGBA($white, 0.1)
+	border-radius: 0 0 2px 2px
+
+	overflow: hidden
+	z-index: 999
+
+	> p
+		margin: 0
+		padding: 0.5rem 0.75rem
+
+		width: 100%
+		white-space: nowrap
+		text-overflow: ellipsis
+
+		color: RGB($white)
+
+		overflow: hidden
+
+	> button
+		padding: 0.5rem 0.75rem
+
+		width: 100%
+		white-space: nowrap
+		text-overflow: ellipsis
+
+		font-size: 0.9rem
+		text-align: left
+
+		background-color: transparent
+		color: RGB($white)
+		border: 0 solid transparent
+
+		overflow: hidden
+
+		&:hover
+			background-color: RGBA($white, 0.1)
+			color: RGB($primary)
+			border: 0 solid transparent

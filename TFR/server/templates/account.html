@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block nav %}
-<nav>
-    <a href="{{ url_for('auth.account', action='logout') }}" class="button">Your Profile</a>
-    <!-- This is a spacer -->
-    <span></span>
-    <a href="{{ url_for('auth.account', action='logout') }}" class="button secondary">Logout</a>
-</nav>
+    <hr>
+    <nav>
+        <a href="{{ url_for('auth.account', action='logout') }}" class="button">Your Profile</a>
+        <span class="spacer"></span>
+        <a href="{{ url_for('auth.account', action='logout') }}" class="button secondary">Logout</a>
+    </nav>
 {% endblock %}
 {% block content %}
     <div class="block">

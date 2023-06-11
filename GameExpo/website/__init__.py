@@ -6,11 +6,11 @@ from website.config import INSTANCE_DIR, MIGRATION_DIR
 from website import routes
 
 
-app = Flask(__name__)  # instance_path=INSTANCE_DIR
+app = Flask(__name__, instance_path=INSTANCE_DIR)
 app.config.from_pyfile("config.py")
 
 db.init_app(app)
-migrate.init_app(app, db)  # directory=MIGRATION_DIR
+migrate.init_app(app, db, directory=MIGRATION_DIR)
 with app.app_context():
     db.create_all()
 

@@ -1,5 +1,6 @@
 Gunicorn
 psycopg2-binary
+shortuuid
 Flask
 Flask-SQLAlchemy
 Flask-Migrate
