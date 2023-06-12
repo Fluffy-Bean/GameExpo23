@@ -50,6 +50,7 @@ def load_user(user_id):
 def error_page(err):
     if not isinstance(err, HTTPException):
         abort(500)
+
     return (
         render_template(
             "error.html", error=err.code, msg=err.description, image=str(randint(1, 3))

@@ -14,6 +14,7 @@ class Scores(db.Model):
     then the username must be provided. Otherwise, it's grabbed from the user
     table
     """
+
     id = db.Column(db.Integer, primary_key=True)
 
     score = db.Column(db.Float, nullable=False)
@@ -37,6 +38,7 @@ class Sessions(db.Model):
     """
     Sessions table
     """
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
     auth_key = db.Column(db.String, nullable=False, unique=True)
@@ -58,6 +60,7 @@ class Users(db.Model, UserMixin):
     """
     User table
     """
+
     id = db.Column(db.Integer, primary_key=True)
     alt_id = db.Column(db.String, nullable=False, unique=True)
 
@@ -69,9 +72,8 @@ class Users(db.Model, UserMixin):
         server_default=db.func.now(),
     )
 
-
-    scores = db.relationship("Scores", backref=db.backref('users', lazy=True))
-    tokens = db.relationship("Sessions", backref=db.backref('users', lazy=True))
+    scores = db.relationship("Scores", backref=db.backref("users", lazy=True))
+    tokens = db.relationship("Sessions", backref=db.backref("users", lazy=True))
 
     def get_id(self):
         return str(self.alt_id)

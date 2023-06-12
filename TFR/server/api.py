@@ -7,7 +7,14 @@ from werkzeug.security import check_password_hash
 
 from server.models import Scores, Sessions, Users
 from server.extensions import db
-from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS, MAX_SEARCH_RESULTS, USER_REGEX
+from server.config import (
+    GAME_VERSION,
+    GAME_VERSIONS,
+    GAME_DIFFICULTIES,
+    USER_MAX_TOKENS,
+    MAX_SEARCH_RESULTS,
+    USER_REGEX,
+)
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -85,7 +92,11 @@ def search():
     if not search_arg:
         return "No search query provided!", 400
 
-    users = Users.query.filter(Users.username.icontains(search_arg)).limit(MAX_SEARCH_RESULTS).all()
+    users = (
+        Users.query.filter(Users.username.icontains(search_arg))
+        .limit(MAX_SEARCH_RESULTS)
+        .all()
+    )
 
     return jsonify([user.username for user in users])
 
@@ -109,7 +120,7 @@ def login():
         user_id=user.id,
         auth_key=str(shortuuid.ShortUUID().random(length=32)),
         ip_address=request.remote_addr,
-        device_type=device
+        device_type=device,
     )
     db.session.add(session)
     db.session.commit()
@@ -128,4 +139,4 @@ def authenticate():
 
     user_data = Users.query.filter_by(id=session.user_id).first()
 
-    return jsonify({'username':user_data.username})
+    return jsonify({"username": user_data.username})

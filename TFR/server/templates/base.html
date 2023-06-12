@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Front Rooms Highscores</title>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front Rooms Highscores</title>
+    <meta name=description content="The Front Rooms official website">
+    <meta name=author content="Project Redacted">
+    <meta name="favicon" content="{{ url_for('static', filename='images/icon.png') }}">
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     {% assets "scripts" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
@@ -16,8 +20,8 @@
     </div>
 
     <picture class="background">
-        <source srcset="{{ url_for('static', filename='background.webp') }}">
-        <img src="{{ url_for('static', filename='background.png') }}" alt="The Front Rooms Level select render">
+        <source srcset="{{ url_for('static', filename='images/background.webp') }}">
+        <img src="{{ url_for('static', filename='images/background.png') }}" alt="The Front Rooms Level select render">
     </picture>
 
     <div class="app">
@@ -34,8 +38,8 @@
 
         <header>
             <picture class="title">
-                <source srcset="{{ url_for('static', filename='title.webp') }}">
-                <img src="{{ url_for('static', filename='title.png') }}" alt="The Front Rooms logo">
+                <source srcset="{{ url_for('static', filename='images/title.webp') }}">
+                <img src="{{ url_for('static', filename='images/title.png') }}" alt="The Front Rooms logo">
             </picture>
 
             <nav>
