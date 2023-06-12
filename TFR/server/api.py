@@ -1,7 +1,9 @@
+import re
 import shortuuid
 
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
+from werkzeug.security import check_password_hash
 
 from server.models import Scores, Sessions, Users
 from server.extensions import db
@@ -95,23 +97,18 @@ def login():
     device = request.form["device"].strip()
     username_regex = re.compile(USER_REGEX)
 
-    error = []
-
     if not username or not username_regex.match(username) or not password:
-        error.append("Username or Password is incorrect!")
+        return "Username or Password is incorrect!", 400
 
     user = Users.query.filter_by(username=username).first()
 
     if not user or not check_password_hash(user.password, password):
-        error.append("Username or Password is incorrect!")
-
-    if error:
-        return jsonify(error), 400
+        return "Username or Password is incorrect!", 400
 
     session = Sessions(
         user_id=user.id,
         auth_key=str(shortuuid.ShortUUID().random(length=32)),
-        id_address=request.remote_addr,
+        ip_address=request.remote_addr,
         device_type=device
     )
     db.session.add(session)
