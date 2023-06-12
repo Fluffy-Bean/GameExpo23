@@ -18,24 +18,6 @@ def auth():
     return render_template("auth.html")
 
 
-@blueprint.route("/account", methods=["GET"])
-@login_required
-def account():
-    action = request.args.get("action", None)
-
-    if action == "logout":
-        logout_user()
-        flash("Successfully logged out!", "success")
-        return redirect(url_for("views.index"))
-    if action == "delete":
-        flash("Insert delete function", "error")
-    if action == "password":
-        flash("Insert password change function", "error")
-
-    sessions = Sessions.query.filter_by(user_id=current_user.id).all()
-    return render_template("account.html", sessions=sessions)
-
-
 @blueprint.route("/register", methods=["POST"])
 def register():
     # Get the form data

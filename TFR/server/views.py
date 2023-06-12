@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, abort
-from server.models import Scores, Users
+from flask_login import login_required, current_user, logout_user
+from server.models import Scores, Users, Sessions
 from server.config import GAME_VERSION, MAX_TOP_SCORES
 
 
@@ -33,3 +34,21 @@ def index():
 @blueprint.route("/about")
 def about():
     return render_template("about.html")
+
+
+@blueprint.route("/settings", methods=["GET"])
+@login_required
+def settings():
+    action = request.args.get("action", None)
+
+    if action == "logout":
+        logout_user()
+        flash("Successfully logged out!", "success")
+        return redirect(url_for("views.index"))
+    if action == "delete":
+        flash("Insert delete function", "error")
+    if action == "password":
+        flash("Insert password change function", "error")
+
+    sessions = Sessions.query.filter_by(user_id=current_user.id).all()
+    return render_template("settings.html", sessions=sessions)

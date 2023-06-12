@@ -50,7 +50,7 @@
                 <span class="spacer"></span>
 
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('auth.account') }}" class="button primary">{{ current_user.username }}</a>
+                    <a href="{{ url_for('views.settings') }}" class="button primary">{{ current_user.username }}</a>
                 {% else %}
                     <a href="{{ url_for('auth.auth') }}" class="button primary"><i class="ph ph-user-circle"></i></a>
                 {% endif %}
