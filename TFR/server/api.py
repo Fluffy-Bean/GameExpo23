@@ -85,13 +85,33 @@ def post():
     return "Success!", 200
 
 
-@blueprint.route("/users", methods=["GET"])
-def users():
-    search = request.args.get("search")
+@blueprint.route("/search", methods=["GET"])
+def search():
+    search_arg = request.args.get("q")
 
-    if not search:
+    if not search_arg:
         return "No search query provided!", 400
 
-    search_results = Users.query.filter(Users.username.contains(search)).limit(MAX_SEARCH_RESULTS).all()
+    users = Users.query.filter(Users.username.contains(search)).limit(MAX_SEARCH_RESULTS).all()
 
-    return jsonify([result.username for result in search_results]), 200
+    return jsonify([user.username for user in users]), 200
+
+
+# @blueprint.route("/login", methods=["POST"])
+# def login():
+#     username = request.form["username"]
+#     password = request.form["password"]
+#     errors = []
+#
+#     if not username:
+#         errors += "Empty Username"
+#     if not password:
+#         errors += "Empty Password"
+#
+#     if errors:
+#         return jsonify(errors), 400
+#
+#     user = Users.query.filter(username=username).first()
+#     if not user:
+#         errors += "No user found"
+#

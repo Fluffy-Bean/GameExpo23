@@ -37,7 +37,7 @@ function getSearch() {
         return;
     }
 
-    fetch('/api/users?search=' + search.toString(), {
+    fetch('/api/search?q=' + search.toString(), {
         method: 'GET',
     })
     .then(response => response.json())
