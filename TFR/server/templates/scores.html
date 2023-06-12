@@ -2,7 +2,7 @@
 {% block nav %}
     <hr>
     <nav>
-        <form method="GET" action="{{ url_for('views.index') }}">
+        <form method="GET" action="{{ url_for('views.index') }}" class="compact">
             <select name="diff" class="button">
                 <option value="0" {% if diff==0 %}selected{% endif %}>Level 1</option>
                 <option value="1" {% if diff==1 %}selected{% endif %}>Level 2</option>
