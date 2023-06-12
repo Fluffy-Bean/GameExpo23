@@ -33,14 +33,21 @@ class Scores(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
 
 
-class Tokens(db.Model):
+class Sessions(db.Model):
     """
-    Token table
+    Sessions table
     """
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
-    token = db.Column(db.String, nullable=False, unique=True)
+    auth_key = db.Column(db.String, nullable=False, unique=True)
+    ip_address = db.Column(db.String)
+    device_type = db.Column(db.String)
     created_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        server_default=db.func.now(),
+    )
+    last_used = db.Column(
         db.DateTime,
         nullable=False,
         server_default=db.func.now(),
@@ -64,7 +71,7 @@ class Users(db.Model, UserMixin):
 
 
     scores = db.relationship("Scores", backref=db.backref('users', lazy=True))
-    tokens = db.relationship("Tokens", backref=db.backref('users', lazy=True))
+    tokens = db.relationship("Sessions", backref=db.backref('users', lazy=True))
 
     def get_id(self):
         return str(self.alt_id)

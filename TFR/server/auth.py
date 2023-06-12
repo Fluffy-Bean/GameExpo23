@@ -6,7 +6,8 @@ from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from server.extensions import db
-from server.models import Users, Tokens
+from server.models import Users, Sessions
+from server.config import USER_REGEX
 
 
 blueprint = Blueprint("auth", __name__)
@@ -31,8 +32,8 @@ def account():
     if action == "password":
         flash("Insert password change function", "error")
 
-    token_list = Tokens.query.filter_by(user_id=current_user.id).all()
-    return render_template("account.html", token_list=token_list)
+    sessions = Sessions.query.filter_by(user_id=current_user.id).all()
+    return render_template("account.html", sessions=sessions)
 
 
 @blueprint.route("/register", methods=["POST"])
@@ -40,7 +41,7 @@ def register():
     # Get the form data
     username = request.form["username"].strip()
     password = request.form["password"].strip()
-    username_regex = re.compile(r"\b[A-Za-z0-9._-]+\b")
+    username_regex = re.compile(USER_REGEX)
 
     error = []
 
@@ -79,7 +80,7 @@ def login():
     # Get the form data
     username = request.form["username"].strip()
     password = request.form["password"].strip()
-    username_regex = re.compile(r"\b[A-Za-z0-9._-]+\b")
+    username_regex = re.compile(USER_REGEX)
 
     error = []
 

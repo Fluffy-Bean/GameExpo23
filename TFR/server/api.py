@@ -3,86 +3,77 @@ import shortuuid
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
-from server.models import Tokens, Scores, Users
+from server.models import Scores, Sessions, Users
 from server.extensions import db
-from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS, MAX_SEARCH_RESULTS
+from server.config import GAME_VERSION, GAME_VERSIONS, GAME_DIFFICULTIES, USER_MAX_TOKENS, MAX_SEARCH_RESULTS, USER_REGEX
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
 
 
-@blueprint.route("/tokens", methods=["DELETE", "POST"])
+@blueprint.route("/tokens", methods=["POST"])
 @login_required
 def tokens():
-    if request.method == "DELETE":
-        token_id = request.form["token_id"]
-        if not token_id:
-            return jsonify({"error": "No token ID provided!"}), 400
+    session_id = request.form["session_id"]
 
-        token = Tokens.query.filter_by(id=token_id).first()
-        if not token:
-            return jsonify({"error": "Token not found!"}), 404
-        if token.user_id != current_user.id:
-            return jsonify({"error": "You do not own this token!"}), 403
+    if not session_id:
+        return jsonify({"error": "No Session provided!"}), 400
 
-        db.session.delete(token)
-        db.session.commit()
+    session = Sessions.query.filter_by(id=session_id).first()
 
-        return jsonify({"success": "Token deleted!"}), 200
-    elif request.method == "POST":
-        if len(Tokens.query.filter_by(user_id=current_user.id).all()) >= USER_MAX_TOKENS:
-            return jsonify({"error": f"You already have {USER_MAX_TOKENS} tokens!"}), 403
+    if not session:
+        return jsonify({"error": "Session not found!"}), 404
+    if session.user_id != current_user.id:
+        return jsonify({"error": "You do not own this session!"}), 403
 
-        new_string = str(shortuuid.ShortUUID().random(length=20))
-        token = Tokens(token=new_string, user_id=current_user.id)
-        db.session.add(token)
-        db.session.commit()
+    db.session.delete(session)
+    db.session.commit()
 
-        return jsonify({"success": "Token added!"}), 200
+    return jsonify({"success": "Session deleted!"})
 
 
 @blueprint.route("/post", methods=["POST"])
 def post():
     form = request.form
-    errors = []
+    error = []
 
     if not form:
-        errors += "No form data provided!"
-    if not form["token"]:
-        errors += "No token provided!"
+        error.append("No form data provided!")
+    if not form["session"]:
+        error.append("No session key provided!")
     if not form["version"]:
-        errors += "No version provided!"
+        error.append("No version provided!")
 
-    if errors:
-        return jsonify(errors), 400
+    if error:
+        return jsonify(error), 400
 
     try:
         int(form["score"])
         int(form["difficulty"])
     except TypeError:
-        errors += "Invalid score and difficulty must be valid numbers!"
+        error.append("Invalid score and difficulty must be valid numbers!")
 
     if int(form["difficulty"]) not in GAME_DIFFICULTIES:
-        errors += "Invalid difficulty!"
+        error.append("Invalid difficulty!")
 
-    token_data = Tokens.query.filter_by(token=form["token"]).first()
-    if not token_data:
-        errors += "Authentication failed!"
+    session_data = Sessions.query.filter_by(auth_key=form["session"]).first()
+    if not session_data:
+        error.append("Authentication failed!")
 
-    if errors:
-        return jsonify(errors), 400
+    if error:
+        return jsonify(error), 400
 
     score = Scores(
         score=int(form["score"]),
         difficulty=int(form["difficulty"]),
         version=form["version"],
-        user_id=token_data.user_id,
+        user_id=session_data.user_id,
     )
 
     db.session.add(score)
     db.session.commit()
 
-    return "Success!", 200
+    return "Success!"
 
 
 @blueprint.route("/search", methods=["GET"])
@@ -92,26 +83,52 @@ def search():
     if not search_arg:
         return "No search query provided!", 400
 
-    users = Users.query.filter(Users.username.contains(search)).limit(MAX_SEARCH_RESULTS).all()
+    users = Users.query.filter(Users.username.icontains(search_arg)).limit(MAX_SEARCH_RESULTS).all()
 
-    return jsonify([user.username for user in users]), 200
+    return jsonify([user.username for user in users])
 
 
-# @blueprint.route("/login", methods=["POST"])
-# def login():
-#     username = request.form["username"]
-#     password = request.form["password"]
-#     errors = []
-#
-#     if not username:
-#         errors += "Empty Username"
-#     if not password:
-#         errors += "Empty Password"
-#
-#     if errors:
-#         return jsonify(errors), 400
-#
-#     user = Users.query.filter(username=username).first()
-#     if not user:
-#         errors += "No user found"
-#
+@blueprint.route("/login", methods=["POST"])
+def login():
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
+    device = request.form["device"].strip()
+    username_regex = re.compile(USER_REGEX)
+
+    error = []
+
+    if not username or not username_regex.match(username) or not password:
+        error.append("Username or Password is incorrect!")
+
+    user = Users.query.filter_by(username=username).first()
+
+    if not user or not check_password_hash(user.password, password):
+        error.append("Username or Password is incorrect!")
+
+    if error:
+        return jsonify(error), 400
+
+    session = Sessions(
+        user_id=user.id,
+        auth_key=str(shortuuid.ShortUUID().random(length=32)),
+        id_address=request.remote_addr,
+        device_type=device
+    )
+    db.session.add(session)
+    db.session.commit()
+
+    return str(session.auth_key)
+
+
+@blueprint.route("/authenticate", methods=["POST"])
+def authenticate():
+    auth_key = request.form["auth_key"].strip()
+
+    session = Sessions.query.filter_by(auth_key=auth_key).first()
+
+    if not session:
+        return "Invalid session", 400
+
+    user_data = Users.query.filter_by(id=session.user_id).first()
+
+    return jsonify({'username':user_data.username})

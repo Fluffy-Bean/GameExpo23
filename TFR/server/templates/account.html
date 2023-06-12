@@ -9,18 +9,22 @@
 {% endblock %}
 {% block content %}
     <div class="block">
-        <h2>Tokens</h2>
-        <p>These are your API tokens. Used to link the uploaded scores with your account.</p>
-        <table>
-            {% for token in token_list %}
-                <tr id="token-{{ token.id }}">
-                    <td><button onclick="deleteToken({{ token.id }})" class="button secondary"><i class="ph ph-trash"></i></button></td>
-                    <td><button onclick="viewToken({{ token.id }})" class="button primary"><i class="ph ph-eye"></i></button></td>
-                    <td class="hidden">{{ token.token }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-        <button onclick="addToken()" class="button primary">Create New Token</button>
+        <h2>Sessions</h2>
+        <p>Devices and games that you logged into, yeet them if it wasn't you who logged in!</p>
+        {% if sessions %}
+            <table>
+                {% for session in sessions %}
+                    <tr id="sess-{{ session.id }}">
+                        <td><button onclick="yeetSession({{ session.id }})" class="button secondary"><i class="ph ph-trash"></i></button></td>
+                        <td>{{ session.device_type }}</td>
+                        <td>{{ session.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ session.last_used.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No sessions active. If you're looking to logout all website users, reset your password.</p>
+        {% endif %}
     </div>
 
     <div class="block secondary">
