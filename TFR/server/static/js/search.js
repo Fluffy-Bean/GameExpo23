@@ -1,5 +1,5 @@
 function showHint() {
-    let search = document.querySelector('.search > input');
+    let search = document.querySelector('#search');
     let searchPos = search.getBoundingClientRect();
     let hint = document.querySelector('.search-hint');
 
@@ -18,7 +18,7 @@ function hideHint() {
 
 
 function updateHint() {
-    let search = document.querySelector('.search > input');
+    let search = document.querySelector('#search');
     let searchPos = search.getBoundingClientRect();
     let hint = document.querySelector('.search-hint');
 
@@ -29,7 +29,7 @@ function updateHint() {
 
 
 function getSearch() {
-    let search = document.querySelector('.search > input').value;
+    let search = document.querySelector('#search').value;
     let hint = document.querySelector('.search-hint');
 
     if (search.length === 0) {
@@ -54,7 +54,7 @@ function getSearch() {
             el.innerHTML = user;
             el.onmousedown = function (event) {
                 event.preventDefault();
-                search = document.querySelector('.search > input');
+                search = document.querySelector('#search');
                 search.value = user.toString();
                 search.blur();
             }
@@ -69,7 +69,7 @@ function getSearch() {
 
 window.onload = () => {
     let typingTimer;
-    let search = document.querySelector('.search > input');
+    let search = document.querySelector('#search');
 
     if (search === null) {
         return;

@@ -18,9 +18,9 @@
                 <option value="1.1" {% if ver=="1.1" %}selected{% endif %}>1.1</option>
             </select>
 
-            <span class="search">
-                <label for="user">Username</label>
-                <input type="text" name="user" {% if user %}value="{{ user }}"{% endif %} autocomplete="off"/>
+            <span class="text-input">
+                <label for="search">Username</label>
+                <input type="text" name="user" id="search" {% if user %}value="{{ user }}"{% endif %} autocomplete="off"/>
             </span>
 
             <button class="button"><i class="ph ph-magnifying-glass"></i></button>
