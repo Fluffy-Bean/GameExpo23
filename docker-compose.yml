@@ -16,7 +16,7 @@ services:
       GAME_EXPO_DOMAIN: ${GAME_EXPO_DOMAIN}
     links:
       - tfr
-      - expo
+#      - expo
 
   db:
     image: postgres:alpine
@@ -45,11 +45,11 @@ services:
       DB_HOST: db
       DB_NAME: ${POSTGRES_DB}
 
-  expo:
-    build: GameExpo
-    restart: unless-stopped
-    volumes:
-      - ./GameExpo/storage:/data/storage
-      - ./GameExpo/logs:/data/logs
-    environment:
-      FLASK_KEY: ${GAME_EXPO_SECRETE_KEY}
+#  expo:
+#    build: GameExpo
+#    restart: unless-stopped
+#    volumes:
+#      - ./GameExpo/storage:/data/storage
+#      - ./GameExpo/logs:/data/logs
+#    environment:
+#      FLASK_KEY: ${GAME_EXPO_SECRETE_KEY}
