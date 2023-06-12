@@ -6,14 +6,15 @@ from werkzeug.exceptions import HTTPException
 
 from server.extensions import db, migrate, cache, assets, login_manager
 from server.models import Users
+from server.config import MIGRATION_DIR, INSTANCE_DIR
 from server import views, auth, api
 
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path=INSTANCE_DIR)
 app.config.from_pyfile("config.py")
 
 db.init_app(app)
-migrate.init_app(app, db)
+migrate.init_app(app, db, directory=MIGRATION_DIR)
 
 with app.app_context():
     db.create_all()

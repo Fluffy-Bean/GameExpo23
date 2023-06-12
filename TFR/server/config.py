@@ -10,7 +10,6 @@ USER_MAX_TOKENS = 3
 MAX_TOP_SCORES = 15
 MAX_SEARCH_RESULTS = 5
 
-"""
 # Postgres
 SECRET_KEY = os.getenv("FLASK_KEY")
 
@@ -25,8 +24,9 @@ SQLALCHEMY_POOL_RECYCLE = 621
 
 MIGRATION_DIR = "/data/storage/migrations"
 INSTANCE_DIR = "/data/storage/instance"
-"""
 
+"""
 # SQLite
 SECRET_KEY = "dev"
 SQLALCHEMY_DATABASE_URI = "sqlite:///tfr.db"
+"""
