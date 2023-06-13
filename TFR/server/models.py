@@ -56,6 +56,23 @@ class Sessions(db.Model):
     )
 
 
+class Reset(db.Model):
+    """
+    Password reset table
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+    reset_key = db.Column(db.String, nullable=False, unique=True)
+
+    created_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        server_default=db.func.now(),
+    )
+
+
 class Users(db.Model, UserMixin):
     """
     User table
@@ -65,7 +82,9 @@ class Users(db.Model, UserMixin):
     alt_id = db.Column(db.String, nullable=False, unique=True)
 
     username = db.Column(db.String(32), unique=True, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
+
     joined_at = db.Column(
         db.DateTime,
         nullable=False,

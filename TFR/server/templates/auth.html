@@ -20,11 +20,16 @@
 
     <div class="block">
         <h2>Register</h2>
-        <p>Don't have an account? Register here!</p>
+        <p>Don't have an account?</p>
         <form action="{{ url_for('auth.register') }}" method="POST">
             <span class="text-input">
                 <label for="register-username">Username</label>
                 <input type="text" name="username" placeholder="Jerry" id="register-username" required>
+            </span>
+
+            <span class="text-input">
+                <label for="register-email">Username</label>
+                <input type="text" name="email" placeholder="jerry@example.com" id="register-email" required>
             </span>
 
             <span class="text-input">

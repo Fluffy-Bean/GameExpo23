@@ -7,6 +7,7 @@ GAME_DIFFICULTIES = [0, 1, 2, 3, 4]
 
 USER_MAX_TOKENS = 3
 USER_REGEX = r"\b[A-Za-z0-9._-]+\b"
+USER_EMAIL_REGEX = r"[^@]+@[^@]+\.[^@]+"
 
 MAX_TOP_SCORES = 15
 MAX_SEARCH_RESULTS = 5

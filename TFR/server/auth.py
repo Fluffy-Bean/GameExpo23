@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from server.extensions import db
 from server.models import Users, Sessions
-from server.config import USER_REGEX
+from server.config import USER_REGEX, USER_EMAIL_REGEX
 
 
 blueprint = Blueprint("auth", __name__)
@@ -22,16 +22,18 @@ def auth():
 def register():
     # Get the form data
     username = request.form["username"].strip()
+    email = request.form["email"].strip()
     password = request.form["password"].strip()
-    username_regex = re.compile(USER_REGEX)
 
+    username_regex = re.compile(USER_REGEX)
+    email_regex = re.compile(USER_EMAIL_REGEX)
     error = []
 
     # Validate the form
     if not username or not username_regex.match(username):
-        error.append(
-            "Username is empty or invalid! Must be alphanumeric, and can contain ._-"
-        )
+        error.append("Username is invalid! Must be alphanumeric, and can contain ._-")
+    if not email or not email_regex.match(email):
+        error.append("Email is invalid! Must be email format")
     if not password:
         error.append("Password is empty!")
     elif len(password) < 8:
@@ -48,6 +50,7 @@ def register():
     register_user = Users(
         alt_id=str(uuid.uuid4()),
         username=username,
+        email=generate_password_hash(email, method="scrypt"),
         password=generate_password_hash(password, method="scrypt"),
     )
     db.session.add(register_user)
