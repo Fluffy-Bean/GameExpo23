@@ -16,9 +16,11 @@ class Scores(db.Model):
     """
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
 
     score = db.Column(db.Float, nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
+
     scored_at = db.Column(
         db.DateTime,
         nullable=False,
@@ -31,7 +33,6 @@ class Scores(db.Model):
     )
 
     version = db.Column(db.String, default=GAME_VERSION)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
 
 
 class Sessions(db.Model):
@@ -41,9 +42,11 @@ class Sessions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+
     auth_key = db.Column(db.String, nullable=False, unique=True)
     ip_address = db.Column(db.String)
     device_type = db.Column(db.String)
+
     created_at = db.Column(
         db.DateTime,
         nullable=False,
@@ -56,14 +59,14 @@ class Sessions(db.Model):
     )
 
 
-class Reset(db.Model):
+class PasswordReset(db.Model):
     """
     Password reset table
     """
 
     id = db.Column(db.Integer, primary_key=True)
-
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+
     reset_key = db.Column(db.String, nullable=False, unique=True)
 
     created_at = db.Column(
@@ -71,6 +74,36 @@ class Reset(db.Model):
         nullable=False,
         server_default=db.func.now(),
     )
+
+
+class Permissions(db.Model):
+    """
+    Permissions table
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+
+    user_ban = db.Column(db.Boolean, default=False)
+    user_warn = db.Column(db.Boolean, default=False)
+
+    score_removal = db.Column(db.Boolean, default=False)
+    score_edit = db.Column(db.Boolean, default=False)
+
+    admin_panel = db.Column(db.Boolean, default=False)
+    admin_promote = db.Column(db.Boolean, default=False)
+    admin_demote = db.Column(db.Boolean, default=False)
+
+
+class ProfileTags(db.Model):
+    """
+    Profile Tags table
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+
+    tag = db.Column(db.String, nullable=False)
 
 
 class Users(db.Model, UserMixin):
@@ -93,6 +126,8 @@ class Users(db.Model, UserMixin):
 
     scores = db.relationship("Scores", backref=db.backref("users", lazy=True))
     tokens = db.relationship("Sessions", backref=db.backref("users", lazy=True))
+    reset = db.relationship("PasswordReset", backref=db.backref("users", lazy=True))
+    tags = db.relationship("ProfileTags", backref=db.backref("users", lazy=True))
 
     def get_id(self):
         return str(self.alt_id)

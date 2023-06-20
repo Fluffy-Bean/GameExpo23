@@ -27,3 +27,4 @@ fi
 # Start server!!!!
 echo "Starting server..."
 gunicorn --bind tfr:8000 server:app
+# flask --app server run --port 8000 --host tfr

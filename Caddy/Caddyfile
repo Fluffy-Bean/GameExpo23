@@ -1,9 +1,4 @@
-{$THE_FRONT_ROOMS_DOMAIN} {
-    reverse_proxy tfr:8000
-    encode gzip
-}
+{$THE_FRONT_ROOMS_DOMAIN}
+reverse_proxy tfr:8000
+encode gzip
 
-{$GAME_EXPO_DOMAIN} {
-    reverse_proxy expo:5000
-    encode gzip
-}

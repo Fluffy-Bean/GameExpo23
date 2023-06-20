@@ -6,12 +6,12 @@
         <form action="{{ url_for('auth.login') }}" method="POST">
             <span class="text-input">
                 <label for="login-username">Username</label>
-                <input type="text" name="username" placeholder="Jerry" id="login-username" required>
+                <input type="text" name="username"  id="login-username" required>
             </span>
 
             <span class="text-input">
                 <label for="login-password">Password</label>
-                <input type="password" name="password" placeholder="password123" id="login-password" required>
+                <input type="password" name="password"  id="login-password" required>
             </span>
 
             <button type="submit" class="button primary">Login</button>
@@ -24,17 +24,17 @@
         <form action="{{ url_for('auth.register') }}" method="POST">
             <span class="text-input">
                 <label for="register-username">Username</label>
-                <input type="text" name="username" placeholder="Jerry" id="register-username" required>
+                <input type="text" name="username"  id="register-username" required>
             </span>
 
             <span class="text-input">
-                <label for="register-email">Username</label>
-                <input type="text" name="email" placeholder="jerry@example.com" id="register-email" required>
+                <label for="register-email">Email</label>
+                <input type="text" name="email" id="register-email" required>
             </span>
 
             <span class="text-input">
                 <label for="register-password">Password</label>
-                <input type="password" name="password" placeholder="password123" id="register-password" required>
+                <input type="password" name="password"  id="register-password" required>
             </span>
 
             <button type="submit" class="button primary">Register</button>

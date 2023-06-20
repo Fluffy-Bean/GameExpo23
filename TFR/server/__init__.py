@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException
 from server.extensions import db, migrate, cache, assets, login_manager
 from server.models import Users
 from server.config import MIGRATION_DIR, INSTANCE_DIR
-from server import views, auth, api
+from server import views, auth, api, filters
 
 
 app = Flask(__name__, instance_path=INSTANCE_DIR)
@@ -39,6 +39,7 @@ cache.init_app(app)
 app.register_blueprint(views.blueprint)
 app.register_blueprint(auth.blueprint)
 app.register_blueprint(api.blueprint)
+app.register_blueprint(filters.blueprint)
 
 
 @login_manager.user_loader

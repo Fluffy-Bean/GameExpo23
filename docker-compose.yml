@@ -13,22 +13,22 @@ services:
       - ./Caddy/config:/config
     environment:
       THE_FRONT_ROOMS_DOMAIN: ${THE_FRONT_ROOMS_DOMAIN}
-      GAME_EXPO_DOMAIN: ${GAME_EXPO_DOMAIN}
     links:
       - tfr
-#      - expo
 
   db:
     image: postgres:alpine
     restart: unless-stopped
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     volumes:
       - ./Postgres/data:/var/lib/postgresql/data
+      - /var/log/postgresql:/var/log/postgresql
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    command: postgres -c log_connections=on -c log_line_prefix='%m {%h} [%p] %q%u@%d ' -c log_directory='/var/log/postgresql' -c log_truncate_on_rotation=off -c log_rotation_age=1d
     links:
       - tfr
 
@@ -44,12 +44,3 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_HOST: db
       DB_NAME: ${POSTGRES_DB}
-
-#  expo:
-#    build: GameExpo
-#    restart: unless-stopped
-#    volumes:
-#      - ./GameExpo/storage:/data/storage
-#      - ./GameExpo/logs:/data/logs
-#    environment:
-#      FLASK_KEY: ${GAME_EXPO_SECRETE_KEY}

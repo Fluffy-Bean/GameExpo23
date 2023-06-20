@@ -43,39 +43,34 @@ def tokens():
 
 @blueprint.route("/post", methods=["POST"])
 def post():
-    form = request.form
-    error = []
+    session_key = request.form.get("session", None)
+    version = request.form.get("version", "alpha")
+    difficulty = request.form.get("difficulty", 0)
+    score = request.form.get("score", 0)
 
-    if not form:
-        error.append("No form data provided!")
-    if not form["session"]:
-        error.append("No session key provided!")
-    if not form["version"]:
-        error.append("No version provided!")
-
-    if error:
-        return jsonify(error), 400
+    if not session_key:
+        return "No session key provided!"
+    if not score:
+        return "Score is not valid!"
 
     try:
-        int(form["score"])
-        int(form["difficulty"])
+        float(score)
+        int(difficulty)
     except TypeError:
-        error.append("Invalid score and difficulty must be valid numbers!")
+        return "Invalid score and difficulty must be valid numbers!"
 
-    if int(form["difficulty"]) not in GAME_DIFFICULTIES:
-        error.append("Invalid difficulty!")
+    if int(difficulty) not in GAME_DIFFICULTIES:
+        return "Invalid difficulty!"
 
-    session_data = Sessions.query.filter_by(auth_key=form["session"]).first()
+
+    session_data = Sessions.query.filter_by(auth_key=session_key).first()
     if not session_data:
-        error.append("Authentication failed!")
-
-    if error:
-        return jsonify(error), 400
+        return "Authentication failed!"
 
     score = Scores(
-        score=int(form["score"]),
-        difficulty=int(form["difficulty"]),
-        version=form["version"],
+        score=float(score),
+        difficulty=int(difficulty),
+        version=version,
         user_id=session_data.user_id,
     )
 
