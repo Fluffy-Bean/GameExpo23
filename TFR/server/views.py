@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, abort
+from flask import Blueprint, request, render_template, abort, flash, redirect, url_for
 from flask_login import login_required, current_user, logout_user
 from server.models import Scores, Users, Sessions
 from server.config import GAME_VERSION, MAX_TOP_SCORES

@@ -82,7 +82,7 @@ def login():
     if error:
         for err in error:
             flash(err, "error")
-        return redirect(url_for("views.account"))
+        return redirect(url_for("auth.auth"))
 
     login_user(user, remember=True)
     flash("Successfully logged in!", "success")
