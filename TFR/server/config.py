@@ -5,7 +5,6 @@ GAME_VERSION = "alpha"
 GAME_VERSIONS = ["alpha"]
 GAME_DIFFICULTIES = [0, 1, 2, 3, 4]
 
-USER_MAX_TOKENS = 3
 USER_REGEX = r"\b[A-Za-z0-9._-]+\b"
 USER_EMAIL_REGEX = r"[^@]+@[^@]+\.[^@]+"
 

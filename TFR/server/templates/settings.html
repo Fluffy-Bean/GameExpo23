@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+    {% if not current_user.email %}
+        <div class="block secondary">
+            <h2>No Email set</h2>
+            <p>If you forget your password, you will not be able to recover your account.</p>
+        </div>
+    {% endif %}
+
     <div class="block">
         <h2>Hello, {{ current_user.username }}!</h2>
         <p>Sample text</p>

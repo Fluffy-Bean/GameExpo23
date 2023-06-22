@@ -5,13 +5,10 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from werkzeug.security import check_password_hash
 
-from server.models import Scores, Sessions, Users
-from server.extensions import db
-from server.config import (
-    GAME_VERSION,
-    GAME_VERSIONS,
+from .models import Scores, Sessions, Users
+from .extensions import db
+from .config import (
     GAME_DIFFICULTIES,
-    USER_MAX_TOKENS,
     MAX_SEARCH_RESULTS,
     USER_REGEX,
 )
@@ -82,7 +79,7 @@ def post():
 
 @blueprint.route("/search", methods=["GET"])
 def search():
-    search_arg = request.args.get("q")
+    search_arg = request.args.get("q").strip()
 
     if not search_arg:
         return "No search query provided!", 400
@@ -98,16 +95,15 @@ def search():
 
 @blueprint.route("/login", methods=["POST"])
 def login():
-    username = request.form["username"].strip()
-    password = request.form["password"].strip()
-    device = request.form["device"].strip()
+    username = request.form.get("username", None).strip()
+    password = request.form.get("password", None).strip()
+    device = request.form.get("device", "Unknown").strip()
     username_regex = re.compile(USER_REGEX)
 
     if not username or not username_regex.match(username) or not password:
         return "Username or Password is incorrect!", 400
 
     user = Users.query.filter_by(username=username).first()
-
     if not user or not check_password_hash(user.password, password):
         return "Username or Password is incorrect!", 400
 
@@ -125,10 +121,9 @@ def login():
 
 @blueprint.route("/authenticate", methods=["POST"])
 def authenticate():
-    auth_key = request.form["auth_key"].strip()
+    auth_key = request.form.get("session", None).strip()
 
     session = Sessions.query.filter_by(auth_key=auth_key).first()
-
     if not session:
         return "Invalid session", 400
 

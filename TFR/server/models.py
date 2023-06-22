@@ -1,10 +1,9 @@
 """
 Database models for the server
 """
-import uuid
 from flask_login import UserMixin
-from server.extensions import db
-from server.config import GAME_VERSION
+from .extensions import db
+from .config import GAME_VERSION
 
 
 class Scores(db.Model):
@@ -115,7 +114,7 @@ class Users(db.Model, UserMixin):
     alt_id = db.Column(db.String, nullable=False, unique=True)
 
     username = db.Column(db.String(32), unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
 
     joined_at = db.Column(

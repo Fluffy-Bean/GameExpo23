@@ -4,10 +4,10 @@ from flask import Flask, render_template, abort
 from flask_assets import Bundle
 from werkzeug.exceptions import HTTPException
 
-from server.extensions import db, migrate, cache, assets, login_manager
-from server.models import Users
-from server.config import MIGRATION_DIR, INSTANCE_DIR
-from server import views, auth, api, filters
+from .config import MIGRATION_DIR, INSTANCE_DIR
+from .extensions import db, migrate, cache, assets, login_manager
+from .models import Users
+from . import views, auth, api, filters
 
 
 app = Flask(__name__, instance_path=INSTANCE_DIR)

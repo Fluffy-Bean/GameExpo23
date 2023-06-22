@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, abort, flash, redirect, url_for
 from flask_login import login_required, current_user, logout_user
-from server.models import Scores, Users, Sessions
-from server.config import GAME_VERSION, MAX_TOP_SCORES
+from .models import Scores, Users, Sessions
+from .config import GAME_VERSION, MAX_TOP_SCORES
 
 
 blueprint = Blueprint("views", __name__)
