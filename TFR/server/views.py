@@ -12,8 +12,9 @@ blueprint = Blueprint("views", __name__)
 @blueprint.route("/")
 def index():
     diff_arg = request.args.get("diff", 0)
-    ver_arg = request.args.get("ver", GAME_VERSION)
-    user_arg = request.args.get("user", None)
+    ver_arg = request.args.get("ver", GAME_VERSION).strip()
+    user_arg = request.args.get("user", "").strip()
+    user = None
 
     scores = db.session.query(Scores).filter_by(difficulty=diff_arg)
 
@@ -32,7 +33,8 @@ def index():
             .filter(Scores.score == subquery.c.min)
         )
     else:
-        if user := Users.query.filter_by(username=user_arg).first():
+        user = Users.query.filter_by(username=user_arg).first()
+        if user:
             scores = scores.filter_by(user_id=user.id)
         else:
             abort(404, "User not found")
@@ -44,7 +46,7 @@ def index():
         scores=scores,
         diff=int(diff_arg),
         ver=ver_arg,
-        user=user_arg
+        user=user
     )
 
 
