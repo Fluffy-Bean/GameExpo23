@@ -20,7 +20,7 @@ blueprint = Blueprint("api", __name__, url_prefix="/api")
 @blueprint.route("/tokens", methods=["POST"])
 @login_required
 def tokens():
-    session_id = request.form["session_id"]
+    session_id = request.form.get("session", "").strip()
 
     if not session_id:
         return jsonify({"error": "No Session provided!"}), 400
@@ -40,8 +40,8 @@ def tokens():
 
 @blueprint.route("/post", methods=["POST"])
 def post():
-    session_key = request.form.get("session", None)
-    version = request.form.get("version", "alpha")
+    session_key = request.form.get("session", "").strip()
+    version = request.form.get("version", "alpha").strip()
     difficulty = request.form.get("difficulty", 0)
     score = request.form.get("score", 0)
 
@@ -94,8 +94,8 @@ def search():
 
 @blueprint.route("/login", methods=["POST"])
 def login():
-    username = request.form.get("username", None).strip()
-    password = request.form.get("password", None).strip()
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "").strip()
     device = request.form.get("device", "Unknown").strip()
     username_regex = re.compile(USER_REGEX)
 
@@ -120,7 +120,7 @@ def login():
 
 @blueprint.route("/authenticate", methods=["POST"])
 def authenticate():
-    auth_key = request.form.get("session", None).strip()
+    auth_key = request.form.get("session", "").strip()
 
     session = Sessions.query.filter_by(auth_key=auth_key).first()
     if not session:

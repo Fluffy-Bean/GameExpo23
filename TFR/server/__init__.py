@@ -6,7 +6,7 @@ from werkzeug.exceptions import HTTPException
 
 from .extensions import db, migrate, cache, assets, login_manager
 from .models import Users
-from . import views, auth, api, filters
+from . import views, account, auth, api, filters
 
 
 app = Flask(__name__)
@@ -36,6 +36,7 @@ assets.register("styles", styles)
 
 cache.init_app(app)
 app.register_blueprint(views.blueprint)
+app.register_blueprint(account.blueprint)
 app.register_blueprint(auth.blueprint)
 app.register_blueprint(api.blueprint)
 app.register_blueprint(filters.blueprint)

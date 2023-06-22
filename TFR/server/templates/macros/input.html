@@ -1,13 +1,17 @@
-{% macro text(id, name, type="text", required=False, minlength=0) %}
+{% macro text(id, name, type="text", required=False, minlength=0, value="") %}
     <span class="text-input">
         <label for="{{ id }}">
             {{ name|title }}
+            {% if required %}
+                <span style="color: rgb(var(--secondary)) !important;">*</span>
+            {% endif %}
         </label>
 
         <input
             type="{{ type }}"
             name="{{ name }}"
             id="{{ id }}"
+            value="{{ value }}"
             {% if required %}required{% endif %}
             minlength="{{ minlength }}"
         >

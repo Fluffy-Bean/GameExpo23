@@ -1,0 +1,67 @@
+.profile-settings
+    display: flex
+    flex-direction: row
+    gap: 0.5rem
+
+    .picture
+        margin: 0
+        width: 13rem
+
+        position: relative
+        display: flex
+        flex-direction: column
+
+        > img
+            height: 13rem
+            width: 13rem
+
+            object-fit: cover
+
+            background-color: RGBA($white, 0.02)
+            border-bottom: 1px solid RGBA($white, 0.1)
+            border-radius: 2px 2px 0 0
+
+            transition: opacity 0.1s ease-in-out
+
+        > input
+            height: 100%
+            width: 100%
+
+            position: absolute
+            top: 0
+            left: 0
+
+            opacity: 0
+
+        > label
+            padding: 0.5rem 0.7rem
+            width: 100%
+
+            text-decoration: none
+            text-align: center
+            white-space: nowrap
+            font-size: 0.9em
+
+            background-color: RGBA($white, 0.02)
+            color: RGB($white)
+            border-radius: 0 0 2px 2px
+
+            transition: background-color 0.1s ease-in-out
+
+        &:hover
+            cursor: pointer
+
+            > img
+                opacity: 0.8
+
+            > label
+                background-color: RGBA($white, 0.04)
+
+    .other
+        width: 100%
+        height: 100%
+
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        gap: 0.5rem

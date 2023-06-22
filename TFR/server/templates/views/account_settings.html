@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "macros/input.html" import text %}
+
+{% block content %}
+    <div class="block">
+        <h2 style="margin-bottom: 1rem;">Profile Settings</h2>
+        <form action="{{ url_for('account.settings') }}" method="POST">
+            <div class="profile-settings">
+                <div class="picture">
+                    <img src="{{ url_for('static', filename='images/error/2.jpg') }}" alt="Profile picture">
+                    <label for="profile-picture">Profile Picture</label>
+                    <input type="file" name="picture" id="profile-picture">
+                </div>
+                <div class="other">
+                    {{ text(id="profile-username", name="username", value=current_user.username) }}
+                    {{ text(id="profile-email", name="email") }}
+                    {{ text(id="profile-password", name="password", type="password", required=True, minlength=8) }}
+                </div>
+            </div>
+            <button type="submit" class="button primary">Save changes</button>
+        </form>
+    </div>
+
+    <div class="block">
+        <h2>Sessions</h2>
+        <p>Devices and games that you logged into. If you're looking to log out all website users, reset your password instead.</p>
+        <div class="table">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Device</th>
+                    <th>Created</th>
+                    <th>Last Used</th>
+                </tr>
+                {% for session in sessions %}
+                    <tr id="sess-{{ session.id }}">
+                        <td><button onclick="yeetSession({{ session.id }})" class="button secondary"><i class="ph ph-trash"></i></button></td>
+                        <td>{{ session.device_type }}</td>
+                        <td>{{ session.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ session.last_used.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="block secondary">
+        <h2>Danger Zone</h2>
+        <p>Be careful!</p>
+        <a href="{{ url_for('account.delete_account') }}" class="button secondary" style="margin-bottom: 0.5rem">Delete Account</a>
+        <a href="{{ url_for('account.password_reset') }}" class="button secondary" style="margin-bottom: 0.5rem">Reset Password</a>
+        <a href="{{ url_for('account.settings', action='logout') }}" class="button secondary">Logout</a>
+    </div>
+
+
+    {% if not current_user.email %}
+        <script>
+            addFlashMessage("No Email set. If you loose your account, it will not be possible to recover it!", "error")
+        </script>
+    {% endif %}
+{% endblock %}
