@@ -27,13 +27,17 @@ def index():
     scores = scores.order_by(Scores.score.asc()).limit(MAX_TOP_SCORES).all()
 
     return render_template(
-        "scores.html", scores=scores, diff=int(diff_arg), ver=ver_arg, user=user_arg
+        "views/scores.html",
+        scores=scores,
+        diff=int(diff_arg),
+        ver=ver_arg,
+        user=user_arg
     )
 
 
 @blueprint.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("views/about.html")
 
 
 @blueprint.route("/settings", methods=["GET"])
@@ -51,4 +55,4 @@ def settings():
         flash("Insert password change function", "error")
 
     sessions = Sessions.query.filter_by(user_id=current_user.id).all()
-    return render_template("settings.html", sessions=sessions)
+    return render_template("views/settings.html", sessions=sessions)

@@ -4,17 +4,16 @@ from flask import Flask, render_template, abort
 from flask_assets import Bundle
 from werkzeug.exceptions import HTTPException
 
-from .config import MIGRATION_DIR, INSTANCE_DIR
 from .extensions import db, migrate, cache, assets, login_manager
 from .models import Users
 from . import views, auth, api, filters
 
 
-app = Flask(__name__, instance_path=INSTANCE_DIR)
+app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
 db.init_app(app)
-migrate.init_app(app, db, directory=MIGRATION_DIR)
+migrate.init_app(app, db)
 
 with app.app_context():
     db.create_all()

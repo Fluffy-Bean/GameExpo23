@@ -15,7 +15,7 @@ blueprint = Blueprint("auth", __name__)
 
 @blueprint.route("/auth", methods=["GET"])
 def auth():
-    return render_template("auth.html")
+    return render_template("views/auth.html")
 
 
 @blueprint.route("/register", methods=["POST"])
@@ -59,10 +59,9 @@ def register():
 @blueprint.route("/login", methods=["POST"])
 def login():
     # Get the form data
-    username = request.form["username"].strip()
-    password = request.form["password"].strip()
+    username = request.form.get("username", None).strip()
+    password = request.form.get("password", None).strip()
     username_regex = re.compile(USER_REGEX)
-
     error = []
 
     # Validate the form

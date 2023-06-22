@@ -23,9 +23,6 @@ SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:5432/
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_POOL_RECYCLE = 621
 
-MIGRATION_DIR = "/data/storage/migrations"
-INSTANCE_DIR = "/data/storage/instance"
-
 """
 # SQLite
 SECRET_KEY = "dev"

@@ -59,7 +59,6 @@ def post():
     if int(difficulty) not in GAME_DIFFICULTIES:
         return "Invalid difficulty!"
 
-
     session_data = Sessions.query.filter_by(auth_key=session_key).first()
     if not session_data:
         return "Authentication failed!"
