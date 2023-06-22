@@ -4,17 +4,16 @@ from flask import Flask, render_template, abort
 from flask_assets import Bundle
 from werkzeug.exceptions import HTTPException
 
-from server.extensions import db, migrate, cache, assets, login_manager
-from server.models import Users
-from server.config import MIGRATION_DIR, INSTANCE_DIR
-from server import views, auth, api, filters
+from .extensions import db, migrate, cache, assets, login_manager
+from .models import Users
+from . import views, account, auth, api, filters
 
 
-app = Flask(__name__, instance_path=INSTANCE_DIR)
+app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
 db.init_app(app)
-migrate.init_app(app, db, directory=MIGRATION_DIR)
+migrate.init_app(app, db)
 
 with app.app_context():
     db.create_all()
@@ -37,6 +36,7 @@ assets.register("styles", styles)
 
 cache.init_app(app)
 app.register_blueprint(views.blueprint)
+app.register_blueprint(account.blueprint)
 app.register_blueprint(auth.blueprint)
 app.register_blueprint(api.blueprint)
 app.register_blueprint(filters.blueprint)

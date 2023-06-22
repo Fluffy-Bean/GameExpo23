@@ -2,7 +2,6 @@
 FROM alpine:latest
 
 EXPOSE 8000
-# RUN apt update && apt install -y python3 python3-pip postgresql-client
 RUN apk update && apk add python3 py3-pip postgresql-client
 WORKDIR /data
 

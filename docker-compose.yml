@@ -36,8 +36,7 @@ services:
     build: TFR
     restart: unless-stopped
     volumes:
-      - ./TFR/storage:/data/storage
-      - ./TFR/logs:/data/logs
+      - ./TFR/storage/migrations:/data/migrations
     environment:
       FLASK_KEY: ${THE_FRONT_ROOMS_SECRETE_KEY}
       DB_USER: ${POSTGRES_USER}

@@ -1,18 +1,14 @@
 """
 Database models for the server
 """
-import uuid
 from flask_login import UserMixin
-from server.extensions import db
-from server.config import GAME_VERSION
+from .extensions import db
+from .config import GAME_VERSION
 
 
 class Scores(db.Model):
     """
     Post table
-    Scores supports anonymous posting, and instead just wants to post a score,
-    then the username must be provided. Otherwise, it's grabbed from the user
-    table
     """
 
     id = db.Column(db.Integer, primary_key=True)
@@ -76,25 +72,6 @@ class PasswordReset(db.Model):
     )
 
 
-class Permissions(db.Model):
-    """
-    Permissions table
-    """
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
-
-    user_ban = db.Column(db.Boolean, default=False)
-    user_warn = db.Column(db.Boolean, default=False)
-
-    score_removal = db.Column(db.Boolean, default=False)
-    score_edit = db.Column(db.Boolean, default=False)
-
-    admin_panel = db.Column(db.Boolean, default=False)
-    admin_promote = db.Column(db.Boolean, default=False)
-    admin_demote = db.Column(db.Boolean, default=False)
-
-
 class ProfileTags(db.Model):
     """
     Profile Tags table
@@ -113,9 +90,12 @@ class Users(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     alt_id = db.Column(db.String, nullable=False, unique=True)
+    superuser = db.Column(db.Boolean, default=False)
+
+    picture = db.Column(db.String)
 
     username = db.Column(db.String(32), unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
 
     joined_at = db.Column(

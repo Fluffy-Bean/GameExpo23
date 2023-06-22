@@ -22,7 +22,13 @@
 
             <span class="text-input">
                 <label for="search">Username</label>
-                <input type="text" name="user" id="search" {% if user %}value="{{ user }}"{% endif %} autocomplete="off"/>
+                <input
+                    type="text"
+                    name="user"
+                    id="search"
+                    {% if user %}value="{{ user.username }}"{% endif %}
+                    autocomplete="off"
+                />
             </span>
 
             <button class="button"><i class="ph ph-magnifying-glass"></i></button>
@@ -30,6 +36,12 @@
     </nav>
 {% endblock %}
 {% block content %}
+    {% if user %}
+        <div class="block">
+            <h2 style="margin-bottom: 0;">{{ user.username }}</h2>
+        </div>
+    {% endif %}
+
     {% if scores %}
         <div class="table">
             <table>

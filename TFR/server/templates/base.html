@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Front Rooms Highscores</title>
+    <title>{% block title %}Front Rooms Highscores{% endblock %}</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,10 +16,9 @@
     {% assets "scripts" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
 </head>
 <body>
-    <div class="search-hint">
-        <p>Start typing to see results...</p>
-    </div>
+    <div class="search-hint"><p>Start typing to see results...</p></div>
 
+    <!-- Hopefully I can make this change seasonally/weekly/something-ly -->
     <picture class="background">
         <source srcset="{{ url_for('static', filename='images/background.webp') }}">
         <img src="{{ url_for('static', filename='images/background.png') }}" alt="The Front Rooms Level select render">
@@ -28,35 +27,30 @@
     <div class="app">
         <!-- Get flashed lol -->
         <div class="flash">
+            <!-- My bad -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <p class="{{ category }}" onclick="this.remove()"><span><i class="ph-bold ph-x"></i></span>{{ message }}</p>
+                        <p class="{{ category }}" onclick="this.remove()">
+                            <span><i class="ph-bold ph-x"></i></span>
+                            {{ message }}
+                        </p>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
         </div>
 
         <header>
+            <!-- Overcomplicated header, probably should just use CSS for some of this stuff -->
             <picture class="title">
                 <source srcset="{{ url_for('static', filename='images/title.webp') }}">
                 <img src="{{ url_for('static', filename='images/title.png') }}" alt="The Front Rooms logo">
             </picture>
 
-            <nav>
-                <a href="{{ url_for('views.index') }}" class="button">Scores</a>
-                <a href="{{ url_for('views.about') }}" class="button">About</a>
+            <!-- Import navigation bar -->
+            {% include 'navigation.html' %}
 
-                <span class="spacer"></span>
-
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('views.settings') }}" class="button primary">{{ current_user.username }}</a>
-                {% else %}
-                    <a href="{{ url_for('auth.auth') }}" class="button primary"><i class="ph ph-user-circle"></i></a>
-                {% endif %}
-            </nav>
-
-            <!-- Secondary nav bar for page specific content -->
+            <!-- Second nav for page specific tools -->
             {% block nav %}{% endblock %}
         </header>
 
