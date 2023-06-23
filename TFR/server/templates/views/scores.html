@@ -45,11 +45,8 @@
             {% endif %}
             <div class="other">
                 <h2>{{ user.username }}</h2>
-                <p>Joined {{ user.joined_at.strftime('%Y-%m-%d') }}</p>
-
                 <hr>
-
-                <p>Best score: {{ scores[0].score | format_result }}</p>
+                <p>Joined {{ user.joined_at|timesince }}</p>
             </div>
         </div>
     {% endif %}
@@ -74,14 +71,13 @@
                         {% else %}
                             <td>{{ loop.index }}</td>
                         {% endif %}
-
-                        {% if score.users.id == current_user.id %}
-                            <td class="player">{{ score.users.username }}</td>
-                        {% else %}
-                            <td>{{ score.users.username }}</td>
-                        {% endif %}
-
-                        <td>{{ score.score | format_result }}</td>
+                        <td>
+                            <a
+                                href="{{ url_for('views.index', user=score.users.username) }}"
+                                {% if score.users.id == current_user.id %}id="you"{% endif %}
+                            >{{ score.users.username }}</a>
+                        </td>
+                        <td>{{ score.score|format_result }}</td>
                         <td>{{ score.scored_at.strftime('%Y-%m-%d') }}</td>
                     </tr>
                 {% endfor %}

@@ -12,6 +12,7 @@
         flex-direction: column
 
         border: 1px solid RGBA($white, 0.1)
+        box-sizing: content-box
 
         > img
             height: 10rem
@@ -67,7 +68,11 @@
         gap: 0.5rem
 
         > .text-input
-            margin: 0 !important
+            margin: 0
+
+        > button
+            margin: 0 0 0 auto
+            width: auto
 
 @media (max-width: 621px)
 	.profile-settings
@@ -80,3 +85,7 @@
 			> img
 				height: 13rem
 				width: 13rem
+
+		.other > button
+            margin: 0
+            width: 100%

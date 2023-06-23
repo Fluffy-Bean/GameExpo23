@@ -8,9 +8,9 @@
             <div class="profile-settings">
                 <div class="picture">
                     {% if current_user.picture %}
-                        <img src="{{ url_for('api.upload_dir', filename=current_user.picture) }}" alt="Profile picture">
+                        <img src="{{ url_for('api.upload_dir', filename=current_user.picture) }}" alt="Profile picture" id="picture-preview">
                     {% else %}
-                        <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Profile picture">
+                        <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Profile picture" id="picture-preview">
                     {% endif %}
                     <label for="profile-picture">Profile Picture</label>
                     <input type="file" name="file" id="profile-picture">
@@ -60,9 +60,26 @@
     </div>
 
 
-    {% if not current_user.email %}
-        <script>
+    <script>
+        {% if not current_user.email %}
             addFlashMessage("No Email set. If you loose your account, it will not be possible to recover it!", "error")
-        </script>
-    {% endif %}
+        {% endif %}
+
+        // Adjusted from https://stackoverflow.com/a/3814285/14885829
+        document.getElementById('profile-picture').onchange = (event) => {
+            let tgt = event.target || window.event.srcElement,
+                files = tgt.files;
+            
+            if (FileReader && files && files.length) {
+                let fr = new FileReader();
+                fr.onload = () => {
+                    document.getElementById('picture-preview').src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
+            }
+            else {
+                addFlashMessage("Your browser could not show a preview of your profile picture!", "error")
+            }
+        }
+    </script>
 {% endblock %}
