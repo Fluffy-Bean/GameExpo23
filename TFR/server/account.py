@@ -1,11 +1,19 @@
 import uuid
 import re
+import os
 
 from flask import Blueprint, request, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .config import USER_REGEX, USER_EMAIL_REGEX
+from .config import (
+    USER_REGEX,
+    USER_EMAIL_REGEX,
+    UPLOAD_EXTENSIONS,
+    UPLOAD_RESOLUTION,
+    UPLOAD_MAX_SIZE,
+    UPLOAD_DIR,
+)
 from .models import Users, Sessions, Scores, ProfileTags, PasswordReset
 from .extensions import db
 
@@ -29,7 +37,30 @@ def settings():
 
         if not check_password_hash(user.password, password):
             flash("Password is incorrect!", "error")
-            return redirect(url_for('account.settings'))
+            return redirect(url_for("account.settings"))
+
+        if "file" in request.files and request.files['file'].filename:
+            picture = request.files["file"]
+            file_ext = picture.filename.split(".")[-1]
+            file_name = f"{user.id}.{file_ext}"
+
+            if file_ext not in UPLOAD_EXTENSIONS:
+                error.append("Picture is not a valid image!")
+            if picture.content_length > UPLOAD_MAX_SIZE:
+                error.append(
+                    f"Picture is too large! Must be less than {UPLOAD_EXTENSIONS / 1000000}MB!"
+                )
+
+            if error:
+                for err in error:
+                    flash(err, "error")
+                return redirect(url_for("account.settings"))
+
+            if user.picture:
+                os.remove(os.path.join(UPLOAD_DIR, user.picture))
+
+            user.picture = file_name
+            picture.save(os.path.join(UPLOAD_DIR, file_name))
 
         if username:
             if user_regex.match(username):
@@ -79,7 +110,9 @@ def password_reset():
         if not check_password_hash(user.password, current):
             error.append("Current password is incorrect!")
         if len(new) < 8:
-            error.append("New password is too short! Must be at least 8 characters long.")
+            error.append(
+                "New password is too short! Must be at least 8 characters long."
+            )
         if new != confirm:
             error.append("New passwords do not match!")
 

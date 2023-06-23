@@ -19,7 +19,7 @@ def index():
     scores = db.session.query(Scores).filter_by(difficulty=diff_arg)
 
     subquery = (
-        db.session.query(Scores.user_id, func.min(Scores.score).label('min'))
+        db.session.query(Scores.user_id, func.min(Scores.score).label("min"))
         .group_by(Scores.user_id)
         .subquery()
     )
@@ -28,9 +28,8 @@ def index():
         scores = scores.filter_by(version=ver_arg)
 
     if not user_arg:
-        scores = (
-            scores.join(subquery, Scores.user_id == subquery.c.user_id)
-            .filter(Scores.score == subquery.c.min)
+        scores = scores.join(subquery, Scores.user_id == subquery.c.user_id).filter(
+            Scores.score == subquery.c.min
         )
     else:
         user = Users.query.filter_by(username=user_arg).first()
@@ -42,11 +41,7 @@ def index():
     scores = scores.order_by(Scores.score.asc()).limit(MAX_TOP_SCORES).all()
 
     return render_template(
-        "views/scores.html",
-        scores=scores,
-        diff=int(diff_arg),
-        ver=ver_arg,
-        user=user
+        "views/scores.html", scores=scores, diff=int(diff_arg), ver=ver_arg, user=user
     )
 
 

@@ -1,5 +1,10 @@
-import os
+from os import getenv
 
+
+UPLOAD_DIR = "/data/uploads"
+UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
+UPLOAD_RESOLUTION = (512, 512)
+UPLOAD_MAX_SIZE = 3 * 1024 * 1024  # 3MB
 
 GAME_VERSION = "alpha"
 GAME_VERSIONS = ["alpha"]
@@ -12,12 +17,12 @@ MAX_TOP_SCORES = 15
 MAX_SEARCH_RESULTS = 5
 
 # Postgres
-SECRET_KEY = os.getenv("FLASK_KEY")
+SECRET_KEY = getenv("FLASK_KEY")
 
-user = os.getenv("DB_USER")
-password = os.getenv("DB_PASSWORD")
-host = os.getenv("DB_HOST")
-db = os.getenv("DB_NAME")
+user = getenv("DB_USER")
+password = getenv("DB_PASSWORD")
+host = getenv("DB_HOST")
+db = getenv("DB_NAME")
 
 SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{db}"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
