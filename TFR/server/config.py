@@ -3,7 +3,7 @@ from os import getenv
 
 UPLOAD_DIR = "/data/uploads"
 UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
-UPLOAD_RESOLUTION = (512, 512)
+UPLOAD_RESOLUTION = 512
 UPLOAD_MAX_SIZE = 3 * 1024 * 1024  # 3MB
 
 GAME_VERSION = "alpha"

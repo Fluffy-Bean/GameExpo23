@@ -1,6 +1,7 @@
 import uuid
 import re
 import os
+from PIL import Image
 
 from flask import Blueprint, request, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user, logout_user
@@ -10,9 +11,9 @@ from .config import (
     USER_REGEX,
     USER_EMAIL_REGEX,
     UPLOAD_EXTENSIONS,
-    UPLOAD_RESOLUTION,
     UPLOAD_MAX_SIZE,
     UPLOAD_DIR,
+    UPLOAD_RESOLUTION,
 )
 from .models import Users, Sessions, Scores, ProfileTags, PasswordReset
 from .extensions import db
@@ -47,9 +48,14 @@ def settings():
             if file_ext not in UPLOAD_EXTENSIONS:
                 error.append("Picture is not a valid image!")
             if picture.content_length > UPLOAD_MAX_SIZE:
-                error.append(
-                    f"Picture is too large! Must be less than {UPLOAD_EXTENSIONS / 1000000}MB!"
-                )
+                error.append(f"Picture must be less than {UPLOAD_EXTENSIONS / 1000000}MB!")
+
+            image = Image.open(picture.stream)
+            image_x, image_y = image.size
+            image.thumbnail((
+                min(image_x, UPLOAD_RESOLUTION),
+                min(image_y, UPLOAD_RESOLUTION)
+            ))
 
             if error:
                 for err in error:
@@ -60,7 +66,8 @@ def settings():
                 os.remove(os.path.join(UPLOAD_DIR, user.picture))
 
             user.picture = file_name
-            picture.save(os.path.join(UPLOAD_DIR, file_name))
+            image.save(os.path.join(UPLOAD_DIR, file_name))
+            image.close()
 
         if username:
             if user_regex.match(username):

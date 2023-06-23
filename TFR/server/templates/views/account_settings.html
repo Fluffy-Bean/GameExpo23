@@ -19,9 +19,12 @@
                     {{ text(id="profile-username", name="username", value=current_user.username) }}
                     {{ text(id="profile-email", name="email") }}
                     {{ text(id="profile-password", name="password", type="password", required=True, minlength=8) }}
+
+                    <span style="height: 100%"></span>
+
+                    <button type="submit" class="button primary">Save changes</button>
                 </div>
             </div>
-            <button type="submit" class="button primary">Save changes</button>
         </form>
     </div>
 
