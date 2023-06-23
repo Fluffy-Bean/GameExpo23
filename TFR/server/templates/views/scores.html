@@ -37,8 +37,20 @@
 {% endblock %}
 {% block content %}
     {% if user %}
-        <div class="block">
-            <h2 style="margin-bottom: 0;">{{ user.username }}</h2>
+        <div class="account-block">
+            {% if user.picture %}
+                <img src="{{ url_for('api.upload_dir', filename=user.picture) }}" alt="Profile picture">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Profile picture">
+            {% endif %}
+            <div class="other">
+                <h2>{{ user.username }}</h2>
+                <p>Joined {{ user.joined_at.strftime('%Y-%m-%d') }}</p>
+
+                <hr>
+
+                <p>Best score: {{ scores[0].score | format_result }}</p>
+            </div>
         </div>
     {% endif %}
 
@@ -50,7 +62,6 @@
                     <th>Name</th>
                     <th>Time Set</th>
                     <th>Submitted</th>
-                    <!-- <th>Game</th> -->
                 </tr>
                 {% for score in scores %}
                     <tr>
@@ -72,7 +83,6 @@
 
                         <td>{{ score.score | format_result }}</td>
                         <td>{{ score.scored_at.strftime('%Y-%m-%d') }}</td>
-                        <!-- <td>{{ score.version }}</td> -->
                     </tr>
                 {% endfor %}
             </table>

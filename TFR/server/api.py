@@ -1,9 +1,10 @@
 import re
 import shortuuid
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, send_from_directory
 from flask_login import login_required, current_user
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 
 from .models import Scores, Sessions, Users
 from .extensions import db
@@ -11,10 +12,17 @@ from .config import (
     GAME_DIFFICULTIES,
     MAX_SEARCH_RESULTS,
     USER_REGEX,
+    UPLOAD_DIR,
 )
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
+
+
+@blueprint.route("/uploads/<filename>", methods=["GET"])
+def upload_dir(filename):
+    filename = secure_filename(filename)
+    return send_from_directory(UPLOAD_DIR, filename)
 
 
 @blueprint.route("/tokens", methods=["POST"])
@@ -58,6 +66,10 @@ def post():
 
     if int(difficulty) not in GAME_DIFFICULTIES:
         return "Invalid difficulty!"
+    # This is a fix for a bug in the game that we dunno how to actually fix
+    # Yupeeeeeeeeee
+    if score < 10:
+        return "Score is impossible!"
 
     session_data = Sessions.query.filter_by(auth_key=session_key).first()
     if not session_data:

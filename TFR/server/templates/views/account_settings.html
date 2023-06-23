@@ -4,20 +4,27 @@
 {% block content %}
     <div class="block">
         <h2 style="margin-bottom: 1rem;">Profile Settings</h2>
-        <form action="{{ url_for('account.settings') }}" method="POST">
+        <form action="{{ url_for('account.settings') }}" method="POST" enctype="multipart/form-data">
             <div class="profile-settings">
                 <div class="picture">
-                    <img src="{{ url_for('static', filename='images/error/2.jpg') }}" alt="Profile picture">
+                    {% if current_user.picture %}
+                        <img src="{{ url_for('api.upload_dir', filename=current_user.picture) }}" alt="Profile picture">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Profile picture">
+                    {% endif %}
                     <label for="profile-picture">Profile Picture</label>
-                    <input type="file" name="picture" id="profile-picture">
+                    <input type="file" name="file" id="profile-picture">
                 </div>
                 <div class="other">
                     {{ text(id="profile-username", name="username", value=current_user.username) }}
                     {{ text(id="profile-email", name="email") }}
                     {{ text(id="profile-password", name="password", type="password", required=True, minlength=8) }}
+
+                    <span style="height: 100%"></span>
+
+                    <button type="submit" class="button primary">Save changes</button>
                 </div>
             </div>
-            <button type="submit" class="button primary">Save changes</button>
         </form>
     </div>
 

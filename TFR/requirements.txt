@@ -1,3 +1,4 @@
+Pillow
 Gunicorn
 psycopg2-binary
 shortuuid
