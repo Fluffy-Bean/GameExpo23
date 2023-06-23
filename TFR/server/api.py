@@ -67,22 +67,23 @@ def post():
     if int(difficulty) not in GAME_DIFFICULTIES:
         return "Invalid difficulty!"
     # This is a fix for a bug in the game that we dunno how to actually fix
-    # Yupeeeeeeeeee
-    if score < 10:
-        return "Score is impossible!"
+    # if score < 10:
+    #     return "Score is impossible!"
 
     session_data = Sessions.query.filter_by(auth_key=session_key).first()
     if not session_data:
         return "Authentication failed!"
 
-    score = Scores(
+    score_upload = Scores(
         score=float(score),
         difficulty=int(difficulty),
         version=version,
         user_id=session_data.user_id,
     )
 
-    db.session.add(score)
+    session_data.last_used = db.func.now()
+
+    db.session.add(score_upload)
     db.session.commit()
 
     return "Success!"
