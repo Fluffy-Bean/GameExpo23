@@ -128,9 +128,7 @@ def post_password_reset():
     if not check_password_hash(user.password, current):
         error.append("Current password is incorrect!")
     if len(new) < 8:
-        error.append(
-            "New password is too short! Must be at least 8 characters long."
-        )
+        error.append("New password is too short! Must be at least 8 characters long.")
     if new != confirm:
         error.append("New passwords do not match!")
 
