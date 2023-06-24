@@ -1,5 +1,3 @@
-let typingTimer;
-
 function showHint() {
     const search = document.querySelector('#search');
     const searchPos = search.getBoundingClientRect();
@@ -69,6 +67,7 @@ function getSearch() {
 
 
 window.onload = () => {
+    let typingTimer;
     let search = document.querySelector('#search');
 
     if (search === null) {
