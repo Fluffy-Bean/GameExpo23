@@ -1,7 +1,7 @@
 function showHint() {
     const search = document.querySelector('#search');
     const searchPos = search.getBoundingClientRect();
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
 
     hint.style.width = `${search.offsetWidth}px`;
     hint.style.left = `${searchPos.left}px`;
@@ -12,7 +12,7 @@ function showHint() {
 
 
 function hideHint() {
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
     hint.style.display = 'none';
 }
 
@@ -20,7 +20,7 @@ function hideHint() {
 function updateHint() {
     const search = document.querySelector('#search');
     const searchPos = search.getBoundingClientRect();
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
 
     hint.style.width = `${search.offsetWidth}px`;
     hint.style.left = `${searchPos.left}px`;
@@ -30,7 +30,7 @@ function updateHint() {
 
 function getSearch() {
     let search = document.querySelector('#search').value;
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
 
     if (search.length === 0) {
         hint.innerHTML = '<p>Start typing to see results...</p>';
@@ -68,7 +68,7 @@ function getSearch() {
 
 window.onload = () => {
     let typingTimer;
-    let search = document.querySelector('#search');
+    const search = document.querySelector('#search');
 
     if (search === null) {
         return;

@@ -6,7 +6,7 @@ SECRET_KEY = getenv("FLASK_KEY")
 
 UPLOAD_DIR = "/data/uploads"
 UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp"]
-UPLOAD_RESOLUTION = 512
+UPLOAD_RESOLUTION = 169
 UPLOAD_MAX_SIZE = 3 * 1024 * 1024  # 3MB
 
 GAME_VERSION = "alpha"

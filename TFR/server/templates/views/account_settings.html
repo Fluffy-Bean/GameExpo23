@@ -4,7 +4,7 @@
 {% block content %}
     <div class="block">
         <h2 style="margin-bottom: 1rem;">Profile Settings</h2>
-        <form action="{{ url_for('account.settings') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('account.post_settings') }}" method="POST" enctype="multipart/form-data">
             <div class="profile-settings">
                 <div class="picture">
                     {% if current_user.picture %}
@@ -34,7 +34,7 @@
         <div class="table">
             <table>
                 <tr>
-                    <th></th>
+                    <th>Options</th>
                     <th>Device</th>
                     <th>Created</th>
                     <th>Last Used</th>
@@ -44,7 +44,7 @@
                         <td><button onclick="yeetSession({{ session.id }})" class="button secondary"><i class="ph ph-trash"></i></button></td>
                         <td>{{ session.device_type }}</td>
                         <td>{{ session.created_at.strftime('%Y-%m-%d') }}</td>
-                        <td>{{ session.last_used.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ session.last_used|timesince }}</td>
                     </tr>
                 {% endfor %}
             </table>
@@ -54,9 +54,9 @@
     <div class="block secondary">
         <h2>Danger Zone</h2>
         <p>Be careful!</p>
-        <a href="{{ url_for('account.delete_account') }}" class="button secondary" style="margin-bottom: 0.5rem">Delete Account</a>
-        <a href="{{ url_for('account.password_reset') }}" class="button secondary" style="margin-bottom: 0.5rem">Reset Password</a>
-        <a href="{{ url_for('account.settings', action='logout') }}" class="button secondary">Logout</a>
+        <a href="{{ url_for('account.get_delete_account') }}" class="button secondary" style="margin-bottom: 0.5rem">Delete Account</a>
+        <a href="{{ url_for('account.get_password_reset') }}" class="button secondary" style="margin-bottom: 0.5rem">Reset Password</a>
+        <a href="{{ url_for('account.get_settings', action='logout') }}" class="button secondary">Logout</a>
     </div>
 
 
@@ -67,8 +67,7 @@
 
         // Adjusted from https://stackoverflow.com/a/3814285/14885829
         document.getElementById('profile-picture').onchange = (event) => {
-            let tgt = event.target || window.event.srcElement,
-                files = tgt.files;
+            let files = event.target.files;
             
             if (FileReader && files && files.length) {
                 let fr = new FileReader();
@@ -78,7 +77,7 @@
                 fr.readAsDataURL(files[0]);
             }
             else {
-                addFlashMessage("Your browser could not show a preview of your profile picture!", "error")
+                addFlashMessage("Your browser could not show a preview of your profile picture!", "error");
             }
         }
     </script>

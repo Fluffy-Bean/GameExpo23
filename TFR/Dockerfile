@@ -5,7 +5,7 @@ EXPOSE 8000
 WORKDIR /data
 RUN mkdir /storage&& \
     apk update && \
-    apk add python3 py3-pip postgresql-client
+    apk --no-cache add python3 py3-pip postgresql-client
 
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
