@@ -50,7 +50,7 @@ function getSearch() {
         hint.innerHTML = '';
 
         data.forEach(user => {
-            let el = document.createElement('button');
+            const el = document.createElement('button');
             el.innerHTML = user;
             el.onmousedown = function (event) {
                 event.preventDefault();
