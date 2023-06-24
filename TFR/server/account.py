@@ -36,7 +36,7 @@ def settings():
             flash("Password is incorrect!", "error")
             return redirect(url_for("account.settings"))
 
-        if "file" in request.files and request.files['file'].filename:
+        if "file" in request.files and request.files["file"].filename:
             picture = request.files["file"]
             file_ext = picture.filename.split(".")[-1].lower()
             file_name = f"{user.id}.{file_ext}"
@@ -44,17 +44,18 @@ def settings():
             if file_ext not in UPLOAD_EXTENSIONS:
                 error.append("Picture is not a valid image!")
             if picture.content_length > UPLOAD_MAX_SIZE:
-                error.append(f"Picture must be less than {UPLOAD_EXTENSIONS / 1000000}MB!")
+                error.append(
+                    f"Picture must be less than {UPLOAD_EXTENSIONS / 1000000}MB!"
+                )
 
             image = Image.open(picture.stream)
-            
+
             # Resizing gifs is more work than it's worth
             if file_ext != "gif":
                 image_x, image_y = image.size
-                image.thumbnail((
-                    min(image_x, UPLOAD_RESOLUTION),
-                    min(image_y, UPLOAD_RESOLUTION)
-                ))
+                image.thumbnail(
+                    (min(image_x, UPLOAD_RESOLUTION), min(image_y, UPLOAD_RESOLUTION))
+                )
 
             if error:
                 for err in error:
@@ -65,7 +66,7 @@ def settings():
                 os.remove(os.path.join(UPLOAD_DIR, user.picture))
 
             user.picture = file_name
-            
+
             if file_ext == "gif":
                 image.save(os.path.join(UPLOAD_DIR, file_name), save_all=True)
             else:
