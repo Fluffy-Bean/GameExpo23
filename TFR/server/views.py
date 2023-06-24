@@ -9,7 +9,7 @@ from .extensions import db
 blueprint = Blueprint("views", __name__)
 
 
-@blueprint.route("/")
+@blueprint.route("/", methods=["GET"])
 def index():
     diff_arg = request.args.get("diff", 0)
     ver_arg = request.args.get("ver", GAME_VERSION).strip()
@@ -45,6 +45,6 @@ def index():
     )
 
 
-@blueprint.route("/about")
+@blueprint.route("/about", methods=["GET"])
 def about():
     return render_template("views/about.html")

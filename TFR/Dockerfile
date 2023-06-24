@@ -1,14 +1,15 @@
 # syntax=docker/dockerfile:1
-FROM alpine:latest
+FROM alpine:3.18.2
 
 EXPOSE 8000
-RUN apk update && apk add python3 py3-pip postgresql-client
 WORKDIR /data
+RUN mkdir /storage&& \
+    apk update && \
+    apk --no-cache add python3 py3-pip postgresql-client
 
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN mkdir /storage
 COPY ./server ./server
 COPY ./run.sh ./run.sh
 RUN chmod +x ./run.sh

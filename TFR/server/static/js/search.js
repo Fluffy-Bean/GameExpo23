@@ -1,43 +1,43 @@
 function showHint() {
-    let search = document.querySelector('#search');
-    let searchPos = search.getBoundingClientRect();
-    let hint = document.querySelector('.search-hint');
+    const search = document.querySelector('#search');
+    const searchPos = search.getBoundingClientRect();
+    const hint = document.querySelector('.search-hint');
 
-    hint.style.width = search.offsetWidth + 'px';
-    hint.style.left = searchPos.left + 'px';
-    hint.style.top = searchPos.bottom + 'px';
+    hint.style.width = `${search.offsetWidth}px`;
+    hint.style.left = `${searchPos.left}px`;
+    hint.style.top = `${searchPos.bottom}px`;
 
     hint.style.display = 'flex';
 }
 
 
 function hideHint() {
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
     hint.style.display = 'none';
 }
 
 
 function updateHint() {
-    let search = document.querySelector('#search');
-    let searchPos = search.getBoundingClientRect();
-    let hint = document.querySelector('.search-hint');
+    const search = document.querySelector('#search');
+    const searchPos = search.getBoundingClientRect();
+    const hint = document.querySelector('.search-hint');
 
-    hint.style.width = search.offsetWidth + 'px';
-    hint.style.left = searchPos.left + 'px';
-    hint.style.top = searchPos.bottom + 'px';
+    hint.style.width = `${search.offsetWidth}px`;
+    hint.style.left = `${searchPos.left}px`;
+    hint.style.top = `${searchPos.bottom}px`;
 }
 
 
 function getSearch() {
     let search = document.querySelector('#search').value;
-    let hint = document.querySelector('.search-hint');
+    const hint = document.querySelector('.search-hint');
 
     if (search.length === 0) {
         hint.innerHTML = '<p>Start typing to see results...</p>';
         return;
     }
 
-    fetch('/api/search?q=' + search.toString(), {
+    fetch(`/api/search?q=${search}`, {
         method: 'GET',
     })
     .then(response => response.json())
@@ -50,12 +50,11 @@ function getSearch() {
         hint.innerHTML = '';
 
         data.forEach(user => {
-            let el = document.createElement('button');
+            const el = document.createElement('button');
             el.innerHTML = user;
             el.onmousedown = function (event) {
                 event.preventDefault();
-                search = document.querySelector('#search');
-                search.value = user.toString();
+                search = user.toString();
                 search.blur();
             }
             hint.appendChild(el);
@@ -69,7 +68,7 @@ function getSearch() {
 
 window.onload = () => {
     let typingTimer;
-    let search = document.querySelector('#search');
+    const search = document.querySelector('#search');
 
     if (search === null) {
         return;
