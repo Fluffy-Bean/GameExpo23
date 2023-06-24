@@ -1,4 +1,3 @@
-import re
 import uuid
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -24,12 +23,10 @@ def register():
     username = request.form.get("username", None).strip()
     password = request.form.get("password", None).strip()
     confirm = request.form.get("confirm", None).strip()
-
-    username_regex = re.compile(USER_REGEX)
     error = []
 
     # Validate the form
-    if not username or not username_regex.match(username):
+    if not username or not USER_REGEX.match(username):
         error.append("Username is invalid! Must be alphanumeric, and can contain ._-")
     if not password or len(password) < 8:
         error.append("Password is too short! Must be at least 8 characters long.")
@@ -61,11 +58,10 @@ def login():
     # Get the form data
     username = request.form.get("username", None).strip()
     password = request.form.get("password", None).strip()
-    username_regex = re.compile(USER_REGEX)
     error = []
 
     # Validate the form
-    if not username or not username_regex.match(username) or not password:
+    if not username or not USER_REGEX.match(username) or not password:
         error.append("Username or Password is incorrect!")
 
     user = Users.query.filter_by(username=username).first()

@@ -1,5 +1,3 @@
-from random import randint
-
 from flask import Flask, render_template, abort
 from flask_assets import Bundle
 from werkzeug.exceptions import HTTPException
@@ -53,8 +51,6 @@ def error_page(err):
         abort(500)
 
     return (
-        render_template(
-            "error.html", error=err.code, msg=err.description, image=str(randint(1, 3))
-        ),
+        render_template("error.html", error=err.code, msg=err.description),
         err.code,
     )

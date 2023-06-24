@@ -1,5 +1,4 @@
 import uuid
-import re
 import os
 from PIL import Image
 
@@ -29,9 +28,6 @@ def settings():
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
-
-        user_regex = re.compile(USER_REGEX)
-        email_regex = re.compile(USER_EMAIL_REGEX)
         error = []
 
         user = Users.query.filter_by(username=current_user.username).first()
@@ -42,7 +38,7 @@ def settings():
 
         if "file" in request.files and request.files['file'].filename:
             picture = request.files["file"]
-            file_ext = picture.filename.split(".")[-1]
+            file_ext = picture.filename.split(".")[-1].lower()
             file_name = f"{user.id}.{file_ext}"
 
             if file_ext not in UPLOAD_EXTENSIONS:
@@ -51,11 +47,14 @@ def settings():
                 error.append(f"Picture must be less than {UPLOAD_EXTENSIONS / 1000000}MB!")
 
             image = Image.open(picture.stream)
-            image_x, image_y = image.size
-            image.thumbnail((
-                min(image_x, UPLOAD_RESOLUTION),
-                min(image_y, UPLOAD_RESOLUTION)
-            ))
+            
+            # Resizing gifs is more work than it's worth
+            if file_ext != "gif":
+                image_x, image_y = image.size
+                image.thumbnail((
+                    min(image_x, UPLOAD_RESOLUTION),
+                    min(image_y, UPLOAD_RESOLUTION)
+                ))
 
             if error:
                 for err in error:
@@ -66,16 +65,21 @@ def settings():
                 os.remove(os.path.join(UPLOAD_DIR, user.picture))
 
             user.picture = file_name
-            image.save(os.path.join(UPLOAD_DIR, file_name))
+            
+            if file_ext == "gif":
+                image.save(os.path.join(UPLOAD_DIR, file_name), save_all=True)
+            else:
+                image.save(os.path.join(UPLOAD_DIR, file_name))
+
             image.close()
 
         if username:
-            if user_regex.match(username):
+            if USER_REGEX.match(username):
                 user.username = username
             else:
                 error.append("Username is invalid!")
         if email:
-            if email_regex.match(email):
+            if USER_EMAIL_REGEX.match(email):
                 user.email = email
             else:
                 error.append("Email is invalid!")

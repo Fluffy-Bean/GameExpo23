@@ -1,4 +1,5 @@
 import datetime
+import timeago
 from flask import Blueprint
 
 
@@ -11,3 +12,8 @@ def format_result(dttm):
     time = datetime.timedelta(seconds=int(dttm[0]))
     microtime = dttm[1][:3]
     return f"{time}:{microtime}"
+
+
+@blueprint.app_template_filter()
+def timesince(dttm):
+    return timeago.format(dttm, datetime.datetime.now())
