@@ -1,6 +1,6 @@
 function yeetSession(id) {
     let form = new FormData();
-    form.append('session_id', id);
+    form.append('session', id);
 
     fetch('/api/tokens', {
         method: 'POST',
