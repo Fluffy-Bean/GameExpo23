@@ -4,19 +4,18 @@
     <nav>
         <form method="GET" action="{{ url_for('views.index') }}" class="compact">
             <select name="diff" class="button">
-                <option value="0" {% if diff==0 %}selected{% endif %}>Level 1</option>
-                <option value="1" {% if diff==1 %}selected{% endif %}>Level 2</option>
-                <option value="2" {% if diff==2 %}selected{% endif %}>Level 3</option>
-                <option value="3" {% if diff==3 %}selected{% endif %}>Normal</option>
-                <option value="4" {% if diff==4 %}selected{% endif %}>Hard</option>
+                {% for difficulty in config["GAME_DIFFICULTIES"] %}
+                    <option value="{{ difficulty }}" {% if diff==difficulty %}selected{% endif %}>
+                        {{ config["GAME_DIFFICULTIES"][difficulty] }}
+                    </option>
+                {% endfor %}
             </select>
 
             <select name="ver" class="button">
-                {% for game_version in config["GAME_VERSIONS"] %}
-                    <option
-                            value="{{ game_version }}"
-                            {% if ver==game_version %}selected{% endif %}
-                    >{{ game_version }}</option>
+                {% for version in config["GAME_VERSIONS"] %}
+                    <option value="{{ version }}" {% if ver==version %}selected{% endif %}>
+                        {{ config["GAME_VERSIONS"][version] }}
+                    </option>
                 {% endfor %}
             </select>
 
@@ -55,7 +54,7 @@
         <div class="table">
             <table>
                 <tr>
-                    <th></th>
+                    <th>Pos</th>
                     <th>Name</th>
                     <th>Time Set</th>
                     <th>Submitted</th>
@@ -72,10 +71,10 @@
                             <td>{{ loop.index }}</td>
                         {% endif %}
                         <td>
-                            <a
-                                href="{{ url_for('views.index', user=score.users.username) }}"
-                                {% if score.users.id == current_user.id %}id="you"{% endif %}
-                            >{{ score.users.username }}</a>
+                            <a href="{{ url_for('views.index', user=score.users.username) }}"
+                            {% if score.users.id == current_user.id %}id="you"{% endif %}>
+                                {{ score.users.username }}
+                            </a>
                         </td>
                         <td>{{ score.score|format_result }}</td>
                         <td>{{ score.scored_at.strftime('%Y-%m-%d') }}</td>
@@ -86,7 +85,7 @@
     {% else %}
         <div class="center-text">
             <h2>No scores</h2>
-            <p>Go set some!</p>
+            <p>We searched far and wide, but nothing was found</p>
         </div>
     {% endif %}
 {% endblock %}

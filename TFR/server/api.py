@@ -1,4 +1,3 @@
-import re
 import shortuuid
 
 from flask import Blueprint, request, jsonify, send_from_directory
@@ -9,6 +8,9 @@ from werkzeug.utils import secure_filename
 from .models import Scores, Sessions, Users
 from .extensions import db
 from .config import (
+    GAME_VERSION,
+    GAME_VERSIONS,
+    GAME_DIFFICULTY,
     GAME_DIFFICULTIES,
     MAX_SEARCH_RESULTS,
     USER_REGEX,
@@ -49,8 +51,8 @@ def tokens():
 @blueprint.route("/post", methods=["POST"])
 def post():
     session_key = request.form.get("session", "").strip()
-    version = request.form.get("version", "alpha").strip()
-    difficulty = request.form.get("difficulty", 0)
+    version = request.form.get("version", GAME_VERSION).strip()
+    difficulty = request.form.get("difficulty", GAME_DIFFICULTY)
     score = request.form.get("score", 0)
 
     if not session_key:
@@ -66,6 +68,8 @@ def post():
 
     if int(difficulty) not in GAME_DIFFICULTIES:
         return "Invalid difficulty!"
+    if version not in GAME_VERSIONS:
+        return "Invalid version!"
     # This is a fix for a bug in the game that we dunno how to actually fix
     # if score < 10:
     #     return "Score is impossible!"
@@ -110,9 +114,8 @@ def login():
     username = request.form.get("username", "").strip()
     password = request.form.get("password", "").strip()
     device = request.form.get("device", "Unknown").strip()
-    username_regex = re.compile(USER_REGEX)
 
-    if not username or not username_regex.match(username) or not password:
+    if not username or not USER_REGEX.match(username) or not password:
         return "Username or Password is incorrect!", 400
 
     user = Users.query.filter_by(username=username).first()

@@ -1,5 +1,4 @@
 import uuid
-import re
 import os
 from PIL import Image
 
@@ -29,9 +28,6 @@ def settings():
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
-
-        user_regex = re.compile(USER_REGEX)
-        email_regex = re.compile(USER_EMAIL_REGEX)
         error = []
 
         user = Users.query.filter_by(username=current_user.username).first()
@@ -78,12 +74,12 @@ def settings():
             image.close()
 
         if username:
-            if user_regex.match(username):
+            if USER_REGEX.match(username):
                 user.username = username
             else:
                 error.append("Username is invalid!")
         if email:
-            if email_regex.match(email):
+            if USER_EMAIL_REGEX.match(email):
                 user.email = email
             else:
                 error.append("Email is invalid!")

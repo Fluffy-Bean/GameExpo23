@@ -1,35 +1,41 @@
 from os import getenv
+import re
 
+
+SECRET_KEY = getenv("FLASK_KEY")
 
 UPLOAD_DIR = "/data/uploads"
-UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
+UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp"]
 UPLOAD_RESOLUTION = 512
 UPLOAD_MAX_SIZE = 3 * 1024 * 1024  # 3MB
 
 GAME_VERSION = "alpha"
-GAME_VERSIONS = ["alpha"]
-GAME_DIFFICULTIES = [0, 1, 2, 3, 4]
+GAME_DIFFICULTY = 0
 
-USER_REGEX = r"\b[A-Za-z0-9._-]+\b"
-USER_EMAIL_REGEX = r"[^@]+@[^@]+\.[^@]+"
+GAME_VERSIONS = {
+    "alpha": "Alpha",
+    "alpha-expo": "Alpha (Expo Build)",
+}
+GAME_DIFFICULTIES = {
+    0: "Easy - Level 1",
+    1: "Easy - Level 2",
+    2: "Easy - Level 3",
+    3: "Medium",
+    4: "Hard",
+}
+
+USER_REGEX = re.compile(r"\b[A-Za-z0-9._-]+\b")
+USER_EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 MAX_TOP_SCORES = 15
 MAX_SEARCH_RESULTS = 5
-
-# Postgres
-SECRET_KEY = getenv("FLASK_KEY")
 
 user = getenv("DB_USER")
 password = getenv("DB_PASSWORD")
 host = getenv("DB_HOST")
 db = getenv("DB_NAME")
+port = 5432
 
-SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{db}"
+SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_POOL_RECYCLE = 621
-
-"""
-# SQLite
-SECRET_KEY = "dev"
-SQLALCHEMY_DATABASE_URI = "sqlite:///tfr.db"
-"""
