@@ -49,7 +49,12 @@ def index():
     scores = scores.order_by(Scores.score.asc()).limit(MAX_TOP_SCORES).all()
 
     return render_template(
-        "views/scores.html", scores=scores, diff=int(diff_arg), ver=ver_arg, user=user, tags=tags
+        "views/scores.html",
+        scores=scores,
+        diff=int(diff_arg),
+        ver=ver_arg,
+        user=user,
+        tags=tags,
     )
 
 
