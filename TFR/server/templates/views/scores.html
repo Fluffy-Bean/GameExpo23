@@ -43,7 +43,14 @@
                 <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Profile picture">
             {% endif %}
             <div class="other">
-                <h2>{{ user.username }}</h2>
+                <div class="profile-title">
+                    <h2>{{ user.username }}</h2>
+                    {% for tag in tags %}
+                        <span class="profile-tag" style="background-color:{{ tag.color }};">
+                            {{ tag.tag }}
+                        </span>
+                    {% endfor %}
+                </div>
                 <hr>
                 <p>Joined {{ user.joined_at|timesince }}</p>
             </div>

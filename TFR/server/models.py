@@ -55,32 +55,28 @@ class Sessions(db.Model):
     )
 
 
-class PasswordReset(db.Model):
+class TagJunction(db.Model):
     """
-    Password reset table
+    Tag Junction table
     """
 
     id = db.Column(db.Integer, primary_key=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
-
-    reset_key = db.Column(db.String, nullable=False, unique=True)
-
-    created_at = db.Column(
-        db.DateTime,
-        nullable=False,
-        server_default=db.func.now(),
-    )
+    tag_id = db.Column(db.Integer, db.ForeignKey("tags.id", use_alter=True))
 
 
-class ProfileTags(db.Model):
+class Tags(db.Model):
     """
     Profile Tags table
     """
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", use_alter=True))
+    users = db.relationship("TagJunction", backref=db.backref("tags", lazy=True))
 
     tag = db.Column(db.String, nullable=False)
+    icon = db.Column(db.String)
+    color = db.Column(db.String)
 
 
 class Users(db.Model, UserMixin):
@@ -106,8 +102,7 @@ class Users(db.Model, UserMixin):
 
     scores = db.relationship("Scores", backref=db.backref("users", lazy=True))
     tokens = db.relationship("Sessions", backref=db.backref("users", lazy=True))
-    reset = db.relationship("PasswordReset", backref=db.backref("users", lazy=True))
-    tags = db.relationship("ProfileTags", backref=db.backref("users", lazy=True))
+    tags = db.relationship("TagJunction", backref=db.backref("users", lazy=True))
 
     def get_id(self):
         return str(self.alt_id)

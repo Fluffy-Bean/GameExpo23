@@ -14,7 +14,7 @@ from .config import (
     UPLOAD_DIR,
     UPLOAD_RESOLUTION,
 )
-from .models import Users, Sessions, Scores, ProfileTags, PasswordReset
+from .models import Users, Sessions, Scores
 from .extensions import db
 
 
@@ -175,8 +175,6 @@ def post_delete_account():
 
     db.session.query(Sessions).filter_by(user_id=current_user.id).delete()
     db.session.query(Scores).filter_by(user_id=current_user.id).delete()
-    db.session.query(ProfileTags).filter_by(user_id=current_user.id).delete()
-    db.session.query(PasswordReset).filter_by(user_id=current_user.id).delete()
     db.session.delete(user)
     db.session.commit()
 
