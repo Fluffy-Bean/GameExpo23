@@ -74,6 +74,7 @@
         .profile-title
             display: flex
             flex-direction: row
+            justify-content: space-between
             gap: 0.5rem
 
             h2
@@ -83,9 +84,9 @@
 
             .profile-tag
                 margin: auto 0
-                padding: 0.2rem
+                padding: 0.2rem 0.3rem
 
-                font-size: 0.7rem
+                font-size: 0.8rem
 
                 color: RGB($black)
                 background-color: RGB($white)
@@ -96,12 +97,56 @@
                     height: 0.9rem
                     margin-right: 0.2rem
 
+        .profile-links
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            gap: 0.5rem
 
-@media (max-width: 621px)
-	.account-block
-		flex-direction: column
+            > .discord, > .twitter, > .twitch, > .youtube
+                margin: 0
+                padding: 0.2rem 0.3rem
 
-		> img
+                width: 2rem
+                height: 2rem
+
+                display: flex
+                flex-direction: row
+                align-items: center
+                justify-content: center
+
+                text-decoration: none
+
+                color: RGB($white)
+                border-radius: 2px
+                border: 0 solid transparent
+
+                > i
+                    font-size: 1.3rem
+
+                &:hover
+                    cursor: pointer
+                    filter: brightness(1.2)
+
+            > .discord
+                background-color: #5865F2
+
+            > .twitter
+                background-color: #1DA1F2
+
+            > .twitch
+                background-color: #9146FF
+
+            > .youtube
+                background-color: #FF0000
+                color: RGB($white)
+
+
+@media (max-width: 550px)
+    .account-block
+        // flex-direction: column
+
+        > img
             margin: 0 auto
-            width: 15rem
-            height: 15rem
+            width: 5rem
+            height: 5rem

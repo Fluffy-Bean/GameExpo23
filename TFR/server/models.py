@@ -94,6 +94,11 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
 
+    discord = db.Column(db.String)
+    twitter = db.Column(db.String)
+    twitch = db.Column(db.String)
+    youtube = db.Column(db.String)
+
     joined_at = db.Column(
         db.DateTime,
         nullable=False,

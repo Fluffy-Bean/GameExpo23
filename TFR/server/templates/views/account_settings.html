@@ -18,7 +18,32 @@
                 <div class="other">
                     {{ text(id="profile-username", name="username", value=current_user.username) }}
                     {{ text(id="profile-email", name="email") }}
+
+                    <span style="height: 100%"></span>
+
                     {{ text(id="profile-password", name="password", type="password", required=True, minlength=8) }}
+
+                    <span style="height: 100%"></span>
+
+                    <button type="submit" class="button primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="block">
+        <h2 style="margin-bottom: 1rem;">Linked Socials</h2>
+        <form action="{{ url_for('account.post_settings') }}" method="POST" enctype="multipart/form-data">
+            <div class="profile-settings">
+                <div class="other">
+                    {{ text(id="socials-discord", name="discord", value=current_user.discord) }}
+                    {{ text(id="socials-twitter", name="twitter", value=current_user.twitter) }}
+                    {{ text(id="socials-twitch", name="twitch", value=current_user.twitch) }}
+                    {{ text(id="socials-youtube", name="youtube", value=current_user.youtube) }}
+
+                    <span style="height: 100%"></span>
+
+                    {{ text(id="socials-password", name="password", type="password", required=True, minlength=8) }}
 
                     <span style="height: 100%"></span>
 
