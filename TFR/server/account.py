@@ -50,9 +50,9 @@ def post_settings():
     twitch = request.form.get("twitch", "").strip()
     youtube = request.form.get("youtube", "").strip()
 
-    twitter_regex = re.compile('^(?!.*\.\.)(?!.*\.$)[\w.]{1,15}$')
-    twitch_regex = re.compile('^(?=.{4,25}$)(?!_)(?!.*[_.]{2})[a-zA-Z0-9._]+$')
-    youtube_regex = re.compile('^(?!.*[._]{2})[a-zA-Z0-9._-]{1,50}$')
+    twitter_regex = re.compile("^(?!.*\.\.)(?!.*\.$)[\w.]{1,15}$")
+    twitch_regex = re.compile("^(?=.{4,25}$)(?!_)(?!.*[_.]{2})[a-zA-Z0-9._]+$")
+    youtube_regex = re.compile("^(?!.*[._]{2})[a-zA-Z0-9._-]{1,50}$")
 
     error = []
 
