@@ -55,7 +55,6 @@ def post():
     difficulty = request.form.get("difficulty", GAME_DIFFICULTY)
     score = request.form.get("score", 0)
 
-    # logger.debug(f"Score upload attempt: {session_key} {version} {difficulty} {score}")
 
     if not session_key:
         return "No session key provided!"
