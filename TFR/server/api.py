@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
 from .models import Scores, Sessions, Users
-from .extensions import db, logger
+from .extensions import db
 from .config import (
     GAME_VERSION,
     GAME_VERSIONS,
