@@ -39,3 +39,5 @@ port = 5432
 SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_POOL_RECYCLE = 621
+
+LOGS_DIR = "/data/logs"

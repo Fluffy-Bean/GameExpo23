@@ -1,4 +1,8 @@
 {$THE_FRONT_ROOMS_DOMAIN}
-reverse_proxy tfr:8000
-encode gzip
 
+reverse_proxy tfr:8000 {
+  header_up X-Forwarded-For {http.request.remote.addr}
+  header_up X-Real-IP {http.request.remote.addr}
+}
+
+encode gzip

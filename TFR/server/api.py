@@ -61,26 +61,26 @@ def post():
         return "Score is not valid!"
 
     try:
-        float(score)
-        int(difficulty)
+        score = float(score)
+        difficulty = int(difficulty)
     except TypeError:
         return "Invalid score and difficulty must be valid numbers!"
 
-    if int(difficulty) not in GAME_DIFFICULTIES:
+    if difficulty not in GAME_DIFFICULTIES:
         return "Invalid difficulty!"
     if version not in GAME_VERSIONS:
         return "Invalid version!"
     # This is a fix for a bug in the game that we dunno how to actually fix
-    # if score < 10:
-    #     return "Score is impossible!"
+    if score < 10:
+        return "Score is impossible!"
 
     session_data = Sessions.query.filter_by(auth_key=session_key).first()
     if not session_data:
         return "Authentication failed!"
 
     score_upload = Scores(
-        score=float(score),
-        difficulty=int(difficulty),
+        score=score,
+        difficulty=difficulty,
         version=version,
         user_id=session_data.user_id,
     )

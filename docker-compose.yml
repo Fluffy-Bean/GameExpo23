@@ -38,6 +38,7 @@ services:
     volumes:
       - ./TFR/storage/migrations:/data/migrations
       - ./TFR/storage/uploads:/data/uploads
+      - ./TFR/storage/logs:/data/logs
     environment:
       FLASK_KEY: ${THE_FRONT_ROOMS_SECRETE_KEY}
       DB_USER: ${POSTGRES_USER}

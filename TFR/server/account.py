@@ -1,5 +1,6 @@
 import uuid
 import os
+import re
 from PIL import Image
 
 from flask import Blueprint, request, render_template, flash, redirect, url_for
@@ -14,7 +15,7 @@ from .config import (
     UPLOAD_DIR,
     UPLOAD_RESOLUTION,
 )
-from .models import Users, Sessions, Scores, ProfileTags, PasswordReset
+from .models import Users, Sessions, Scores
 from .extensions import db
 
 
@@ -38,16 +39,28 @@ def get_settings():
 @blueprint.route("/settings", methods=["POST"])
 @login_required
 def post_settings():
+    # This is the worst part of this entire project
+    # This gotta go :sobbing:
     username = request.form.get("username", "").strip()
     email = request.form.get("email", "").strip()
     password = request.form.get("password", "").strip()
+
+    discord = request.form.get("discord", "").strip()
+    twitter = request.form.get("twitter", "").strip()
+    twitch = request.form.get("twitch", "").strip()
+    youtube = request.form.get("youtube", "").strip()
+
+    twitter_regex = re.compile(r"^(?!.*\.\.)(?!.*\.$)[\w.]{1,15}$")
+    twitch_regex = re.compile("^(?=.{4,25}$)(?!_)(?!.*[_.]{2})[a-zA-Z0-9._]+$")
+    youtube_regex = re.compile("^(?!.*[._]{2})[a-zA-Z0-9._-]{1,50}$")
+
     error = []
 
     user = Users.query.filter_by(username=current_user.username).first()
 
     if not check_password_hash(user.password, password):
         flash("Password is incorrect!", "error")
-        return redirect(url_for("account.settings"))
+        return redirect(url_for("account.get_settings"))
 
     if "file" in request.files and request.files["file"].filename:
         picture = request.files["file"]
@@ -96,15 +109,33 @@ def post_settings():
         else:
             error.append("Email is invalid!")
 
+    if discord:
+        user.discord = discord
+    if twitter:
+        if twitter_regex.match(twitter):
+            user.twitter = twitter
+        else:
+            error.append("Twitter is invalid!")
+    if twitch:
+        if twitch_regex.match(twitch):
+            user.twitch = twitch
+        else:
+            error.append("Twitch is invalid!")
+    if youtube:
+        if youtube_regex.match(youtube):
+            user.youtube = youtube
+        else:
+            error.append("YouTube is invalid!")
+
     if error:
         for err in error:
             flash(err, "error")
-        return redirect(url_for("account.settings"))
+        return redirect(url_for("account.get_settings"))
 
     db.session.commit()
 
     flash("Successfully updated account!", "success")
-    return redirect(url_for("account.settings"))
+    return redirect(url_for("account.get_settings"))
 
 
 @blueprint.route("/password", methods=["GET"])
@@ -175,8 +206,6 @@ def post_delete_account():
 
     db.session.query(Sessions).filter_by(user_id=current_user.id).delete()
     db.session.query(Scores).filter_by(user_id=current_user.id).delete()
-    db.session.query(ProfileTags).filter_by(user_id=current_user.id).delete()
-    db.session.query(PasswordReset).filter_by(user_id=current_user.id).delete()
     db.session.delete(user)
     db.session.commit()
 

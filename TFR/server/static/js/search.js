@@ -54,7 +54,8 @@ function getSearch() {
             el.innerHTML = user;
             el.onmousedown = function (event) {
                 event.preventDefault();
-                search = user.toString();
+                search = document.querySelector('#search');
+                search.value = user.toString();
                 search.blur();
             }
             hint.appendChild(el);

@@ -77,4 +77,4 @@ def login():
 
     login_user(user, remember=True)
     flash("Successfully logged in!", "success")
-    return redirect(url_for("account.settings"))
+    return redirect(url_for("account.get_settings"))
