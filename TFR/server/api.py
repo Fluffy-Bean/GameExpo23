@@ -55,7 +55,6 @@ def post():
     difficulty = request.form.get("difficulty", GAME_DIFFICULTY)
     score = request.form.get("score", 0)
 
-
     if not session_key:
         return "No session key provided!"
     if not score:
