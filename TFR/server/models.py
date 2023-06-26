@@ -86,7 +86,6 @@ class Users(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     alt_id = db.Column(db.String, nullable=False, unique=True)
-    superuser = db.Column(db.Boolean, default=False)
 
     picture = db.Column(db.String)
 

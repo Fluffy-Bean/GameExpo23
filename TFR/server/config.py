@@ -9,12 +9,12 @@ UPLOAD_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp"]
 UPLOAD_RESOLUTION = 169
 UPLOAD_MAX_SIZE = 3 * 1024 * 1024  # 3MB
 
-GAME_VERSION = "alpha"
+GAME_VERSION = "alpha-expo"
 GAME_DIFFICULTY = 0
 
 GAME_VERSIONS = {
-    "alpha": "Alpha",
     "alpha-expo": "Alpha (Expo Build)",
+    "alpha": "Alpha",
 }
 GAME_DIFFICULTIES = {
     0: "Easy - Level 1",

@@ -51,14 +51,15 @@
 
                 <p>Joined {{ user.joined_at|timesince }}</p>
 
-                <hr>
-
-                <div class="profile-links">
-                    {% if user.discord %}<button class="discord"><i class="ph ph-discord-logo"></i></button>{% endif %}
-                    {% if user.twitter %}<a href="https://twitter.com/{{ user.twitter }}" class="twitter"><i class="ph ph-twitter-logo"></i></a>{% endif %}
-                    {% if user.twitch %}<a href="https://twitch.com/{{ user.twitch }}" class="twitch"><i class="ph ph-twitch-logo"></i></a>{% endif %}
-                    {% if user.youtube %}<a href="https://youtube.com/{{ user.youtube }}" class="youtube"><i class="ph ph-youtube-logo"></i></a>{% endif %}
-                </div>
+                {% if user.discord or user.twitter or user.twitch or user.youtube %}
+                    <hr>
+                    <div class="profile-links">
+                        {% if user.discord %}<button class="discord"><i class="ph ph-discord-logo"></i></button>{% endif %}
+                        {% if user.twitter %}<a href="https://twitter.com/{{ user.twitter }}" class="twitter"><i class="ph ph-twitter-logo"></i></a>{% endif %}
+                        {% if user.twitch %}<a href="https://twitch.com/{{ user.twitch }}" class="twitch"><i class="ph ph-twitch-logo"></i></a>{% endif %}
+                        {% if user.youtube %}<a href="https://youtube.com/{{ user.youtube }}" class="youtube"><i class="ph ph-youtube-logo"></i></a>{% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     {% endif %}

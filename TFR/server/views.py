@@ -34,15 +34,14 @@ def index():
         )
     else:
         user = Users.query.filter_by(username=user_arg).first()
-        # get all tags from the junction table and add them to a list of tags
-        tags = (
-            db.session.query(Tags)
-            .join(TagJunction)
-            .filter(TagJunction.user_id == user.id)
-            .all()
-        )
         if user:
             scores = scores.filter_by(user_id=user.id)
+            tags = (
+                db.session.query(Tags)
+                .join(TagJunction)
+                .filter(TagJunction.user_id == user.id)
+                .all()
+            )
         else:
             abort(404, "User not found")
 
