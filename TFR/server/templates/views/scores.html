@@ -91,7 +91,7 @@
                             </a>
                         </td>
                         <td>{{ score.score|format_result }}</td>
-                        <td>{{ score.scored_at.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ score.scored_at|timesince }}</td>
                     </tr>
                 {% endfor %}
             </table>
